@@ -1,0 +1,8 @@
+{
+  "name" : "Twitch Plugin",
+  "author" : "SuchByte",
+  "repository" : "https://github.com/suchbyte/Macro-Deck",
+  "packageId" : "SuchByte.TwitchPlugin",
+  "version" : "1.0.0",
+  "target-plugin-api-version" : 31
+}
