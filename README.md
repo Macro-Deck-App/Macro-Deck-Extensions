@@ -2,7 +2,7 @@
 
 ### Add your plugin to the Extension Store
 1. Fork this repository
-2. Create a new folder called like the root namespace of your plugin (For example `SuchByte.TwitchPlugin`)
+2. Create a new folder in the `Plugins` folder, called like the root namespace of your plugin (For example `SuchByte.TwitchPlugin`)
 3. Add the source code of the plugin (which contains the .csproj file) to this folder
 4. Create a `ExtensionManifest.json` containing following json data:
 ```json
