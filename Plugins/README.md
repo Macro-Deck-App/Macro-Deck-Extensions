@@ -1,8 +1,9 @@
-Add your plugin to the Extension Store
-Fork this repository
-Create a new folder in https://github.com/SuchByte/Macro-Deck-Extensions/tree/main/Plugins called like the root namespace of your plugin (For example SuchByte.TwitchPlugin)
-Add the source code of the plugin (which contains the .csproj file) to this folder
-Create a ExtensionManifest.json containing following json data:
+### Add your plugin to the Extension Store
+1. Fork this repository
+2. Create a new folder in `https://github.com/SuchByte/Macro-Deck-Extensions/tree/main/Plugins` called like the root namespace of your plugin (For example `SuchByte.TwitchPlugin`)
+3. Add the source code of the plugin (which contains the .csproj file) to this folder
+4. Create a `ExtensionManifest.json` containing following json data:
+```json
 {
   "name" : "NameOfYourPlugin",
   "author" : "You",
@@ -11,5 +12,8 @@ Create a ExtensionManifest.json containing following json data:
   "version" : "1.0.0",
   "target-plugin-api-version" : 31
 }
-Create a pull-request of your fork of this repository
+
+```
+5. Create a pull-request of your fork of this repository
+
 You can take this as a example how the folder with your plugin's source should look like: https://github.com/SuchByte/Macro-Deck-Extensions/tree/main/Plugins/SuchByte.TwitchPlugin
