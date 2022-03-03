@@ -2,12 +2,13 @@
 1. In your original plugin repository, create or update a `ExtensionManifest.json` containing following json data:
 ```json
 {
+  "type" : "Plugin",
   "name" : "NameOfYourPlugin",
   "author" : "You",
   "repository" : "https://github.com/you/Your-Repository",
   "packageId" : "YourRoot.Namespace",
   "version" : "1.0.0",
-  "target-plugin-api-version" : 31
+  "target-plugin-api-version" : 31,
   "dll" : "My Plugin.dll"
 }
 ```
