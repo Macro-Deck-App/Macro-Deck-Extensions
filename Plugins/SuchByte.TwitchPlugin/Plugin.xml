@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<PluginManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<Author>Macro Deck</Author>
-	<MainFile>Twitch Plugin.dll</MainFile>
-</PluginManifest>
