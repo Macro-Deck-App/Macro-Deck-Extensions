@@ -4,3 +4,6 @@
 [submodule "Plugins/RecklessBoon.MacroDeck.GPUZ"]
 	path = Plugins/RecklessBoon.MacroDeck.GPUZ
 	url = https://github.com/RecklessBoon/Macro-Deck-GPU-Z-Plugin.git
+[submodule "Plugins/Soundboard4MacroDeck"]
+	path = Plugins/Soundboard4MacroDeck
+	url = https://github.com/PhoenixWyllow/Soundboard4MacroDeck2.git
