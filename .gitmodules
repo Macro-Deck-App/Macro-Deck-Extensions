@@ -1,0 +1,6 @@
+[submodule "Plugins/RecklessBoon.DiscordPlugin"]
+	path = Plugins/RecklessBoon.DiscordPlugin
+	url = https://github.com/RecklessBoon/Macro-Deck-Discord-Plugin.git
+[submodule "Plugins/RecklessBoon.MacroDeck.GPUZ"]
+	path = Plugins/RecklessBoon.MacroDeck.GPUZ
+	url = https://github.com/RecklessBoon/Macro-Deck-GPU-Z-Plugin.git
