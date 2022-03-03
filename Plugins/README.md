@@ -8,6 +8,7 @@
   "packageId" : "YourRoot.Namespace",
   "version" : "1.0.0",
   "target-plugin-api-version" : 31
+  "dll" : "My Plugin.dll"
 }
 ```
 
