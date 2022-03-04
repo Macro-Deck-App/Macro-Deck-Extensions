@@ -62,3 +62,39 @@ repository will save for the submodule in its git
 object databse. This commit is what will be pulled by
 the extensions repository when `git submodule update` 
 is run to pull the correct submodule versions
+
+## Restore submodule from remote ##
+In order to get sources from the plugins in your local
+working tree, you need to run a command to "pull" the
+commits stored in the git object database.
+
+### Command ###
+
+#### Restore all submodules ####
+Start at Project Root
+```
+> git submodule update --recursive
+```
+
+#### Restore specific submodule ####
+Start at Project Root
+```
+> git submodule update Plugins\<package id>
+```
+
+### Example ###
+for RecklessBoon's GPU-Z plugin
+
+#### Restore for specific submodule ####
+
+| replacement name      | example value
+| --------------------- | ----------------------------------------------------------- |
+| plugin http clone url | https://github.com/RecklessBoon/Macro-Deck-GPU-Z-Plugin.git | 
+```
+> git submodule update Plugins\RecklessBoon.MacroDeck.GPUZ
+```
+
+### Further Explanation ###
+When a submodule is updated in this way, it will update
+the plugins source to that of what was specified by the 
+previous step.
