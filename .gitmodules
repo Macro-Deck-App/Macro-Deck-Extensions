@@ -10,6 +10,3 @@
 [submodule "Plugins/SuchByte.WindowsUtils"]
 	path = Plugins/SuchByte.WindowsUtils
 	url = https://github.com/SuchByte/Macro-Deck-Windows-Utils-Plugin
-[submodule "Plugins/PhoenixWyllow.SoundPadPlugin"]
-	path = Plugins/PhoenixWyllow.SoundPadPlugin
-	url = https://github.com/PhoenixWyllow/MacroDeck.SoundPad.git
