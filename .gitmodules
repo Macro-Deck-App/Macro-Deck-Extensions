@@ -13,3 +13,6 @@
 [submodule "IconPacks/MacroDeck.MacroDeckcolorfulgenericicons"]
 	path = IconPacks/MacroDeck.MacroDeckcolorfulgenericicons
 	url = https://github.com/SuchByte/Macro-Deck-Colorful-Generic-Icons
+[submodule "Plugins/SuchByte.MediaControls"]
+	path = Plugins/SuchByte.MediaControls
+	url = https://github.com/SuchByte/Macro-Deck-Media-Controls-Plugin
