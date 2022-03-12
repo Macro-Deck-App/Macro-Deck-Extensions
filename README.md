@@ -5,4 +5,4 @@ All artifacts to include in Macro Deck must be pulled into this repository for b
 
 ### How to publish your content
 - [Plugins](Plugins/README.md)
-- Icon Packs (Coming soon!)
+- [Icon Packs](IconPacks/README.md)
