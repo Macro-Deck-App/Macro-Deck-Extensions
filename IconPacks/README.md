@@ -1,1 +1,36 @@
+### Add your icon pack to the Extension Store
+## Important
+When choosing a package id, make sure you follow this rules:
+- No whitespaces
+- Example: MacroDeck.MacroDeckcolorfulgenericicons
 
+The easiest way to get the files is to export the icon pack and add the contents of the zip archive to the repository
+
+1. Make sure, your original plugin repoistory contains this files:
+    - (Optional) `ExtensionIcon.png` (64x64px)
+    - `ExtensionManifest.json`
+        - This should contain following json data:
+            ```json
+              {
+                "type" : "IconPack",
+                "name" : "NameOfYourIconPack",
+                "author" : "You",
+                "repository" : "https://github.com/you/Your-Repository",
+                "packageId" : "You.NameOfYourIconPack",
+                "version" : "1.0.0",
+                "target-plugin-api-version" : 31
+              }
+
+2. Fork this repository
+
+3. If not added yet, add submodule from project root: `git submodule add <clone url> Plugins/<packageId>`
+    - Example: `git submodule add https://github.com/SuchByte/Macro-Deck-Extensions IconPacks/MacroDeck.MacroDeckcolorfulgenericicons`
+    
+4. Update the commit: `cd .\IconPacks\<packageId>\; git fetch; git checkout <branch/tag/commit sha1>; cd ..\..`
+    - For example `cd .\IconPacks\MacroDeck.MacroDeckcolorfulgenericicons\; git fetch; git checkout v1.0.4; cd ..\..`           
+    
+5. Commit the changes: `git commit -a`
+
+6. Push the commit: `git push`
+
+7. Create a pull-request
