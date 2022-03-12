@@ -10,3 +10,6 @@
 [submodule "Plugins/SuchByte.WindowsUtils"]
 	path = Plugins/SuchByte.WindowsUtils
 	url = https://github.com/SuchByte/Macro-Deck-Windows-Utils-Plugin
+[submodule "IconPacks/MacroDeck.MacroDeckcolorfulgenericicons"]
+	path = IconPacks/MacroDeck.MacroDeckcolorfulgenericicons
+	url = https://github.com/SuchByte/Macro-Deck-Colorful-Generic-Icons
