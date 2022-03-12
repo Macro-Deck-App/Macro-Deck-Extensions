@@ -35,7 +35,7 @@ To publish your icon pack in the Macro Deck extension store, you have to create 
 4. Update the commit: `cd .\IconPacks\<packageId>\; git fetch; git checkout <branch/tag/commit sha1>; cd ..\..`
     - For example `cd .\IconPacks\MacroDeck.MacroDeckcolorfulgenericicons\; git fetch; git checkout v1.0.4; cd ..\..`           
     
-5. Commit the changes: `git commit -a`
+5. Commit the changes: `git commit -a -m "Changes"`
 
 6. Push the commit: `git push`
 
