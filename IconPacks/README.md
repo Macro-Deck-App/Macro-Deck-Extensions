@@ -6,7 +6,7 @@ When choosing a package id, make sure you follow this rules:
 
 To publish your icon pack in the Macro Deck extension store, you have to create a GitHub repository for your icon pack.
 
-1. Make sure, your icon pack repoistory tree looks like this:
+1. Make sure, your icon pack repository tree looks like this:
     - (Optional) `ExtensionIcon.png` (64x64px)
     - `SomeIcon.png`
     - `AnotherIcon.png`
