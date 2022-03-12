@@ -24,7 +24,7 @@
 4. Update the commit: `cd .\Plugins\<packageId>\; git fetch; git checkout <branch/tag/commit sha1>; cd ..\..`
     - For example `cd .\Plugins\RecklessBoon.MacroDeck.GPUZ\; git fetch; git checkout v1.0.4; cd ..\..`           
     
-5. Commit the changes: `git commit -a`
+5. Commit the changes: `git commit -a -m "Changes"`
 
 6. Push the commit: `git push`
 
