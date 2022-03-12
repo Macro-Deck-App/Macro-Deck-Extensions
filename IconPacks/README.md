@@ -4,10 +4,15 @@ When choosing a package id, make sure you follow this rules:
 - No whitespaces
 - Example: MacroDeck.MacroDeckcolorfulgenericicons
 
-The easiest way to get the files is to export the icon pack and add the contents of the zip archive to the repository
+To publish your icon pack in the Macro Deck extension store, you have to create a GitHub repository for your icon pack.
 
-1. Make sure, your original plugin repoistory contains this files:
+1. Make sure, your icon pack repoistory tree looks like this:
     - (Optional) `ExtensionIcon.png` (64x64px)
+    - `SomeIcon.png`
+    - `AnotherIcon.png`
+    .
+    .
+    .
     - `ExtensionManifest.json`
         - This should contain following json data:
             ```json
@@ -20,6 +25,7 @@ The easiest way to get the files is to export the icon pack and add the contents
                 "version" : "1.0.0",
                 "target-plugin-api-version" : 31
               }
+        Take this as example: https://github.com/SuchByte/Macro-Deck-Colorful-Generic-Icons
 
 2. Fork this repository
 
