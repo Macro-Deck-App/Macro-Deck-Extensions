@@ -16,3 +16,6 @@
 [submodule "Plugins/SuchByte.MediaControls"]
 	path = Plugins/SuchByte.MediaControls
 	url = https://github.com/SuchByte/Macro-Deck-Media-Controls-Plugin
+[submodule "Plugins/SuchByte.TwitchPlugin"]
+	path = Plugins/SuchByte.TwitchPlugin
+	url = https://github.com/SuchByte/Macro-Deck-Twitch-Plugin
