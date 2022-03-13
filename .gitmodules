@@ -19,3 +19,6 @@
 [submodule "Plugins/SuchByte.TwitchPlugin"]
 	path = Plugins/SuchByte.TwitchPlugin
 	url = https://github.com/SuchByte/Macro-Deck-Twitch-Plugin
+[submodule "Plugins/SuchByte.GHUBBatteries"]
+	path = Plugins/SuchByte.GHUBBatteries
+	url = https://github.com/SuchByte/Macro-Deck-GHUB-Batteries
