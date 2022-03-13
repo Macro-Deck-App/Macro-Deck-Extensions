@@ -22,3 +22,6 @@
 [submodule "Plugins/SuchByte.GHUBBatteries"]
 	path = Plugins/SuchByte.GHUBBatteries
 	url = https://github.com/SuchByte/Macro-Deck-GHUB-Batteries
+[submodule "Plugins/SuchByte.OBS-WebSocketPlugin"]
+	path = Plugins/SuchByte.OBS-WebSocketPlugin
+	url = https://github.com/SuchByte/Macro-Deck-OBS-WebSocket-Plugin
