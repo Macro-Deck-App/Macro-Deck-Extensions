@@ -25,3 +25,6 @@
 [submodule "Plugins/SuchByte.OBS-WebSocketPlugin"]
 	path = Plugins/SuchByte.OBS-WebSocketPlugin
 	url = https://github.com/SuchByte/Macro-Deck-OBS-WebSocket-Plugin
+[submodule "Plugins\\SuchByte.SinusBotPlugin"]
+	path = Plugins\\SuchByte.SinusBotPlugin
+	url = https://github.com/SuchByte/Macro-Deck-SinusBot-Plugin
