@@ -28,3 +28,6 @@
 [submodule "Plugins/SuchByte.SinusBotPlugin"]
 	path = Plugins/SuchByte.SinusBotPlugin
 	url = https://github.com/SuchByte/Macro-Deck-SinusBot-Plugin
+[submodule "Plugins/SuchByte.HomeAssistantPlugin"]
+	path = Plugins/SuchByte.HomeAssistantPlugin
+	url = https://github.com/SuchByte/Macro-Deck-Home-Assistant-Plugin
