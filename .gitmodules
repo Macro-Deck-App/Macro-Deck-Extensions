@@ -37,3 +37,9 @@
 [submodule "IconPacks/MidoMatrix.Simpleblue"]
 	path = IconPacks/MidoMatrix.Simpleblue
 	url = https://github.com/imohammedramadan/Macro-Deck-Simple-Blue-Icons
+[submodule "IconPacks/PhoenixWyllow.CleanFramed"]
+	path = IconPacks/PhoenixWyllow.CleanFramed
+	url = https://github.com/PhoenixWyllow/MacroDeckCleanFramedIcons.git
+[submodule "IconPacks/PhoenixWyllow.CleanFrameless"]
+	path = IconPacks/PhoenixWyllow.CleanFrameless
+	url = https://github.com/PhoenixWyllow/MacroDeckCleanFramelessIcons.git
