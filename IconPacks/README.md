@@ -29,7 +29,7 @@ To publish your icon pack in the Macro Deck extension store, you have to create 
 
 2. Fork this repository
 
-3. If not added yet, add submodule from project root: `git submodule add <clone url> Plugins/<packageId>`
+3. If not added yet, add submodule from project root: `git submodule add <clone url> IconPacks/<packageId>`
     - Example: `git submodule add https://github.com/SuchByte/Macro-Deck-Extensions IconPacks/MacroDeck.MacroDeckcolorfulgenericicons`
     
 4. Update the commit: `cd .\IconPacks\<packageId>\; git fetch; git checkout <branch/tag/commit sha1>; cd ..\..`
