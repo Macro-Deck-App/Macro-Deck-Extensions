@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+	  <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <COMReference Include="WMLSS">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>c21e9ce5-b317-463b-a1b1-b5e36eed59d0</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.22000.196" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Macro Deck 2">
+      <HintPath>C:\Program Files\Macro Deck\Macro Deck 2.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
