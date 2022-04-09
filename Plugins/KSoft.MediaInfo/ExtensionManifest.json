@@ -1,0 +1,10 @@
+  {
+    "type" : "Plugin",
+    "name" : "KSoft.MediaInfo",
+    "author" : "Olivier Detry",
+    "repository" : "https://github.com/you/Your-Repository",
+    "packageId" : "KSoft.MediaInfo",
+    "version" : "1.0.0",
+    "target-plugin-api-version" : 31,
+    "dll" : "KSoft.MediaInfo.dll"
+  }
