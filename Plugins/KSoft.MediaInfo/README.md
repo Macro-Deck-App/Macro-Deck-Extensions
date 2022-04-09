@@ -13,4 +13,4 @@ The IsPlaying information (boolean) can be used to display a different icon on t
 playing status.
 
 ### This is a plugin for [Macro Deck 2](https://github.com/SuchByte/Macro-Deck), it does NOT function as a standalone app
-<img height="64px" src="https://macrodeck.org/images/macro_deck_2_official_plugin.png" />
+<img height="64px" src="https://macrodeck.org/images/macro_deck_2_community_plugin.png" />
