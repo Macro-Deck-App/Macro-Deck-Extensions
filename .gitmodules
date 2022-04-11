@@ -43,3 +43,6 @@
 [submodule "IconPacks/PhoenixWyllow.CleanFrameless"]
 	path = IconPacks/PhoenixWyllow.CleanFrameless
 	url = https://github.com/PhoenixWyllow/MacroDeckCleanFramelessIcons.git
+[submodule "Plugins/KSoft.MediaInfo"]
+	path = Plugins/KSoft.MediaInfo
+	url = https://github.com/kitarolivier/KSoft.MediaInfo
