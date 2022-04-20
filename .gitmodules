@@ -46,6 +46,6 @@
 [submodule "Plugins/KSoft.MediaInfo"]
 	path = Plugins/KSoft.MediaInfo
 	url = https://github.com/kitarolivier/KSoft.MediaInfo
-[submodule ".\\IconPacks\\RecklessBoon.PoweredSteel"]
-	path = .\\IconPacks\\RecklessBoon.PoweredSteel
-	url = git@github.com:RecklessBoon/Macro-Deck-Icon-Powered-Steel.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel"]
+	path = /IconPacks/RecklessBoon.PoweredSteel
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel.git
