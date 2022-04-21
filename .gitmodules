@@ -49,3 +49,6 @@
 [submodule "IconPacks/RecklessBoon.PoweredSteel"]
 	path = IconPacks/RecklessBoon.PoweredSteel
 	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel.git
+[submodule "Plugins/PhoenixWyllow.VoicemeeterPlugin"]
+	path = Plugins/PhoenixWyllow.VoicemeeterPlugin
+	url = https://github.com/PhoenixWyllow/MacroDeck.Voicemeeter.git
