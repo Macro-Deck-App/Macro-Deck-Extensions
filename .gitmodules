@@ -49,3 +49,6 @@
 [submodule "IconPacks/RecklessBoon.PoweredSteel"]
 	path = IconPacks/RecklessBoon.PoweredSteel
 	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel.git
+[submodule "IconPacks/puppy.mistyiconpack"]
+	path = IconPacks/puppy.mistyiconpack
+	url = https://github.com/whosthispuppy/misty
