@@ -55,3 +55,6 @@
 [submodule "IconPacks/puppy.mistyiconpack"]
 	path = IconPacks/puppy.mistyiconpack
 	url = https://github.com/whosthispuppy/misty
+[submodule "IconPacks/desatur8.Voicemeeter"]
+	path = IconPacks/desatur8.Voicemeeter
+	url = https://github.com/desatur8/MacroDeck-Icons-Voicemeeter.git
