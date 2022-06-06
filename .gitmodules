@@ -58,3 +58,6 @@
 [submodule "IconPacks/desatur8.Voicemeeter"]
 	path = IconPacks/desatur8.Voicemeeter
 	url = https://github.com/desatur8/MacroDeck-Icons-Voicemeeter.git
+[submodule "Plugins/SuchByte.PiHolePlugin"]
+	path = Plugins/SuchByte.PiHolePlugin
+	url = https://github.com/SuchByte/Macro-Deck-Pi-hole-Plugin
