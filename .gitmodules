@@ -63,4 +63,4 @@
 	url = https://github.com/SuchByte/Macro-Deck-Pi-hole-Plugin
 [submodule "Plugins/jbcarreon123.ShareXPlugin"]
 	path = Plugins/jbcarreon123.ShareXPlugin
-	url = https://github.com/jbcarreon123/MacroDeck2-ShareXPlugin.git
+	url = https://github.com/jbcarreon123/MacroDeck2-ShareXPlugin/
