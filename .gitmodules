@@ -67,3 +67,6 @@
 [submodule "Plugins/RecklessBoon.MacroDeck.PhilipsHuePlugin"]
 	path = Plugins/RecklessBoon.MacroDeck.PhilipsHuePlugin
 	url = https://github.com/RecklessBoon/Macro-Deck-Philips-Hue-Plugin
+[submodule "Plugins/Xenox003.MagicHome"]
+	path = Plugins/Xenox003.MagicHome
+	url = https://github.com/Xenox003/MacroDeckMagicHome
