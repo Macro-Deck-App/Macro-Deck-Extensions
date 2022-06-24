@@ -73,3 +73,6 @@
 [submodule "Plugins/jbcarreon123.AHKPlugin"]
 	path = Plugins/jbcarreon123.AHKPlugin
 	url = https://github.com/jbcarreon123/MacroDeck2-AHKPlugin/
+[submodule "IconPacks/puppy.mistydarkiconpack"]
+	path = IconPacks/puppy.mistydarkiconpack
+	url = https://github.com/whosthispuppy/misty-dark
