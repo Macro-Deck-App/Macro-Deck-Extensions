@@ -76,3 +76,6 @@
 [submodule "IconPacks/puppy.mistydarkiconpack"]
 	path = IconPacks/puppy.mistydarkiconpack
 	url = https://github.com/whosthispuppy/misty-dark
+[submodule "Plugins/MacroDeck.StreamDeckConnectorPlugin"]
+	path = Plugins/MacroDeck.StreamDeckConnectorPlugin
+	url = https://github.com/Macro-Deck-org/Stream-Deck-Connector-Plugin
