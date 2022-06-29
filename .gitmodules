@@ -82,3 +82,6 @@
 [submodule "IconPacks/Varelx.VarelxIconPack"]
 	path = IconPacks/Varelx.VarelxIconPack
 	url = https://github.com/Varelx/varelx-icon-pack
+[submodule "varelx-icon-pack"]
+	path = varelx-icon-pack
+	url = https://github.com/Varelx/varelx-icon-pack
