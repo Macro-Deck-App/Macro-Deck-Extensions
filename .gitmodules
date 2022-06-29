@@ -79,6 +79,3 @@
 [submodule "Plugins/MacroDeck.StreamDeckConnectorPlugin"]
 	path = Plugins/MacroDeck.StreamDeckConnectorPlugin
 	url = https://github.com/Macro-Deck-org/Stream-Deck-Connector-Plugin
-[submodule "IconPacks/Varelx.VarelxIconPack"]
-	path = IconPacks/Varelx.VarelxIconPack
-	url = https://github.com/Varelx/varelx-icon-pack
