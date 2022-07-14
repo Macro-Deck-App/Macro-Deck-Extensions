@@ -85,3 +85,5 @@
 [submodule "Plugins/Develeon64.SpotifyPlugin"]
 	path = Plugins/Develeon64.SpotifyPlugin
 	url = https://github.com/Develeon64/Macro-Deck-Spotify-Plugin
+[submodule "./Xenox003.MagicHome/"]
+	branch = master
