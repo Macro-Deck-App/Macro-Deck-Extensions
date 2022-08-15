@@ -70,9 +70,6 @@
 [submodule "Plugins/Xenox003.MagicHome"]
 	path = Plugins/Xenox003.MagicHome
 	url = https://github.com/Xenox003/MacroDeckMagicHome
-[submodule "Plugins/jbcarreon123.AHKPlugin"]
-	path = Plugins/jbcarreon123.AHKPlugin
-	url = https://github.com/jbcarreon123/MacroDeck2-AHKPlugin/
 [submodule "IconPacks/puppy.mistydarkiconpack"]
 	path = IconPacks/puppy.mistydarkiconpack
 	url = https://github.com/whosthispuppy/misty-dark
@@ -87,3 +84,6 @@
 	url = https://github.com/Develeon64/Macro-Deck-Spotify-Plugin
 [submodule "./Xenox003.MagicHome/"]
 	branch = master
+[submodule "Plugins/jbcarreon123.AHKPlugin"]
+	path = Plugins/jbcarreon123.AHKPlugin
+	url = https://github.com/jbcarreon123/MacroDeck2-AHKPlugin
