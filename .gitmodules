@@ -84,6 +84,3 @@
 	url = https://github.com/Develeon64/Macro-Deck-Spotify-Plugin
 [submodule "./Xenox003.MagicHome/"]
 	branch = master
-[submodule "Plugins/jbcarreon123.AHKPlugin"]
-	path = Plugins/jbcarreon123.AHKPlugin
-	url = https://github.com/jbcarreon123/MacroDeck2-AHKPlugin
