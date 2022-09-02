@@ -87,3 +87,6 @@
 [submodule "Plugins/jbcarreon123.AHKPlugin"]
 	path = Plugins/jbcarreon123.AHKPlugin
 	url = https://github.com/jbcarreon123/MacroDeck2-AHKPlugin
+[submodule "Plugins/RecklessBoon.MacroDeck.StreamlabsOBSPlugin"]
+	path = Plugins/RecklessBoon.MacroDeck.StreamlabsOBSPlugin
+	url = https://github.com/RecklessBoon/Macro-Deck-Streamlabs-OBS-Plugin.git
