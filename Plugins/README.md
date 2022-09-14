@@ -29,3 +29,15 @@
 6. Push the commit: `git push`
 
 7. Create a pull-request
+
+### Addendum
+
+If you are having issues with extra "files" being modified and you can't reset them, run the following to reset EVERYTHING:
+
+```bash
+git clean -xfd
+git submodule foreach --recursive git clean -xfd
+git reset --hard
+git submodule foreach --recursive git reset --hard
+git submodule update --init --recursive
+```
