@@ -33,7 +33,7 @@ jobs:
           
       - name: Add Submodule (If Needed)
         run: | 
-          if [ ! -d "/path/to/dir" ]; then
+          if [ ! -d "./Plugins/${{ inputs.plugin_package_id }}" ]; then
             git submodule add "${{ inputs.github_http_url }}" "./Plugins/${{ inputs.plugin_package_id }}"
           fi
           
