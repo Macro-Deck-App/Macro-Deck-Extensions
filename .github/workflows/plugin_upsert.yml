@@ -4,12 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       github_http_url:
+        description: 'GitHub Repo HTTP URL'
         required: true
         type: string
       plugin_package_id:
+        description: 'Plugin Package ID'
         required: true
         type: string
       plugin_commit_ref:
+        description: 'Commit Ref (tag/branch/commit)'
         required: true
         type: string
 
