@@ -31,8 +31,11 @@ jobs:
           git submodule foreach --recursive git reset --hard
           git submodule update --init --recursive
           
-      - name: Add Submodule
-        run: git submodule add "${{ inputs.github_http_url }}" "./Plugins/${{ inputs.plugin_package_id }}"
+      - name: Add Submodule (If Needed)
+        run: | 
+          if [ ! -d "/path/to/dir" ]; then
+            git submodule add "${{ inputs.github_http_url }}" "./Plugins/${{ inputs.plugin_package_id }}"
+          fi
           
       - name: Update Submodule
         run: |
