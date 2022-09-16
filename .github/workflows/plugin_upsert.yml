@@ -19,9 +19,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3    
-
-      - name: Create new branch
-        run: git checkout -b feature/${{ inputs.plugin_package_id }} main
       
       - name: Clean branch
         run: |
@@ -44,8 +41,9 @@ jobs:
           git checkout "${{ inputs.plugin_commit_ref }}"
           cd ../..
           
-      - name: Make Commit
-        run: git commit -a -m "Updates ${{ inputs.plugin_package_id }} to ${{ inputs.plugin_commit_ref }}"
-          
-      - name: Push commit
-        run: git push
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: Update Plugin ${{ inputs.plugin_package_id }}
+          body: Updating Plugin ${{ inputs.plugin_package_id }} to ${{ inputs.plugin_package_id }}
+          branch: feature/update-${{ inputs.plugin_package_id }}
