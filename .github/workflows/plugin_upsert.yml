@@ -45,5 +45,10 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: Update Plugin ${{ inputs.plugin_package_id }}
-          body: Updating Plugin ${{ inputs.plugin_package_id }} to ${{ inputs.plugin_package_id }}
+          title: '[Plugin Update] ${{ inputs.plugin_package_id }}'
+          body: |
+            ##Plugin Update
+            **Remote URL** ${{ inputs.github_http_url }}
+            **Package ID** ${{ inputs.plugin_package_id }}
+            **Commit Ref** ${{ inputs.plugin_commit_ref }}
           branch: feature/update-${{ inputs.plugin_package_id }}
