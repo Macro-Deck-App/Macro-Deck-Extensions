@@ -1,0 +1,48 @@
+name: Plugin Upsert
+
+on:
+  workflow_dispatch:
+    inputs:
+      github_http_url:
+        required: true
+        type: string
+      plugin_package_id:
+        required: true
+        type: string
+      plugin_commit_ref:
+        required: true
+        type: string
+
+jobs:
+  pull_submodule:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3    
+
+      - name: Create new branch
+        run: git checkout -b feature/${{ inputs.plugin_package_id }} master
+      
+      - name: Clean branch
+        run: |
+          git clear -xfd
+          git submodule foreach --recursive git clean -xfd
+          git reset --hard
+          git submodule foreach --recursive git reset --hard
+          git submodule update --init --recursive
+          
+      - name: Add Submodule
+        run: git submodule add "${{ inputs.github_http_url }}" "./Plugins/${{ inputs.plugin_package_id }}"
+          
+      - name: Update Submodule
+        run: |
+          cd "./Plugins/${{ inputs.plugin_package_id }}"
+          git fetch origin "${{ inputs.plugin_commit_ref }}":"${{ inputs.plugin_commit_ref }}"
+          git checkout "${{ inputs.plugin_commit_ref }}"
+          cd ../..
+          
+      - name: Make Commit
+        run: git commit -a -m "Updates ${{ inputs.plugin_package_id }} to ${{ inputs.plugin_commit_ref }}"
+          
+      - name: Push commit
+        run: git push
