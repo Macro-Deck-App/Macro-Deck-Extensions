@@ -50,8 +50,21 @@ jobs:
           commit-message: Update Plugin ${{ inputs.plugin_package_id }}
           title: '[Plugin Update] ${{ inputs.plugin_package_id }}'
           body: |
-            ##Plugin Update
-            **Remote URL** ${{ inputs.github_http_url }}
-            **Package ID** ${{ inputs.plugin_package_id }}
-            **Commit Ref** ${{ inputs.plugin_commit_ref }}
+            ## Plugin Update
+            
+            <table>
+              <tr>
+                <td><b>GitHub HTTP URL</b></td>
+                <td>${{ inputs.github_http_url }}</td>
+              </tr>
+              <tr>
+                <td><b>Package ID</b></td>
+                <td>${{ inputs.plugin_package_id }}</td>
+              </tr>
+              <tr>
+                <td><b>Commit Ref</b></td>
+                <td>${{ inputs.plugin_commit_ref }}</td>
+              </tr>
+            </table>
           branch: feature/update-${{ inputs.plugin_package_id }}
+          delete-branch: true
