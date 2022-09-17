@@ -1,0 +1,89 @@
+name: Add/Update Extension
+
+on:
+  workflow_dispatch:
+    inputs:
+      ext_type:
+        required: true
+        type: choice
+        options:
+        - 'Plugin'
+        - 'Icon Pack'
+      github_http_url:
+        description: 'GitHub Repo HTTP URL'
+        required: true
+        type: string
+      package_id:
+        description: 'Package ID'
+        required: true
+        type: string
+      commit_ref:
+        description: 'Commit Ref (tag/branch/commit)'
+        required: true
+        type: string
+
+jobs:
+  pull_submodule:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Get Output Path
+        id: ext_type_check
+        run: |
+          if [ ${{ inputs.ext_type }} = 'Plugin' ]; then 
+            echo 'output_path=Plugins' >> $GITHUB_ENV
+          else
+            echo 'output_path=IconPacks' >> $GITHUB_ENV
+          fi
+      
+      - name: Clean branch
+        run: |
+          git clean -xfd
+          git submodule foreach --recursive git clean -xfd
+          git reset --hard
+          git submodule foreach --recursive git reset --hard
+          git submodule update --init --recursive
+          
+      - name: Add Submodule (If Needed)
+        run: | 
+          if [ ! -d "./${{ env.output_path }}/${{ inputs.package_id }}" ]; then
+            git submodule add "${{ inputs.github_http_url }}" "./${{ env.output_path }}/${{ inputs.package_id }}"
+          fi
+          
+      - name: Update Submodule
+        run: |
+          cd "./${{ env.output_path }}/${{ inputs.package_id }}"
+          git fetch origin "${{ inputs.commit_ref }}":"${{ inputs.commit_ref }}"
+          git checkout "${{ inputs.commit_ref }}"
+          cd ../..
+          
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: Update ${{ inputs.ext_type }} - ${{ inputs.package_id }}
+          title: '[${{ inputs.ext_type }} Update] ${{ inputs.package_id }}'
+          body: |
+            ## ${{ inputs.ext_type }} Update
+            
+            <table>
+              <tr>
+                <td><b>Plugin Type</b></td>
+                <td>${{ env.output_path }}</td>
+              </tr>
+              <tr>
+                <td><b>GitHub HTTP URL</b></td>
+                <td>${{ inputs.github_http_url }}</td>
+              </tr>
+              <tr>
+                <td><b>Package ID</b></td>
+                <td>${{ inputs.package_id }}</td>
+              </tr>
+              <tr>
+                <td><b>Commit Ref</b></td>
+                <td>${{ inputs.commit_ref }}</td>
+              </tr>
+            </table>
+          branch: feature/update-${{ inputs.ext_type }}-${{ inputs.package_id }}
+          delete-branch: true
