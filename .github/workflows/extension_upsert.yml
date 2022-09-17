@@ -85,5 +85,5 @@ jobs:
                 <td>${{ inputs.commit_ref }}</td>
               </tr>
             </table>
-          branch: feature/update-${{ inputs.ext_type }}-${{ inputs.package_id }}
+          branch: feature/update-${{ inputs.package_id }}
           delete-branch: true
