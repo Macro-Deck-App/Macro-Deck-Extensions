@@ -19,7 +19,7 @@ namespace Sulbon.UDPCallUnity
             Instance = this;
             this.Actions = new List<PluginAction>{
             // add the instances of your actions here
-            new UDPSendMenu(),
+            new UDPSend(),
         };
         }
 

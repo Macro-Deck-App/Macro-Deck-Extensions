@@ -13,19 +13,23 @@ using Newtonsoft.Json.Linq;
 using System.Net.Sockets;
 using System.Net;
 using SuchByte.MacroDeck.Logging;
+using System.IO;
+using System.Xml.Linq;
 
 namespace Sulbon.UDPCallUnity
 {
-    public class UDPSendMenu : PluginAction
+    public class UDPSend : PluginAction
     {
         // The name of the action
-        public override string Name => "UDP Send Menu Action";
+        public override string Name => "UDP Send Action";
 
         // A short description what the action can do
         public override string Description => "UDP Send Menu Action";
 
         // Optional; Add if this action can be configured. This will make the ActionConfigurator calling GetActionConfigurator();
         public override bool CanConfigure => true;
+
+        static List<string> s_CommandTypes = new List<string>() { "Menu", "Layout" };
 
         // Optional; Add if you added CanConfigure; Gets called when the action can be configured and the action got selected in the ActionSelector. You need to return a user control with the "ActionConfigControl" class as base class
         public override ActionConfigControl GetActionConfigControl(ActionConfigurator actionConfigurator)
@@ -45,15 +49,26 @@ namespace Sulbon.UDPCallUnity
             try
             {
                 JObject configurationObject = JObject.Parse(this.Configuration);
-                var command = configurationObject["command"].ToString();
                 var port = configurationObject["port"].ToString();
+                var commandType = configurationObject["commandtype"].ToString();
+                var command = configurationObject["command"].ToString();
                 int nPort = 0;
                 int.TryParse(port, out nPort);
 
                 UdpClient udpcSend = new UdpClient();
-                byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(command);
+
+                MemoryStream memstr = new MemoryStream();
+                using (var writer = new BinaryWriter(memstr))
+                {
+                    int typeIndex = s_CommandTypes.IndexOf(commandType);
+                    writer.Write((byte)typeIndex);  //1byte type
+                    byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(command);
+                    writer.Write(byteArray.Length);   //4bytes len
+                    writer.Write(byteArray, 0, byteArray.Length);
+                }
+
                 IPEndPoint remoteIpep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), nPort);//发送到的端口号以及IP地址
-                udpcSend.Send(byteArray, byteArray.Length, remoteIpep);//发送
+                udpcSend.Send(memstr.GetBuffer(), memstr.GetBuffer().Length, remoteIpep);//发送
                 udpcSend.Close();
             }
             catch (Exception ex)

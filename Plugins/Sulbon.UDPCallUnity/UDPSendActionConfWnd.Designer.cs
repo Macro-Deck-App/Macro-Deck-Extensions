@@ -35,14 +35,15 @@ namespace SuchByte.WindowsUtils.GUI
             this.label1 = new System.Windows.Forms.Label();
             this.TextPort = new System.Windows.Forms.TextBox();
             this.TextCommand = new System.Windows.Forms.TextBox();
+            this.comboType = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lblCommand
             // 
             this.lblCommand.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblCommand.Location = new System.Drawing.Point(3, 63);
+            this.lblCommand.Location = new System.Drawing.Point(0, 60);
             this.lblCommand.Name = "lblCommand";
-            this.lblCommand.Size = new System.Drawing.Size(174, 49);
+            this.lblCommand.Size = new System.Drawing.Size(169, 49);
             this.lblCommand.TabIndex = 6;
             this.lblCommand.Text = "Command:";
             this.lblCommand.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -54,12 +55,12 @@ namespace SuchByte.WindowsUtils.GUI
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(174, 31);
             this.label1.TabIndex = 7;
-            this.label1.Text = "port";
+            this.label1.Text = "UDP port";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // TextPort
             // 
-            this.TextPort.Location = new System.Drawing.Point(178, 17);
+            this.TextPort.Location = new System.Drawing.Point(148, 15);
             this.TextPort.Name = "TextPort";
             this.TextPort.Size = new System.Drawing.Size(169, 30);
             this.TextPort.TabIndex = 8;
@@ -67,16 +68,29 @@ namespace SuchByte.WindowsUtils.GUI
             // 
             // TextCommand
             // 
-            this.TextCommand.Location = new System.Drawing.Point(178, 71);
+            this.TextCommand.Location = new System.Drawing.Point(339, 68);
             this.TextCommand.Name = "TextCommand";
             this.TextCommand.Size = new System.Drawing.Size(454, 30);
             this.TextCommand.TabIndex = 9;
-            this.TextCommand.Text = "Assets/svn/全部更新";
+            this.TextCommand.Text = "Assets/someMenuPath";
+            // 
+            // comboType
+            // 
+            this.comboType.FormattingEnabled = true;
+            this.comboType.Items.AddRange(new object[] {
+            "Menu",
+            "Layout"});
+            this.comboType.Location = new System.Drawing.Point(148, 68);
+            this.comboType.Name = "comboType";
+            this.comboType.Size = new System.Drawing.Size(169, 31);
+            this.comboType.TabIndex = 10;
+            this.comboType.Text = "Menu";
             // 
             // UDPSendActionConfWnd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.comboType);
             this.Controls.Add(this.TextCommand);
             this.Controls.Add(this.TextPort);
             this.Controls.Add(this.label1);
@@ -93,5 +107,6 @@ namespace SuchByte.WindowsUtils.GUI
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox TextPort;
         private System.Windows.Forms.TextBox TextCommand;
+        private System.Windows.Forms.ComboBox comboType;
     }
 }

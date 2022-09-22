@@ -43,6 +43,7 @@ namespace SuchByte.WindowsUtils.GUI
             {
                 port = this.TextPort.Text,
                 command = this.TextCommand.Text,
+                commandtype = this.comboType.Text,
             });
             this.pluginAction.Configuration = configurationObject.ToString();
             this.pluginAction.ConfigurationSummary = this.TextCommand.Text;
@@ -67,6 +68,7 @@ namespace SuchByte.WindowsUtils.GUI
                 JObject configurationObject = JObject.Parse(this.pluginAction.Configuration);
                 this.TextPort.Text = configurationObject["port"].ToString();
                 this.TextCommand.Text = configurationObject["command"].ToString();
+                this.comboType.Text = configurationObject["commandtype"].ToString();
             }
             catch (Exception ex)
             {
