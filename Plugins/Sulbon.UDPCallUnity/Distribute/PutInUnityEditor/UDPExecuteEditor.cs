@@ -6,13 +6,19 @@ using UnityEditor;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.IO;
 
 [InitializeOnLoad]
 public class UDPExecuteEditor : EditorWindow
 {
     static public int port = 8193;
 
-    static List<string> CommandsQ = new List<string>();
+    public class RemoteCmd
+    {
+        public int Tp;
+        public string Cmd;
+    }
+    static List<RemoteCmd> CommandsQ = new List<RemoteCmd>();
 
     static DateTime LastRecvTime;
 
@@ -58,8 +64,17 @@ public class UDPExecuteEditor : EditorWindow
         if (CommandsQ.Count <= 0)
             return;
 
-        Debug.Log("Executing:" + CommandsQ[0]);
-        EditorApplication.ExecuteMenuItem(CommandsQ[0]);
+        Debug.Log("Executing:" + CommandsQ[0].Cmd);
+
+        if (CommandsQ[0].Tp == 0)
+        {
+            EditorApplication.ExecuteMenuItem(CommandsQ[0].Cmd);
+        }
+        else if (CommandsQ[0].Tp == 1)
+        {
+            EditorChangeLayout.LoadLayout(CommandsQ[0].Cmd);
+        }
+
         CommandsQ.RemoveAt(0);
 
     }
@@ -67,11 +82,25 @@ public class UDPExecuteEditor : EditorWindow
     static public void RecvData(byte[] buffer)
     {
         LastRecvTime = DateTime.Now;
-        var recvString = System.Text.Encoding.UTF8.GetString(buffer);
-        lock (CommandsQ)
+
+        MemoryStream mstr = new MemoryStream(buffer);
+        using (var br = new BinaryReader(mstr))
         {
-            CommandsQ.Add(recvString);
+            int tp = br.ReadByte();
+            int len = br.ReadInt32();
+            if(buffer.Length < len+5)
+            {
+                Debug.LogWarning($"UDPExecuteEditor getting wrong data {tp}, {len}");
+                return;
+            }
+
+            var recvCmd = System.Text.Encoding.UTF8.GetString(buffer, 5, len);
+            lock (CommandsQ)
+            {
+                CommandsQ.Add(new RemoteCmd() { Tp = tp, Cmd = recvCmd });
+            }
         }
+
     }
 
 }
