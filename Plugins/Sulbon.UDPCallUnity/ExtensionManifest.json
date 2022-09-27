@@ -1,10 +1,10 @@
 {
-  "type" : "Plugin",
-  "name" : "UDPCallUnity",
-  "author" : "Sulbon",
-  "repository" : "https://github.com/SuchByte/Macro-Deck-Windows-Utils-Plugin",
-  "packageId" : "Sulbon.UDPCallUnity",
-  "version" : "1.0.0",
-  "target-plugin-api-version" : 35,
-  "dll" : "MacroDeck_UDPCallUnity.dll"
+  "type": "Plugin",
+  "name": "UDPCallUnity",
+  "author": "Sulbon",
+  "repository": "https://github.com/sulbon/Macro-Deck-Extensions/tree/main/Plugins/Sulbon.UDPCallUnity",
+  "packageId": "Sulbon.UDPCallUnity",
+  "version": "1.0.0",
+  "target-plugin-api-version": 35,
+  "dll": "MacroDeck_UDPCallUnity.dll"
 }
