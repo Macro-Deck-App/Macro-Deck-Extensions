@@ -23,8 +23,11 @@ on:
         type: string
 
 permissions:
+  actions: read
   contents: read
   pull-requests: write
+  statuses: read
+
   
 jobs:
   pull_submodule:
