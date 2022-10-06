@@ -22,6 +22,10 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: read
+  pull-requests: write
+  
 jobs:
   pull_submodule:
     runs-on: ubuntu-latest
@@ -62,6 +66,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Update ${{ inputs.ext_type }} - ${{ inputs.package_id }}
           title: '[${{ inputs.ext_type }} Update] ${{ inputs.package_id }}'
           body: |
