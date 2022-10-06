@@ -22,11 +22,7 @@ on:
         required: true
         type: string
 
-permissions:
-  actions: read
-  contents: read
-  pull-requests: write
-  statuses: read
+permissions: read-all
 
   
 jobs:
