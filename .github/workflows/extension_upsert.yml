@@ -93,7 +93,7 @@ jobs:
             fi
           else
             git cat-file -p HEAD:ExtensionManifest.json | jq '[.version][0]' || echo "::error::ExtensionManifest.json 'version' key does not exist" && exit 1
-            git cat-file -p HEAD:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+" || echo "::error::C# project file 'version' key does not exist" && exit 1
+            git cat-file -p HEAD:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+" || echo "::error::.csproj project file 'version' key does not exist" && exit 1
           fi
           cd ../..
           
