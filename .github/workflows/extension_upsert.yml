@@ -88,7 +88,7 @@ jobs:
               result=1
             fi
             
-            if [ $new_manifest_version != $new_csproj_version ]; then
+            if [ ! -z $new_manifest_version ] && [ ! -z $new_csproj_version ] && [ $new_manifest_version != $new_csproj_version ]; then
               echo "::error::ExtensionManifest.json 'version' token does not match the csproj file's 'Version' node"
               result=1
             fi
@@ -113,7 +113,7 @@ jobs:
               result=1
             fi
             
-            if [ $manifest_version != $csproj_version ]; then
+            if [ ! -z $manifest_version ] && [ ! -z $csproj_version ] && [ $manifest_version != $csproj_version ]; then
               echo "::error::ExtensionManifest.json 'version' token does not match the csproj file's 'Version' node"
               result=1
             fi
