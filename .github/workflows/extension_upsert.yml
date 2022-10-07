@@ -33,12 +33,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Set Upstream
-        run: |
-          git remote add upstream https://github.com/Macro-Deck-org/Macro-Deck-Extensions.git
-          git fetch upstream main
-          git branch --set-upstream-to upstream/main
-      
       - name: Get Output Path
         id: ext_type_check
         run: |
