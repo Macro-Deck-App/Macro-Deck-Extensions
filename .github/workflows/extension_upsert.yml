@@ -70,12 +70,30 @@ jobs:
         run: |
           cd "./${{ env.output_path }}/${{ inputs.package_id }}"
           if [ ! -z "${{ env.current_hash }}" ]; then
-            git diff ${{ env.current_hash }}..HEAD
-            git diff ${{ env.current_hash }}..HEAD "ExtensionManifest.json" | grep "version" || echo "::error::ExtensionManifest.json 'version' key was not updated" && exit 1
-            git diff ${{ env.current_hash }}..HEAD "./${{ env.output_path }}/${{ inputs.package_id }}/*.csproj" | grep "<Version>" || echo "::error::C# project file 'version' key was not updated" && exit 1
+            result=0
+            
+            # ExtensionManifest.json check
+            old_version=$(git cat-file -p ${{ env.current_hash }}:ExtensionManifest.json | jq '[.version][0]')
+            new_version=$(git cat-file -p HEAD:ExtensionManifest.json | jq '[.version][0]')
+            if [ $old_version == $new_version ]; then
+              echo "::error::ExtensionManifest.json 'version' key was not updated"
+              result=1
+            fi
+
+            # csproj check
+            old_version=$(git cat-file -p ${{ env.current_hash }}:*.csproj | jq '[.version][0]')
+            new_version=$(git cat-file -p HEAD:*.csproj | jq '[.version][0]')
+            if [ $old_version == $new_version ]; then
+              echo "::error::csproj file 'version' node was not updated"
+              result=1
+            fi
+
+            if [ result -ne 0 ]; then
+              exit 1;
+            fi
           else
-            git grep '"version"' -- "ExtensionManifest.json" || echo "::error::ExtensionManifest.json 'version' key does not exist" && exit 1
-            git grep "<Version>" -- "./${{ env.output_path }}/${{ inputs.package_id }}/*.csproj" || echo "::error::C# project file 'version' key does not exist" && exit 1
+            git cat-file -p HEAD:ExtensionManifest.json | jq '[.version][0]' || echo "::error::ExtensionManifest.json 'version' key does not exist" && exit 1
+            git cat-file -p HEAD:*.csproj | jq '[.version][0]' || echo "::error::C# project file 'version' key does not exist" && exit 1
           fi
           cd ../..
           
