@@ -35,7 +35,7 @@ jobs:
       
       - name: Set Upstream
         run: |
-          git remote add upstream git@github.com:Macro-Deck-org/Macro-Deck-Extensions.git
+          git remote add upstream https://github.com/Macro-Deck-org/Macro-Deck-Extensions.git
           git fetch upstream main
           git branch --set-upstream-to upstream/main
       
