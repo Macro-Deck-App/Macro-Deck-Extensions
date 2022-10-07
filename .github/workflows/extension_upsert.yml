@@ -56,7 +56,7 @@ jobs:
           if [ ! -d "./${{ env.output_path }}/${{ inputs.package_id }}" ]; then
             git submodule add "${{ inputs.github_http_url }}" "./${{ env.output_path }}/${{ inputs.package_id }}"
           else
-            cd "./${{ env.output_path }}/${{ inputs.package_id }}" && git rev-parse HEAD | echo "::set-output name=current_hash::$(</dev/stdin)"
+            git --git-dir "./${{ env.output_path }}/${{ inputs.package_id }}/.git" rev-parse HEAD | echo "::set-output name=current_hash::$(</dev/stdin)"
           fi
           
       - name: Update Submodule
