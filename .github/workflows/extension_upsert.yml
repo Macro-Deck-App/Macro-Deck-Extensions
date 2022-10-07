@@ -81,8 +81,8 @@ jobs:
             fi
 
             # csproj check
-            old_version=$(git cat-file -p ${{ env.current_hash }}:*.csproj | jq '[.version][0]')
-            new_version=$(git cat-file -p HEAD:*.csproj | jq '[.version][0]')
+            old_version=$(git cat-file -p ${{ env.current_hash }}:*.csproj | grep -oPm1 "(?<=<Version>)[^<]+"
+            new_version=$(git cat-file -p HEAD:*.csproj | grep -oPm1 "(?<=<Version>)[^<]+"
             if [ $old_version == $new_version ]; then
               echo "::error::csproj file 'version' node was not updated"
               result=1
@@ -93,7 +93,7 @@ jobs:
             fi
           else
             git cat-file -p HEAD:ExtensionManifest.json | jq '[.version][0]' || echo "::error::ExtensionManifest.json 'version' key does not exist" && exit 1
-            git cat-file -p HEAD:*.csproj | jq '[.version][0]' || echo "::error::C# project file 'version' key does not exist" && exit 1
+            git cat-file -p HEAD:*.csproj | grep -oPm1 "(?<=<Version>)[^<]+" || echo "::error::C# project file 'version' key does not exist" && exit 1
           fi
           cd ../..
           
