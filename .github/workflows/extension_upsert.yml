@@ -63,6 +63,11 @@ jobs:
           git checkout "${{ inputs.commit_ref }}"
           cd ../..
           
+      - name: Sanity Check
+        run: |
+          git diff "./${{ env.output_path }}/${{ inputs.package_id }}/ExtensionManifest.json" | grep "version" || true
+          git diff "./${{ env.output_path }}/${{ inputs.package_id }}/*.csproj" | grep "<Version>" || true
+          
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
