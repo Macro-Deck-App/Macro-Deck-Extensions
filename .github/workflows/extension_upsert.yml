@@ -73,16 +73,16 @@ jobs:
             result=0
             
             # ExtensionManifest.json check
-            old_manifest_version="$(git cat-file -p ${{ env.current_hash }}:ExtensionManifest.json | jq '[.version][0]')"
-            new_manifest_version="$(git cat-file -p HEAD:ExtensionManifest.json | jq '[.version][0]')"
+            old_manifest_version=$(git cat-file -p ${{ env.current_hash }}:ExtensionManifest.json | jq -r '[.version][0]')
+            new_manifest_version=$(git cat-file -p HEAD:ExtensionManifest.json | jq -r '[.version][0]')
             if [ $old_manifest_version == $new_manifest_version ]; then
               echo "::error::ExtensionManifest.json 'version' key was not updated"
               result=1
             fi
 
             # csproj check
-            old_csproj_version="$(git cat-file -p ${{ env.current_hash }}:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+")"
-            new_csproj_version="$(git cat-file -p HEAD:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+")"
+            old_csproj_version=$(git cat-file -p ${{ env.current_hash }}:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+")
+            new_csproj_version=$(git cat-file -p HEAD:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+")
             if [ $old_csproj_version == $new_csproj_version ]; then
               echo "::error::csproj file 'version' node was not updated"
               result=1
@@ -100,7 +100,7 @@ jobs:
             result=0
           
             # Manifest check
-            manifest_version="$(git cat-file -p HEAD:ExtensionManifest.json | jq '[.version][0]')"
+            manifest_version="$(git cat-file -p HEAD:ExtensionManifest.json | jq -r '[.version][0]')"
             if [ -z manifest_version ]; then 
               echo "::error::ExtensionManifest.json 'version' key does not exist"
               result=1
