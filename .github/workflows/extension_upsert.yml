@@ -32,7 +32,7 @@ permissions:
   discussions: read
   packages: read
   pages: read
-  pull-requests: read|write
+  pull-requests: write
   repository-projects: read
   security-events: read
   statuses: read
