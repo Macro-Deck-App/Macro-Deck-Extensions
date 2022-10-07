@@ -89,11 +89,28 @@ jobs:
             fi
 
             if [ $result -ne 0 ]; then
-              exit 1;
+              exit 1
             fi
           else
-            git cat-file -p HEAD:ExtensionManifest.json | jq '[.version][0]' || echo "::error::ExtensionManifest.json 'version' key does not exist" && exit 1
-            git cat-file -p HEAD:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+" || echo "::error::.csproj project file 'version' key does not exist" && exit 1
+            result=0
+          
+            # Manifest check
+            manifest_version=$(git cat-file -p HEAD:ExtensionManifest.json | jq '[.version][0]')
+            if [ -z manifest_version ]; then 
+              echo "::error::ExtensionManifest.json 'version' key does not exist"
+              result=1
+            fi
+            
+            # csproj check
+            csproj_version=$(git cat-file -p HEAD:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+")
+            if [ -z csproj_version ]; then
+              echo "::error::csproj file 'version' key does not exist"
+              result=1
+            fi
+            
+            if [ $result -ne 0 ]; then
+              exit 1
+            fi
           fi
           cd ../..
           
