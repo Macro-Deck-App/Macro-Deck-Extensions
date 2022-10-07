@@ -32,6 +32,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with: 
+          repository: Macro-Deck-org/Macro-Deck-Extensions
       
       - name: Get Output Path
         id: ext_type_check
