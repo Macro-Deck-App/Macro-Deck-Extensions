@@ -68,7 +68,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Update ${{ inputs.ext_type }} - ${{ inputs.package_id }}
-          title: '[${{ inputs.ext_type }} Update] ${{ inputs.package_id }}'
+          title: '[${{ inputs.ext_type }} Update] ${{ inputs.package_id }} => ${{ inputs.commit_ref }}'
           body: |
             ## ${{ inputs.ext_type }} Update
             
