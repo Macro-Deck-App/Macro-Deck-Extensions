@@ -65,9 +65,11 @@ jobs:
           
       - name: Sanity Check
         run: |
+          cd "./${{ env.output_path }}/${{ inputs.package_id }}"
           git diff
           git diff "./${{ env.output_path }}/${{ inputs.package_id }}/ExtensionManifest.json" | grep "version" || echo "::error::ExtensionManifest.json 'version' key was not updated" && exit 1
           git diff "./${{ env.output_path }}/${{ inputs.package_id }}/*.csproj" | grep "<Version>" || echo "::error::C# project file 'version' key was not updated" && exit 1
+          cd ../..
           
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
