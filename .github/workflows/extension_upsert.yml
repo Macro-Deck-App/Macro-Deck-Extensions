@@ -81,8 +81,8 @@ jobs:
             fi
 
             # csproj check
-            old_version=$(git cat-file -p ${{ env.current_hash }}:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+"
-            new_version=$(git cat-file -p HEAD:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+"
+            old_version=$(git cat-file -p ${{ env.current_hash }}:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+")
+            new_version=$(git cat-file -p HEAD:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+")
             if [ $old_version == $new_version ]; then
               echo "::error::csproj file 'version' node was not updated"
               result=1
