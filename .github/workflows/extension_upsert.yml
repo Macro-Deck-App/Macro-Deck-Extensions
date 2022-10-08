@@ -3,18 +3,8 @@ name: Add/Update Extension
 on:
   workflow_dispatch:
     inputs:
-      ext_type:
-        required: true
-        type: choice
-        options:
-        - 'Plugin'
-        - 'Icon Pack'
       github_http_url:
         description: 'GitHub Repo HTTP URL'
-        required: true
-        type: string
-      package_id:
-        description: 'Package ID'
         required: true
         type: string
       commit_ref:
@@ -33,10 +23,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
+      - name: Get manifest details
+        run: |
+          mkdir temp
+          cd temp
+          git clone "${{ inputs.github_http_url }}" .
+          git checkout "${{ inputs.commit_ref }}"
+          ext_type=$(git cat-file -p HEAD:ExtensionManifest.json | jq -r '[.type][0]')
+          package_id=$(git cat-file -p HEAD:ExtensionManifest.json | jq -r '[.packageId][0]')
+          if [ $ext_type != "Plugin" ]; then ext_type='IconPack'; fi
+          echo "ext_type=$ext_type" >> $GITHUB_ENV
+          echo "package_id=$package_id" >> $GITHUB_ENV
+          cd ..
+      
       - name: Get Output Path
         id: ext_type_check
         run: |
-          if [ ${{ inputs.ext_type }} = 'Plugin' ]; then 
+          if [ ${{ env.ext_type }} = 'Plugin' ]; then 
             echo 'output_path=Plugins' >> $GITHUB_ENV
           else
             echo 'output_path=IconPacks' >> $GITHUB_ENV
@@ -53,22 +56,24 @@ jobs:
       - name: Add Submodule (If Needed)
         id: add_submodule
         run: | 
-          if [ ! -d "./${{ env.output_path }}/${{ inputs.package_id }}" ]; then
-            git submodule add "${{ inputs.github_http_url }}" "./${{ env.output_path }}/${{ inputs.package_id }}"
+          if [ ! -d "./${{ env.output_path }}/${{ env.package_id }}" ]; then
+            git submodule add "${{ inputs.github_http_url }}" "./${{ env.output_path }}/${{ env.package_id }}"
           else
-            git --git-dir "./${{ env.output_path }}/${{ inputs.package_id }}/.git" rev-parse HEAD | echo "current_hash=$(</dev/stdin)" >> $GITHUB_ENV
+            git --git-dir "./${{ env.output_path }}/${{ env.package_id }}/.git" rev-parse HEAD | echo "current_hash=$(</dev/stdin)" >> $GITHUB_ENV
           fi
           
       - name: Update Submodule
         run: |
-          cd "./${{ env.output_path }}/${{ inputs.package_id }}"
+          cd "./${{ env.output_path }}/${{ env.package_id }}"
+          git gc --prune=now
+          git remote prune origin
           git fetch origin "${{ inputs.commit_ref }}":"${{ inputs.commit_ref }}"
           git checkout "${{ inputs.commit_ref }}"
           cd ../..
           
       - name: Sanity Check
         run: |
-          cd "./${{ env.output_path }}/${{ inputs.package_id }}"
+          cd "./${{ env.output_path }}/${{ env.package_id }}"
           if [ ! -z "${{ env.current_hash }}" ]; then
             result=0
             
@@ -80,7 +85,7 @@ jobs:
               result=1
             fi
 
-            if [ ${{ inputs.ext_type }} = 'Plugin' ]; then 
+            if [ ${{ env.ext_type }} = 'Plugin' ]; then 
               # csproj check
               old_csproj_version=$(git cat-file -p ${{ env.current_hash }}:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+")
               new_csproj_version=$(git cat-file -p HEAD:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+")
@@ -109,7 +114,7 @@ jobs:
               result=1
             fi
             
-            if [ ${{ inputs.ext_type }} = 'Plugin' ]; then 
+            if [ ${{ env.ext_type }} = 'Plugin' ]; then 
               # csproj check
               csproj_version="$(git cat-file -p HEAD:$(ls *.csproj | head -n 1) | grep -oPm1 "(?<=<Version>)[^<]+")"
               if [ -z csproj_version ]; then
@@ -134,10 +139,10 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Update ${{ inputs.ext_type }} - ${{ inputs.package_id }}
-          title: '[${{ inputs.ext_type }} Update] ${{ inputs.package_id }} => ${{ inputs.commit_ref }}'
+          commit-message: Update ${{ env.ext_type }} - ${{ env.package_id }}
+          title: '[${{ env.ext_type }} Update] ${{ env.package_id }} => ${{ inputs.commit_ref }}'
           body: |
-            ## ${{ inputs.ext_type }} Update
+            ## ${{ env.ext_type }} Update
             
             <table>
               <tr>
@@ -150,12 +155,12 @@ jobs:
               </tr>
               <tr>
                 <td><b>Package ID</b></td>
-                <td>${{ inputs.package_id }}</td>
+                <td>${{ env.package_id }}</td>
               </tr>
               <tr>
                 <td><b>Commit Ref</b></td>
                 <td>${{ inputs.commit_ref }}</td>
               </tr>
             </table>
-          branch: feature/update-${{ inputs.package_id }}
+          branch: feature/update-${{ env.package_id }}
           delete-branch: true
