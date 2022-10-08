@@ -91,6 +91,3 @@
 [submodule "Plugins/RecklessBoon.MacroDeck.StreamlabsOBSPlugin"]
 	path = Plugins/RecklessBoon.MacroDeck.StreamlabsOBSPlugin
 	url = https://github.com/RecklessBoon/Macro-Deck-Streamlabs-OBS-Plugin.git
-[submodule "Plugins/Daveleon64.SpotifyPlugin"]
-	path = Plugins/Daveleon64.SpotifyPlugin
-	url = https://github.com/Develeon64/Macro-Deck-Spotify-Plugin
