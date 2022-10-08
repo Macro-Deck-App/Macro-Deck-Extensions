@@ -3,18 +3,8 @@ name: Add/Update Extension
 on:
   workflow_dispatch:
     inputs:
-      ext_type:
-        required: true
-        type: choice
-        options:
-        - 'Plugin'
-        - 'Icon Pack'
       github_http_url:
         description: 'GitHub Repo HTTP URL'
-        required: true
-        type: string
-      package_id:
-        description: 'Package ID'
         required: true
         type: string
       commit_ref:
@@ -32,6 +22,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      
+      - name: Get manifest details
+        run: |
+          mkdir temp
+          cd temp
+          git clone "${{ inputs.github_http_url }}" .
+          git checkout "${{ inputs.commit_ref }}"
+          ext_type=$(git cat-file -p HEAD:ExtensionManifest.json | jq -r '[.type][0]')
+          package_id=$(git cat-file -p HEAD:ExtensionManifest.json | jq -r '[.packageId][0]')
+          if [ $ext_type != "Plugin" ]; then ext_type='IconPack'; fi
+          echo 'ext_type=$ext_type' >> $GITHUB_ENV
+          echo 'package_id=$package_id' >> $GITHUB_ENV
+          cd ..
       
       - name: Get Output Path
         id: ext_type_check
