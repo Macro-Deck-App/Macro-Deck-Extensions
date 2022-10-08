@@ -25,7 +25,7 @@ jobs:
       
       - name: Get manifest details
         run: |
-          mkdir temp
+          if [ ! -d temp ]; then mkdir temp; fi
           cd temp
           git clone "${{ inputs.github_http_url }}" .
           git checkout "${{ inputs.commit_ref }}"
