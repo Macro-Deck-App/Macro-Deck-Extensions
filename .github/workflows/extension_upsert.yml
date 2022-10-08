@@ -39,7 +39,7 @@ jobs:
       - name: Get Output Path
         id: ext_type_check
         run: |
-          if [ ${{ evn.ext_type }} = 'Plugin' ]; then 
+          if [ ${{ env.ext_type }} = 'Plugin' ]; then 
             echo 'output_path=Plugins' >> $GITHUB_ENV
           else
             echo 'output_path=IconPacks' >> $GITHUB_ENV
