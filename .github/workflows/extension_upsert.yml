@@ -25,8 +25,9 @@ jobs:
       
       - name: Get manifest details
         run: |
-          if [ ! -d /temp ]; then mkdir /temp; fi
-          cd /temp
+          rm -rf ../temp
+          mkdir ../temp
+          cd ../temp
           git clone "${{ inputs.github_http_url }}" .
           git checkout "${{ inputs.commit_ref }}"
           ext_type=$(git cat-file -p HEAD:ExtensionManifest.json | jq -r '[.type][0]')
@@ -34,7 +35,7 @@ jobs:
           if [ $ext_type != "Plugin" ]; then ext_type='IconPack'; fi
           echo "ext_type=$ext_type" >> $GITHUB_ENV
           echo "package_id=$package_id" >> $GITHUB_ENV
-          cd ..
+          cd ${{ github.workspace }}
       
       - name: Get Output Path
         id: ext_type_check
