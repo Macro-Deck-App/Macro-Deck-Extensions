@@ -47,7 +47,10 @@ jobs:
           fi
       
       - name: Clean branch
-        run: bin/clean_working_tree.sh
+        shell: bash
+        run: | 
+          chmod +x ./bin/clean_working_tree.sh
+          ./bin/clean_working_tree.sh
           
       - name: Add Submodule (If Needed)
         id: add_submodule
@@ -68,7 +71,10 @@ jobs:
           cd ../..
           
       - name: Sanity Check
-        run: bin/sanity_check.sh
+        shell: bash
+        run: | 
+          chmod +x ./bin/sanity_check.sh
+          ./bin/sanity_check.sh
           
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
