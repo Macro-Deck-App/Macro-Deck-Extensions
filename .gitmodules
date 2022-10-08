@@ -91,6 +91,9 @@
 [submodule "Plugins/RecklessBoon.MacroDeck.StreamlabsOBSPlugin"]
 	path = Plugins/RecklessBoon.MacroDeck.StreamlabsOBSPlugin
 	url = https://github.com/RecklessBoon/Macro-Deck-Streamlabs-OBS-Plugin.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Coding"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Coding
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Coding.git
 [submodule "IconPacks/RecklessBoon.PoweredSteel.Arrows"]
 	path = IconPacks/RecklessBoon.PoweredSteel.Arrows
 	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Arrows.git
