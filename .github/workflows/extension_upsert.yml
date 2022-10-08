@@ -32,8 +32,8 @@ jobs:
           ext_type=$(git cat-file -p HEAD:ExtensionManifest.json | jq -r '[.type][0]')
           package_id=$(git cat-file -p HEAD:ExtensionManifest.json | jq -r '[.packageId][0]')
           if [ $ext_type != "Plugin" ]; then ext_type='IconPack'; fi
-          echo 'ext_type=$ext_type' >> $GITHUB_ENV
-          echo 'package_id=$package_id' >> $GITHUB_ENV
+          echo "ext_type=$ext_type" >> $GITHUB_ENV
+          echo "package_id=$package_id" >> $GITHUB_ENV
           cd ..
       
       - name: Get Output Path
