@@ -94,3 +94,18 @@
 [submodule "IconPacks/RecklessBoon.PoweredSteel.Files"]
 	path = IconPacks/RecklessBoon.PoweredSteel.Files
 	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Files.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Communication"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Communication
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Communication.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Editing"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Editing
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Editing.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Connectivity"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Connectivity
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Connectivity.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Coding"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Coding
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Coding.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Arrows"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Arrows
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Arrows.git
