@@ -69,7 +69,7 @@ jobs:
           git branch -D ${{ inputs.commit_ref }} || true
           git tag -d ${{ inputs.commit_ref }} || true
           git fetch origin "${{ inputs.commit_ref }}":"${{ inputs.commit_ref }}"
-          git checkout "${{ inputs.commit_ref }}"
+          git checkout FETCH_HEAD
           cd ../..
           
       - name: Sanity Check
