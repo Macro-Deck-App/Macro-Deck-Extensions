@@ -3,8 +3,11 @@
 ### Description (Only required for new plugins)
 <!--- Describe what your Extension does -->
 
-### How Has This Been Tested? (Only required for plugins)
-<!--- Please describe in detail how you tested your changes, along with the OS(s) you tested with. -->
+### On which Macro Deck Version has this been tested/created?
+<!--- On which version of Macro Deck have you created and tested this extension? -->
+
+### How has this been tested? (Only required for plugins)
+<!--- Please describe in detail how you tested your changes -->
 
 ### Checklist:
 <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
