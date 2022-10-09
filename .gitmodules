@@ -136,3 +136,6 @@
 [submodule "IconPacks/RecklessBoon.PoweredSteel.Arrows"]
 	path = IconPacks/RecklessBoon.PoweredSteel.Arrows
 	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Arrows.git
+[submodule "Plugins/Sulbon.UDPCallUnity"]
+	path = Plugins/Sulbon.UDPCallUnity
+	url = https://github.com/sulbon/Macro-Deck-Unity-Plugin
