@@ -91,3 +91,48 @@
 [submodule "Plugins/RecklessBoon.MacroDeck.StreamlabsOBSPlugin"]
 	path = Plugins/RecklessBoon.MacroDeck.StreamlabsOBSPlugin
 	url = https://github.com/RecklessBoon/Macro-Deck-Streamlabs-OBS-Plugin.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Toggle"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Toggle
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Toggle.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Design"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Design
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Design.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Writing"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Writing
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Writing.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Social"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Social
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Social.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.MediaPlayback"]
+	path = IconPacks/RecklessBoon.PoweredSteel.MediaPlayback
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Media-Playback.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.MusicAudio"]
+	path = IconPacks/RecklessBoon.PoweredSteel.MusicAudio
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Music-Audio.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Gaming"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Gaming
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Gaming.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.DevicesHardware"]
+	path = IconPacks/RecklessBoon.PoweredSteel.DevicesHardware
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Devices-Hardware.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.FilmVideo"]
+	path = IconPacks/RecklessBoon.PoweredSteel.FilmVideo
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Film-Video.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Files"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Files
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Files.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Communication"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Communication
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Communication.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Editing"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Editing
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Editing.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Connectivity"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Connectivity
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Connectivity.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Coding"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Coding
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Coding.git
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Arrows"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Arrows
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Arrows.git
