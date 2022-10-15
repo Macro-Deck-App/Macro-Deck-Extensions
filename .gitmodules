@@ -139,3 +139,6 @@
 [submodule "Plugins/Sulbon.UDPCallUnity"]
 	path = Plugins/Sulbon.UDPCallUnity
 	url = https://github.com/sulbon/Macro-Deck-Unity-Plugin
+[submodule "IconPacks/RecklessBoon.PoweredSteel.Security"]
+	path = IconPacks/RecklessBoon.PoweredSteel.Security
+	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Security
