@@ -142,3 +142,21 @@
 [submodule "IconPacks/RecklessBoon.PoweredSteel.Security"]
 	path = IconPacks/RecklessBoon.PoweredSteel.Security
 	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Security
+[submodule "IconPacks/Pukima.Overwatch.HeroIcons"]
+	path = IconPacks/Pukima.Overwatch.HeroIcons
+	url = https://github.com/Pukima-MacroDeck/Icons-Overwatch-HeroIcons
+[submodule "IconPacks/Pukima.Overwatch.HeroIllustrations"]
+	path = IconPacks/Pukima.Overwatch.HeroIllustrations
+	url = https://github.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations
+[submodule "IconPacks/Pukima.Overwatch.Sprays"]
+	path = IconPacks/Pukima.Overwatch.Sprays
+	url = https://github.com/Pukima-MacroDeck/Icons-Overwatch-Sprays
+[submodule "IconPacks/Pukima.Overwatch.Abilities"]
+	path = IconPacks/Pukima.Overwatch.Abilities
+	url = https://github.com/Pukima-MacroDeck/Icons-Overwatch-Abilities
+[submodule "IconPacks/Pukima.Overwatch.Other"]
+	path = IconPacks/Pukima.Overwatch.Other
+	url = https://github.com/Pukima-MacroDeck/Icons-Overwatch-Other
+[submodule "IconPacks/Pukima.Overwatch.HeroPortraits"]
+	path = IconPacks/Pukima.Overwatch.HeroPortraits
+	url = https://github.com/Pukima-MacroDeck/Icons-Overwatch-HeroPortraits
