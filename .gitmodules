@@ -145,3 +145,9 @@
 [submodule "IconPacks/Pukima.Overwatch.Abilities"]
 	path = IconPacks/Pukima.Overwatch.Abilities
 	url = https://github.com/Pukima-MacroDeck/Icons-Overwatch-Abilities
+[submodule "IconPacks/Pukima.Overwatch.Other"]
+	path = IconPacks/Pukima.Overwatch.Other
+	url = https://github.com/Pukima-MacroDeck/Icons-Overwatch-Other
+[submodule "IconPacks/Pukima.Overwatch.HeroPortraits"]
+	path = IconPacks/Pukima.Overwatch.HeroPortraits
+	url = https://github.com/Pukima-MacroDeck/Icons-Overwatch-HeroPortraits
