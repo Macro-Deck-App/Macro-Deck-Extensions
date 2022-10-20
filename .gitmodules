@@ -142,3 +142,6 @@
 [submodule "IconPacks/RecklessBoon.PoweredSteel.Security"]
 	path = IconPacks/RecklessBoon.PoweredSteel.Security
 	url = https://github.com/RecklessBoon/Macro-Deck-Icon-Powered-Steel-Security
+[submodule "IconPacks/Pukima.Overwatch.HeroPortraits"]
+	path = IconPacks/Pukima.Overwatch.HeroPortraits
+	url = https://github.com/Pukima-MacroDeck/Icons-Overwatch-HeroPortraits
