@@ -21,7 +21,7 @@ jobs:
     - id: matrix
       run: git submodule --quiet foreach 'echo `git remote get-url origin | sed "s/https:\/\/github\.com\///" | sed "s/\.git//"` $sha1' | awk 'NR > 1 {printf(",")} {printf("{\"repository\":\"%s\",\"ref\":\"%s\"}", $1, $2)}' | cat <(echo -n "value=[") - <(echo -n "]") >> $GITHUB_OUTPUT
     - name: Check matrix value
-      run: echo ${{ steps.matrix.outputs.value
+      run: echo ${{ steps.matrix.outputs.value }}
 
   build:
     needs: [ setup ]
