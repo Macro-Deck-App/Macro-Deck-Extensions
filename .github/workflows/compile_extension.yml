@@ -1,28 +1,33 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: Build Extensions
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
-  build:
-
+  setup:
     runs-on: ubuntu-latest
-
+    outputs:
+      matrix: ${{ steps.matrix.outputs.value }}
+    
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+    - id: matrix
+      run: git submodule --quiet foreach 'echo `git remote get-url origin | sed "s/https:\/\/github\.com\///" | sed "s/\.git//"` $sha1' | awk 'NR > 1 {printf(",")} {printf("{\"repository\":\"%s\",\"ref\":\"%s\"}", $1, $2)}' | cat <(echo -n "value=[") - <(echo -n "]") >> $GITHUB_OUTPUT
+
+  build:
+    needs: [ setup ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        value: ${{fromJson(needs.setup.outputs.matrix)}}
+        
+    steps:
+    - name: Build Extension
+      uses: RecklessBoon/Macro-Deck-Extension-Build-Action@main
       with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+        upsert-release: 'false'
+        ext-repo: ${{ matrix.repo }}
+        ext-ref: ${{ matrix.ref }}
