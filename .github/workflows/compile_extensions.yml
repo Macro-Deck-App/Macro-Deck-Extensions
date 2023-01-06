@@ -35,5 +35,5 @@ jobs:
       uses: RecklessBoon/Macro-Deck-Extension-Build-Action@main
       with:
         upsert-release: 'false'
-        ext-repo: ${{ matrix.repo }}
-        ext-ref: ${{ matrix.ref }}
+        ext-repo: ${{ matrix.value.repository }}
+        ext-ref: ${{ matrix.value.ref }}
