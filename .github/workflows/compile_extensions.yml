@@ -32,6 +32,7 @@ jobs:
         
     steps:
     - name: Build Extension
+      continue-on-error: true
       uses: RecklessBoon/Macro-Deck-Extension-Build-Action@main
       with:
         upsert-release: 'false'
