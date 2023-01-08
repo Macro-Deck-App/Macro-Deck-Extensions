@@ -26,15 +26,27 @@ jobs:
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
+    outputs:
+      artifact-names: ${{ steps.build_extension.outputs.artifact-name }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         value: ${{fromJson(needs.setup.outputs.matrix)}}
         
     steps:
     - name: Build Extension
+      id: build_extension
       uses: RecklessBoon/Macro-Deck-Extension-Build-Action@main
       with:
         upsert-release: false
         ext-repo: ${{ matrix.value.repository }}
         ext-ref: ${{ matrix.value.ref }}
+
+  post-process:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Show artifact output
+      shell: bash
+      run: echo "${{ needs.build.outputs.artifact-names }}"
