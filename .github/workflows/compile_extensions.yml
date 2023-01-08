@@ -71,4 +71,4 @@ jobs:
     
     - name: Show artifact output
       shell: bash
-      run: echo "Artifact name = ${{ fromJson(steps.artifact-names.outputs.result) }}"
+      run: echo "Artifact name = ${{ fromJson(steps.artifact-names.outputs.result)[matrix.value.respository] }}"
