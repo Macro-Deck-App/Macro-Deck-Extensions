@@ -27,14 +27,14 @@ jobs:
     needs: [ setup ]
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         value: ${{fromJson(needs.setup.outputs.matrix)}}
         
     steps:
     - name: Build Extension
-      continue-on-error: true
       uses: RecklessBoon/Macro-Deck-Extension-Build-Action@main
       with:
-        upsert-release: 'false'
+        upsert-release: false
         ext-repo: ${{ matrix.value.repository }}
         ext-ref: ${{ matrix.value.ref }}
