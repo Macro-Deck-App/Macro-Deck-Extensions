@@ -27,7 +27,7 @@ jobs:
     needs: [ setup ]
     runs-on: ubuntu-latest
     outputs:
-      artifact-names: ${{ steps.build_extension.outputs.artifact-name }}
+      artifact-names: ${{ env.artifact-names }}
     strategy:
       fail-fast: true
       matrix:
@@ -42,6 +42,9 @@ jobs:
         upsert-release: false
         ext-repo: ${{ matrix.value.repository }}
         ext-ref: ${{ matrix.value.ref }}
+        
+    - name: Combine artifact name
+      run: echo "artifact-names=${{ env.artifact-names }},${{ steps.build_extension.outputs.artifact-name }}" >> $GITHUB_ENV
 
   post-process:
     needs: [ build ]
