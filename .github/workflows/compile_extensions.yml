@@ -43,14 +43,34 @@ jobs:
         ext-repo: ${{ matrix.value.repository }}
         ext-ref: ${{ matrix.value.ref }}
         
-    - name: Combine artifact name
-      run: echo "artifact-names=${{ env.artifact-names }},${{ steps.build_extension.outputs.artifact-name }}" >> $GITHUB_ENV
-
+    - name: Matrix outputs - write
+      uses: cloudposse/github-action-matrix-outputs-write@452cd7eaf9068d160987d0ca0a06895fecb40bd8
+      with:
+        # Matrix step name
+        matrix-step-name: build
+        # Matrix key
+        matrix-key: ${{ matrix.value.repository }}
+        # YAML structured map of outputs
+        outputs: |-
+          artifact-name: ${{ steps.build_extension.outputs.artifact-name }}
+    
   post-process:
-    needs: [ build ]
+    needs: [ setup, build ]
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        value: ${{fromJson(needs.setup.outputs.matrix)}}
     
     steps:
+    - name: Matrix outputs - read
+      id: artifact-names
+      # You may pin to the exact commit or the version.
+      uses: cloudposse/github-action-matrix-outputs-read@ea1c28d66c34b8400391ed74d510f66abc392d5e
+      with:
+        # Matrix step name
+        matrix-step-name: build
+    
     - name: Show artifact output
       shell: bash
-      run: echo "${{ needs.build.outputs.artifact-names }}"
+      run: echo "Artifact name = ${{ steps.artifact-names.outputs.result[matrix..value.repository] }}"
