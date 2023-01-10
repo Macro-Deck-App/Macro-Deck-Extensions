@@ -163,3 +163,6 @@
 [submodule "IconPacks/Pukima.Overwatch.PlayerIcons"]
 	path = IconPacks/Pukima.Overwatch.PlayerIcons
 	url = https://github.com/Pukima-MacroDeck/Icons-Overwatch-PlayerIcons
+[submodule "Plugins/jbcarreon123.WebNowPlayingPlugin"]
+	path = Plugins/jbcarreon123.WebNowPlayingPlugin
+	url = https://github.com/jbcarreon123/MacroDeck2-WebNowPlayingPlugin
