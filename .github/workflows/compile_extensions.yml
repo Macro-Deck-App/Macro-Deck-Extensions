@@ -40,6 +40,9 @@ jobs:
         upsert-release: false
         ext-repo: ${{ matrix.value.repository }}
         ext-ref: ${{ matrix.value.ref }}
+
+    - name: Init Submodules
+      run: git submodule update --init --recursive ${{ matrix.value.path }}
         
     - name: Extract Extension Info
       id: extension_info
