@@ -81,7 +81,7 @@ jobs:
     - name: Check if new
       id: check-if-new
       run:  |
-        http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' 'https://extensionstore.api.macro-deck.app/Extensions/${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && '' || 'Icon/' }}${{ matrix.value.EXT_PACKAGE_ID }}')
+        http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' 'https://extensionstore.api.macro-deck.app/Extensions${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && '' || '/Icon' }}/${{ matrix.value.EXT_PACKAGE_ID }}')
         is_new=0
         if [ $(($http_code)) -eq 200 ]; then
           is_new=1
