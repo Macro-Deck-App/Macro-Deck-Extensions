@@ -19,7 +19,7 @@ jobs:
     - name: Init Submodules
       run: git submodule update --init --recursive
     - id: matrix
-      run: git submodule --quiet foreach 'echo `git remote get-url origin | sed "s/https:\/\/github\.com\///" | sed "s/\.git//"` $sha1' | awk 'NR > 1 {printf(",")} {printf("{\"repository\":\"%s\",\"ref\":\"%s\"}", $1, $2)}' | cat <(echo -n "value=[") - <(echo -n "]") >> $GITHUB_OUTPUT
+      run: git submodule --quiet foreach 'echo `git remote get-url origin | sed "s/https:\/\/github\.com\///" | sed "s/\.git//"` $sha1 $displaypath' | awk 'NR > 1 {printf(",")} {printf("{\"repository\":\"%s\",\"ref\":\"%s\",\"path\":\"%s\"}", $1, $2, $3)}' | cat <(echo -n "value=[") - <(echo -n "]") >> $GITHUB_OUTPUT
     - name: Check matrix value
       run: echo "${{ steps.matrix.outputs.value }}"
 
@@ -40,11 +40,20 @@ jobs:
         upsert-release: false
         ext-repo: ${{ matrix.value.repository }}
         ext-ref: ${{ matrix.value.ref }}
+        
+    - name: Extract Extension Info
+      id: extension_info
+      run: |
+        echo "EXT_VERSION=$(jq --raw-output '."version"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
+        echo "EXT_TYPE=$(jq --raw-output '."type"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
+        echo "EXT_PACKAGE_ID=$(jq --raw-output '."packageId"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
+        echo "EXT_TARGET_API_VERSION=$(jq '."target-plugin-api-version"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
   
     - name: Check if new
       id: check-if-new
+      if: steps.extension_info.outputs.EXT_TYPE == 'Plugin'
       run:  |
-        http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' 'https://extensionstore.api.macro-deck.app/Extensions/RecklessBoon.MacroDeck.Discord')
+        http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' 'https://extensionstore.api.macro-deck.app/Extensions/${{ matrix.value.EXT_PACKAGE_ID }}')
         is_new=0
         if [ $(($http_code)) -eq 200 ]; then
           is_new=1
