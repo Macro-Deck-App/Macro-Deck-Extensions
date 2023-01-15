@@ -50,16 +50,38 @@ jobs:
     - name: Extract Extension Info
       id: extension_info
       run: |
-        echo "EXT_VERSION=$(jq --raw-output '."version"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
         echo "EXT_TYPE=$(jq --raw-output '."type"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
+        echo "EXT_NAME=$(jq --raw-output '."name"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
+        echo "EXT_AUTHOR=$(jq --raw-output '."author"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
+        echo "EXT_REPO=$(jq --raw-output '."repository"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
         echo "EXT_PACKAGE_ID=$(jq --raw-output '."packageId"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
-        echo "EXT_TARGET_API_VERSION=$(jq '."target-plugin-api-version"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
+        echo "EXT_VERSION=$(jq --raw-output '."version"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
+        echo "EXT_D_SUPPORT_USER_ID=$(jq '."dSupportUserId"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
+  
+    - name: Validate Extension Info
+      if: |
+        steps.extension_info.outputs.EXT_TYPE == '' || 
+        steps.extension_info.outputs.EXT_NAME == '' || 
+        steps.extension_info.outputs.EXT_AUTHOR == '' || 
+        steps.extension_info.outputs.EXT_REPO == '' || 
+        steps.extension_info.outputs.EXT_PACKAGE_ID == '' || 
+        steps.extension_info.outputs.EXT_VERSION == ''
+      shell: bash
+      run: |
+        echo "::error file=ExtensionManifest.json::Invalid manifest! Required attributes [version, type, packageId, target-plugin-api-version]"
+        echo "[Extension Info Values]"
+        echo "Type                     : ${{ steps.extension_info.outputs.EXT_TYPE }}"
+        echo "Name                     : ${{ steps.extension_info.outputs.EXT_NAME }}"
+        echo "Author                   : ${{ steps.extension_info.outputs.EXT_AUTHOR }}"
+        echo "GitHub Repository        : ${{ steps.extension_info.outputs.EXT_REPO }}"
+        echo "Package ID               : ${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}"
+        echo "Version                  : ${{ steps.extension_info.outputs.EXT_VERSION }}"
+        exit 1
   
     - name: Check if new
       id: check-if-new
-      if: steps.extension_info.outputs.EXT_TYPE == 'Plugin'
       run:  |
-        http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' 'https://extensionstore.api.macro-deck.app/Extensions/${{ matrix.value.EXT_PACKAGE_ID }}')
+        http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' 'https://extensionstore.api.macro-deck.app/Extensions/${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && '' || 'Icon/' }}${{ matrix.value.EXT_PACKAGE_ID }}')
         is_new=0
         if [ $(($http_code)) -eq 200 ]; then
           is_new=1
@@ -68,5 +90,18 @@ jobs:
         
     - name: Create new Extension
       if: steps.check-if-new.outputs.is_new == '1'
-      run: echo "Need to create the extension"
-      
+      run: |
+        curl -X 'POST' \
+        'https://extensionstore.api.macro-deck.app/Extensions' \
+        -H 'accept: */*' \
+        -H 'Authentication: Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}' \
+        -H 'Content-Type: application/json' \
+        -d '{
+          "packageId": "${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}",
+          "extensionType": ${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && 0 || 1 }},
+          "name": "${{ steps.extension_info.outputs.EXT_NAME }}",
+          "author": "${{ steps.extension_info.outputs.EXT_AUTHOR }}",
+          "gitHubRepository": "${{ steps.extension_info.outputs.EXT_REPO }}",
+          "dSupportUserId": "${{ steps.extension_info.outputs.EXT_SUPPORT_DISCORD_USER_ID }}",
+          "downloads": 0
+        }'
