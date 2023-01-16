@@ -102,7 +102,7 @@ jobs:
         -H 'Content-Type: application/json' \
         -d '{
           "packageId": "${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}",
-          "extensionType": ${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && 0 || 1 }},
+          "extensionType": ${{ steps.extension_info.outputs.EXT_TYPE != 'Plugin' && 1 || 0 }},
           "name": "${{ steps.extension_info.outputs.EXT_NAME }}",
           "author": "${{ steps.extension_info.outputs.EXT_AUTHOR }}",
           "gitHubRepository": "${{ steps.extension_info.outputs.EXT_REPO }}",
