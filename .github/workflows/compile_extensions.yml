@@ -99,7 +99,7 @@ jobs:
       run: |
         curl -X 'POST' \
         'https://extensionstore.api.macro-deck.app/Extensions' \
-        -H 'accept: */*' \
+        -H 'accept: application/json' \
         -H 'Authorization: Bearer $MACRO_DECK_API_TOKEN' \
         -H 'Content-Type: application/json' \
         -d '{
