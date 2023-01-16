@@ -67,7 +67,9 @@ jobs:
         steps.extension_info.outputs.EXT_PACKAGE_ID == '' || 
         steps.extension_info.outputs.EXT_VERSION == ''
       shell: bash
-      run: echo "::error file=ExtensionManifest.json::Invalid manifest! Required attributes [version, type, packageId, target-plugin-api-version]"
+      run: | 
+        echo "::error file=ExtensionManifest.json::Invalid manifest! Required attributes [version, type, packageId, target-plugin-api-version]"
+        exit 1
     
     - name: Debug Extension Info
       shell: bash
@@ -79,7 +81,6 @@ jobs:
         echo "GitHub Repository        : ${{ steps.extension_info.outputs.EXT_REPO }}"
         echo "Package ID               : ${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}"
         echo "Version                  : ${{ steps.extension_info.outputs.EXT_VERSION }}"
-        exit 1
   
     - name: Check if new
       id: check-if-new
