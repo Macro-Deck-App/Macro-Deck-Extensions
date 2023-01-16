@@ -94,11 +94,13 @@ jobs:
         
     - name: Create new Extension
       if: fromJSON(steps.check-if-new.outputs.is_new) == 1
+      env:
+        MACRO_DECK_API_TOKEN: ${{ secrets.MACRO_DECK_API_TOKEN }}
       run: |
         curl -X 'POST' \
         'https://extensionstore.api.macro-deck.app/Extensions' \
         -H 'accept: */*' \
-        -H 'Authentication: Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}' \
+        -H 'Authentication: Bearer $MACRO_DECK_API_TOKEN' \
         -H 'Content-Type: application/json' \
         -d '{
           "packageId": "${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}",
