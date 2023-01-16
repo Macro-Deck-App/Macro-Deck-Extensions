@@ -41,7 +41,6 @@ jobs:
       
     - name: Build Extension
       id: build_extension
-      continue-on-error: true
       uses: RecklessBoon/Macro-Deck-Extension-Build-Action@main
       with:
         upsert-release: false
@@ -68,8 +67,11 @@ jobs:
         steps.extension_info.outputs.EXT_PACKAGE_ID == '' || 
         steps.extension_info.outputs.EXT_VERSION == ''
       shell: bash
+      run: echo "::error file=ExtensionManifest.json::Invalid manifest! Required attributes [version, type, packageId, target-plugin-api-version]"
+    
+    - name: Debug Extension Info
+      shell: bash
       run: |
-        echo "::error file=ExtensionManifest.json::Invalid manifest! Required attributes [version, type, packageId, target-plugin-api-version]"
         echo "[Extension Info Values]"
         echo "Type                     : ${{ steps.extension_info.outputs.EXT_TYPE }}"
         echo "Name                     : ${{ steps.extension_info.outputs.EXT_NAME }}"
