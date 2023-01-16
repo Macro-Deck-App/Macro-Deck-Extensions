@@ -100,7 +100,7 @@ jobs:
         curl -X 'POST' \
         'https://extensionstore.api.macro-deck.app/Extensions' \
         -H 'accept: application/json' \
-        -H 'Authorization: Bearer $MACRO_DECK_API_TOKEN' \
+        -H 'Authentication: Bearer $MACRO_DECK_API_TOKEN' \
         -H 'Content-Type: application/json' \
         -d '{
           "packageId": "${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}",
