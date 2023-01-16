@@ -89,7 +89,7 @@ jobs:
         echo "is_new=$is_new" >> $GITHUB_OUTPUT
         
     - name: Create new Extension
-      if: steps.check-if-new.outputs.is_new == '1'
+      if: fromJSON(steps.check-if-new.outputs.is_new) == 1
       run: |
         curl -X 'POST' \
         'https://extensionstore.api.macro-deck.app/Extensions' \
