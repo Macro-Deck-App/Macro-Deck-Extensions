@@ -83,7 +83,7 @@ jobs:
       run:  |
         http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' 'https://extensionstore.api.macro-deck.app/Extensions${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && '' || '/Icon' }}/${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}')
         is_new=0
-        if [ $(($http_code)) -eq 200 ]; then
+        if [ $(($http_code)) -eq 404 ]; then
           is_new=1
         fi
         echo "is_new=$is_new" >> $GITHUB_OUTPUT
