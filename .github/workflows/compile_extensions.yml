@@ -111,3 +111,20 @@ jobs:
           "dSupportUserId": "${{ steps.extension_info.outputs.EXT_SUPPORT_DISCORD_USER_ID }}",
           "downloads": 0
         }'
+        
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v3.0.2
+      with:
+        # Artifact name
+        name: ${{ steps.build_extension.outputs.artifact-name }}
+    
+    - name: Upload built files
+      env:
+        MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
+      run: |
+        curl -X 'POST' \
+          'https://extensionstore.api.macro-deck.app/ExtensionsFiles/Upload' \
+          -H 'accept: */*' \
+          -H "Authorization: $MACRO_DECK_API_AUTH" \
+          -H 'Content-Type: multipart/form-data' \
+          -F 'file=@${{ steps.build_extension.outputs.artifact-name }};type=application/x-zip-compressed'
