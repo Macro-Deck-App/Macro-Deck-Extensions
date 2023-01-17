@@ -127,4 +127,4 @@ jobs:
           -H 'accept: */*' \
           -H "Authorization: $MACRO_DECK_API_AUTH" \
           -H 'Content-Type: multipart/form-data' \
-          -F 'file=@${{ steps.build_extension.outputs.artifact-name }};type=application/x-zip-compressed'
+          -F 'file=@${{ steps.build_extension.outputs.artifact-path }};type=application/x-zip-compressed'
