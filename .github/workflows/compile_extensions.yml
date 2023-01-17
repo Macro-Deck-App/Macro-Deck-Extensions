@@ -132,7 +132,7 @@ jobs:
         echo "response=$response" >> $GITHUB_OUTPUT
         
     - name: Check upload response
-      if: steps.upload-build-files.outputs.response != '' && fromJSON(steps.upload-build-files.outputs.response).type != ''
+      if: steps.upload-build-files.outputs.response != '' && fromJSON(steps.upload-build-files.outputs.response).status != ''
       run: |
         echo "::error ::Failed to upload files to build server. Resonse: ${{ steps.upload-build-files.outputs.response }}"
         exit 1
