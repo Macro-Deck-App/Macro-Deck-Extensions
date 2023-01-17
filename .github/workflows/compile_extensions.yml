@@ -26,9 +26,8 @@ jobs:
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         value: ${{fromJson(needs.setup.outputs.matrix)}}
         
@@ -119,12 +118,20 @@ jobs:
         name: ${{ steps.build_extension.outputs.artifact-name }}
     
     - name: Upload built files
+      id: upload-build-files
       env:
         MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
       run: |
-        curl -X 'POST' \
+        response=$(curl -X 'POST' \
           'https://extensionstore.api.macro-deck.app/ExtensionsFiles/Upload' \
           -H 'accept: */*' \
           -H "Authorization: $MACRO_DECK_API_AUTH" \
           -H 'Content-Type: multipart/form-data' \
-          -F 'file=@${{ steps.build_extension.outputs.artifact-path }};type=application/x-zip-compressed'
+          -F 'file=@${{ steps.build_extension.outputs.artifact-path }};type=application/x-zip-compressed')
+        echo "response=$response" >> $GITHUB_OUTPUT
+        
+    - name: Check upload response
+      if: fromJSON(steps.upload-build-files.outputs.response).type != ''
+      run: |
+        echo "::error ::Failed to upload files to build server. Resonse: ${{ steps.upload-build-files.outputs.response }}"
+        exit 1
