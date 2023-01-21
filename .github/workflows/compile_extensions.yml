@@ -132,14 +132,15 @@ jobs:
           -F 'file=@${{ steps.build_extension.outputs.artifact-path }};type=application/x-zip-compressed')
         response="$(cat './upload-build-files.${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}.log')"
         echo "Upload response code: $http_code"
+        echo -e "Response:\n$(cat './upload-build-files.${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}.log')"
         echo "http_code=$http_code" >> $GITHUB_OUTPUT
         echo "response=$response" >> $GITHUB_OUTPUT
         
     - name: Check upload response
       if: |
-        (steps.upload-build-files.outputs.http_code < 200 || 
-        steps.upload-build-files.outputs.http_code >= 300) &&
-        steps.upload-build-files.outputs.https_code != 409
+        (fromJSON(steps.upload-build-files.outputs.http_code) < 200 || 
+        fromJSON(steps.upload-build-files.outputs.http_code) >= 300) &&
+        fromJSON(steps.upload-build-files.outputs.https_code) != 409
       run: |
         echo "::error ::Failed to upload files to build server. HTTP Code: ${{ steps.upload-build-files.outputs.http_code }} Response: ${{ steps.upload-build-files.outputs.response }}"
         exit 1
