@@ -97,7 +97,7 @@ jobs:
         MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
       run: |
         curl -X 'POST' \
-        --fail
+        --fail \
         'https://extensionstore.api.macro-deck.app/Extensions' \
         -H 'accept: */*' \
         -H "Authorization: $MACRO_DECK_API_AUTH" \
