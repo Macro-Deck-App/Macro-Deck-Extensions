@@ -84,7 +84,7 @@ jobs:
     - name: Check if new
       id: check-if-new
       run:  |
-        http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' 'https://extensionstore.api.macro-deck.app/Extensions${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && '' || '/Icon' }}/${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}')
+        http_code=$(curl -X 'GET' --fail --silent --output /dev/null --write-out '%{http_code}' 'https://extensionstore.api.macro-deck.app/Extensions${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && '' || '/Icon' }}/${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}')
         is_new=0
         if [ $(($http_code)) -eq 404 ]; then
           is_new=1
@@ -97,6 +97,7 @@ jobs:
         MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
       run: |
         curl -X 'POST' \
+        --fail
         'https://extensionstore.api.macro-deck.app/Extensions' \
         -H 'accept: */*' \
         -H "Authorization: $MACRO_DECK_API_AUTH" \
@@ -122,17 +123,23 @@ jobs:
       env:
         MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
       run: |
-        response=$(curl -X 'POST' \
+        http_code=$(curl \
+          --fail --silent --output /dev/null --write-out %{http_code} \          
+          -X 'POST' \
           'https://extensionstore.api.macro-deck.app/ExtensionsFiles/Upload' \
           -H 'accept: */*' \
           -H "Authorization: $MACRO_DECK_API_AUTH" \
           -H 'Content-Type: multipart/form-data' \
           -F 'file=@${{ steps.build_extension.outputs.artifact-path }};type=application/x-zip-compressed')
-        echo "$response"
+        response=$?
+        echo "Upload response code: $http_code"
+        echo "http_code=$http_code" >> $GITHUB_OUTPUT
         echo "response=$response" >> $GITHUB_OUTPUT
         
     - name: Check upload response
-      if: steps.upload-build-files.outputs.response != '' && fromJSON(steps.upload-build-files.outputs.response).status != ''
+      if: |
+        steps.upload-build-files.outputs.http_code < 200 || 
+        steps.upload-build-files.outputs.http_code >= 300
       run: |
-        echo "::error ::Failed to upload files to build server. Resonse: ${{ steps.upload-build-files.outputs.response }}"
+        echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}"
         exit 1
