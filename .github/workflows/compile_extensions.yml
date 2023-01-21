@@ -140,5 +140,5 @@ jobs:
         steps.upload-build-files.outputs.http_code < 200 || 
         steps.upload-build-files.outputs.http_code >= 300
       run: |
-        echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}"
+        echo "::error ::Failed to upload files to build server. HTTP Code: ${{ steps.upload-build-files.outputs.http_code }} Response: ${{ steps.upload-build-files.outputs.response }}"
         exit 1
