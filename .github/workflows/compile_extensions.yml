@@ -124,7 +124,7 @@ jobs:
         MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
       run: |
         http_code=$(curl \
-          --silent --output /dev/null --write-out %{http_code} \          
+          --silent --output /dev/null --write-out '%{http_code}' \          
           -X 'POST' \
           'https://extensionstore.api.macro-deck.app/ExtensionsFiles/Upload' \
           -H 'accept: */*' \
