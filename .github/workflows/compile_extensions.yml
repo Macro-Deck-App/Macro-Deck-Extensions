@@ -56,7 +56,18 @@ jobs:
         echo "EXT_PACKAGE_ID=$(jq --raw-output '."packageId"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
         echo "EXT_VERSION=$(jq --raw-output '."version"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
         echo "EXT_D_SUPPORT_USER_ID=$(jq '."dSupportUserId"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
-  
+    
+    - name: Debug Extension Info
+      shell: bash
+      run: |
+        echo "[Extension Info Values]"
+        echo "Type                     : ${{ steps.extension_info.outputs.EXT_TYPE }}"
+        echo "Name                     : ${{ steps.extension_info.outputs.EXT_NAME }}"
+        echo "Author                   : ${{ steps.extension_info.outputs.EXT_AUTHOR }}"
+        echo "GitHub Repository        : ${{ steps.extension_info.outputs.EXT_REPO }}"
+        echo "Package ID               : ${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}"
+        echo "Version                  : ${{ steps.extension_info.outputs.EXT_VERSION }}"
+
     - name: Validate Extension Info
       if: |
         steps.extension_info.outputs.EXT_TYPE == '' || 
@@ -69,48 +80,16 @@ jobs:
       run: | 
         echo "::error file=ExtensionManifest.json::Invalid manifest! Required attributes [version, type, packageId, target-plugin-api-version]"
         exit 1
-    
-    - name: Debug Extension Info
-      shell: bash
-      run: |
-        echo "[Extension Info Values]"
-        echo "Type                     : ${{ steps.extension_info.outputs.EXT_TYPE }}"
-        echo "Name                     : ${{ steps.extension_info.outputs.EXT_NAME }}"
-        echo "Author                   : ${{ steps.extension_info.outputs.EXT_AUTHOR }}"
-        echo "GitHub Repository        : ${{ steps.extension_info.outputs.EXT_REPO }}"
-        echo "Package ID               : ${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}"
-        echo "Version                  : ${{ steps.extension_info.outputs.EXT_VERSION }}"
   
     - name: Check if new
       id: check-if-new
       run:  |
-        http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' 'https://extensionstore.api.macro-deck.app/Extensions${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && '' || '/Icon' }}/${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}')
+        http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' '${{ env.EXTENSION_STORE_API_URL }}/Extensions${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && '' || '/Icon' }}/${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}')
         is_new=0
         if [ $(($http_code)) -eq 404 ]; then
           is_new=1
         fi
         echo "is_new=$is_new" >> $GITHUB_OUTPUT
-        
-    - name: Create new Extension
-      if: fromJSON(steps.check-if-new.outputs.is_new) == 1
-      env:
-        MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
-      run: |
-        curl -X 'POST' \
-        --fail \
-        'https://extensionstore.api.macro-deck.app/Extensions' \
-        -H 'accept: */*' \
-        -H "Authorization: $MACRO_DECK_API_AUTH" \
-        -H 'Content-Type: application/json' \
-        -d '{
-          "packageId": "${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}",
-          "extensionType": ${{ steps.extension_info.outputs.EXT_TYPE != 'Plugin' && 1 || 0 }},
-          "name": "${{ steps.extension_info.outputs.EXT_NAME }}",
-          "author": "${{ steps.extension_info.outputs.EXT_AUTHOR }}",
-          "gitHubRepository": "${{ steps.extension_info.outputs.EXT_REPO }}",
-          "dSupportUserId": "${{ steps.extension_info.outputs.EXT_SUPPORT_DISCORD_USER_ID }}",
-          "downloads": 0
-        }'
         
     - name: Download a Build Artifact
       uses: actions/download-artifact@v3.0.2
@@ -123,24 +102,19 @@ jobs:
       env:
         MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
       run: |
-        http_code=$(curl -X POST \
-          --silent --output './upload-build-files.${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}.log' --write-out '%{http_code}' \
-          'https://extensionstore.api.macro-deck.app/ExtensionsFiles/Upload' \
+        response=$(curl -X POST \
+          '${{ env.EXTENSION_STORE_API_URL }}/ExtensionsFiles/Upload' \
           -H 'accept: */*' \
           -H "Authorization: $MACRO_DECK_API_AUTH" \
           -H 'Content-Type: multipart/form-data' \
           -F 'file=@${{ steps.build_extension.outputs.artifact-path }};type=application/x-zip-compressed')
-        response="$(cat './upload-build-files.${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}.log')"
-        echo "Upload response code: $http_code"
-        echo -e "Response:\n$(cat './upload-build-files.${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}.log')"
-        echo "http_code=$http_code" >> $GITHUB_OUTPUT
+        echo -e "Response:\n$response"
         echo "response=$response" >> $GITHUB_OUTPUT
         
     - name: Check upload response
       if: |
-        (fromJSON(steps.upload-build-files.outputs.http_code) < 200 || 
-        fromJSON(steps.upload-build-files.outputs.http_code) >= 300) &&
-        fromJSON(steps.upload-build-files.outputs.http_code) != 409
+        fromJSON(steps.upload-build-files.outputs.response).success == 'false' &&
+        fromJSON(steps.upload-build-files.outputs.response).errorCode != 4
       run: |
-        echo "::error ::Failed to upload files to build server. HTTP Code: ${{ steps.upload-build-files.outputs.http_code }} Response: ${{ steps.upload-build-files.outputs.response }}"
+        echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}"
         exit 1
