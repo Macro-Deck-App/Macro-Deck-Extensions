@@ -105,6 +105,7 @@ jobs:
       run: |
         response=$(curl -X POST \
           '${{ vars.EXTENSION_STORE_API_URL }}/ExtensionsFiles/Upload' \
+          --fail-with-body \ 
           -H 'accept: */*' \
           -H "Authorization: $MACRO_DECK_API_AUTH" \
           -H 'Content-Type: multipart/form-data' \
