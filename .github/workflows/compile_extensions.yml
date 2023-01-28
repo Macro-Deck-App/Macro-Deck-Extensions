@@ -85,7 +85,7 @@ jobs:
     - name: Check if new
       id: check-if-new
       run:  |
-        http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' '${EXTENSION_STORE_API_URL}/Extensions${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && '' || '/Icon' }}/${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}')
+        http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' '${{ vars.EXTENSION_STORE_API_URL }}/Extensions${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && '' || '/Icon' }}/${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}')
         is_new=0
         if [ $(($http_code)) -eq 404 ]; then
           is_new=1
@@ -104,7 +104,7 @@ jobs:
         MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
       run: |
         response=$(curl -X POST \
-          '${EXTENSION_STORE_API_URL}/ExtensionsFiles/Upload' \
+          '${{ vars.EXTENSION_STORE_API_URL }}/ExtensionsFiles/Upload' \
           -H 'accept: */*' \
           -H "Authorization: $MACRO_DECK_API_AUTH" \
           -H 'Content-Type: multipart/form-data' \
