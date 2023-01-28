@@ -81,16 +81,6 @@ jobs:
       run: | 
         echo "::error file=ExtensionManifest.json::Invalid manifest! Required attributes [version, type, packageId, target-plugin-api-version]"
         exit 1
-  
-    - name: Check if new
-      id: check-if-new
-      run:  |
-        http_code=$(curl -X 'GET' --silent --output /dev/null --write-out '%{http_code}' '${{ vars.EXTENSION_STORE_API_URL }}/extensions/${{ steps.extension_info.outputs.EXT_TYPE == 'Plugin' && '' || '/icon' }}/${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}')
-        is_new=0
-        if [ $(($http_code)) -eq 404 ]; then
-          is_new=1
-        fi
-        echo "is_new=$is_new" >> $GITHUB_OUTPUT
         
     - name: Download a Build Artifact
       uses: actions/download-artifact@v3.0.2
@@ -104,7 +94,7 @@ jobs:
         MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
       run: |
         response=$(curl --fail-with-body -X POST \
-          '${{ vars.EXTENSION_STORE_API_URL }}/extensiosn/files/Upload' \
+          '${{ vars.EXTENSION_STORE_API_URL }}/extensions/files/Upload' \
           -H 'accept: */*' \
           -H "Authorization: $MACRO_DECK_API_AUTH" \
           -H 'Content-Type: multipart/form-data' \
