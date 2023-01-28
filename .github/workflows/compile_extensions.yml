@@ -103,9 +103,8 @@ jobs:
       env:
         MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
       run: |
-        response=$(curl -X POST \
+        response=$(curl --fail-with-body -X POST \
           '${{ vars.EXTENSION_STORE_API_URL }}/ExtensionsFiles/Upload' \
-          --fail-with-body \ 
           -H 'accept: */*' \
           -H "Authorization: $MACRO_DECK_API_AUTH" \
           -H 'Content-Type: multipart/form-data' \
