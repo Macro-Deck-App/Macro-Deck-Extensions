@@ -50,19 +50,19 @@ jobs:
     - name: Extract Extension Info
       id: extension_info
       run: |
-        type=$(jq --raw-output '."type"' ./${{ matrix.value.path }}/ExtensionManifest.json)
+        type=$(cat ./${{ matrix.value.path }} | node -pe 'JSON.parse(fs.readFileSync(0)).type')
         if [ $type -eq 0 ]; then
           type="Plugin"
         elif [ $type -eq 1 ];then
           type="IconPack"
         fi
         echo "EXT_TYPE=$type" >> $GITHUB_OUTPUT
-        echo "EXT_NAME=$(jq --raw-output '."name"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
-        echo "EXT_AUTHOR=$(jq --raw-output '."author"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
-        echo "EXT_REPO=$(jq --raw-output '."repository"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
-        echo "EXT_PACKAGE_ID=$(jq --raw-output '."packageId"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
-        echo "EXT_VERSION=$(jq --raw-output '."version"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
-        echo "EXT_D_SUPPORT_USER_ID=$(jq '."dSupportUserId"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
+        echo "EXT_NAME=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(fs.readFileSync(0)).name')" >> $GITHUB_OUTPUT
+        echo "EXT_AUTHOR=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(fs.readFileSync(0)).author')" >> $GITHUB_OUTPUT
+        echo "EXT_REPO=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(fs.readFileSync(0)).repository')" >> $GITHUB_OUTPUT
+        echo "EXT_PACKAGE_ID=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(fs.readFileSync(0)).packageId')" >> $GITHUB_OUTPUT
+        echo "EXT_VERSION=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(fs.readFileSync(0)).version')" >> $GITHUB_OUTPUT
+        echo "EXT_D_SUPPORT_USER_ID=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(fs.readFileSync(0)).dSupportUserId')" >> $GITHUB_OUTPUT
     
     - name: Debug Extension Info
       shell: bash
