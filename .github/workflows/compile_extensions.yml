@@ -48,41 +48,31 @@ jobs:
         ext-ref: ${{ matrix.value.ref }}
         
     - name: Extract Extension Info
-      id: extension_info
-      run: |
-        type=$(cat ./${{ matrix.value.path }} | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).type')
-        if [ $type -eq 0 ]; then
-          type="Plugin"
-        elif [ $type -eq 1 ];then
-          type="IconPack"
-        fi
-        echo "EXT_TYPE=$type" >> $GITHUB_OUTPUT
-        echo "EXT_NAME=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).name')" >> $GITHUB_OUTPUT
-        echo "EXT_AUTHOR=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).author')" >> $GITHUB_OUTPUT
-        echo "EXT_REPO=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).repository')" >> $GITHUB_OUTPUT
-        echo "EXT_PACKAGE_ID=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).packageId')" >> $GITHUB_OUTPUT
-        echo "EXT_VERSION=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).version')" >> $GITHUB_OUTPUT
-        echo "EXT_D_SUPPORT_USER_ID=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).dSupportUserId')" >> $GITHUB_OUTPUT
+      uses: rgarcia-phi/json-to-variables@9835d537368468c4e4de5254dc3efeadda183793
+      with:
+        filename: ${{ matrix.value.path }}/ExtensionManifest.json
+        prefix: ext
+        masked: false
     
     - name: Debug Extension Info
       shell: bash
       run: |
         echo "[Extension Info Values]"
-        echo "Type                     : ${{ steps.extension_info.outputs.EXT_TYPE }}"
-        echo "Name                     : ${{ steps.extension_info.outputs.EXT_NAME }}"
-        echo "Author                   : ${{ steps.extension_info.outputs.EXT_AUTHOR }}"
-        echo "GitHub Repository        : ${{ steps.extension_info.outputs.EXT_REPO }}"
-        echo "Package ID               : ${{ steps.extension_info.outputs.EXT_PACKAGE_ID }}"
-        echo "Version                  : ${{ steps.extension_info.outputs.EXT_VERSION }}"
+        echo "Type                     : ${{ env.ext_type }}"
+        echo "Name                     : ${{ env.ext_name }}"
+        echo "Author                   : ${{ env.ext_author }}"
+        echo "GitHub Repository        : ${{ env.ext_repository }}"
+        echo "Package ID               : ${{ env.ext_packageId }}"
+        echo "Version                  : ${{ env.ext_version }}"
 
     - name: Validate Extension Info
       if: |
-        steps.extension_info.outputs.EXT_TYPE == '' || 
-        steps.extension_info.outputs.EXT_NAME == '' || 
-        steps.extension_info.outputs.EXT_AUTHOR == '' || 
-        steps.extension_info.outputs.EXT_REPO == '' || 
-        steps.extension_info.outputs.EXT_PACKAGE_ID == '' || 
-        steps.extension_info.outputs.EXT_VERSION == ''
+        env.ext_type == '' || 
+        env.ext_name == '' || 
+        env.ext_author == '' || 
+        env.ext_repository == '' || 
+        env.ext_packageId == '' || 
+        env.ext_version == ''
       shell: bash
       run: | 
         echo "::error file=ExtensionManifest.json::Invalid manifest! Required attributes [version, type, packageId, target-plugin-api-version]"
