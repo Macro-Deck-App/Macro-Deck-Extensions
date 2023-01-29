@@ -49,8 +49,11 @@ jobs:
         
     - name: Extract Extension Info
       run: |
-        json=$(cat "${{ matrix.value.path }}/ExtensionManifest.json" | tr '\n' ' ')
-        echo "manifest=$json" >> $GITHUB_ENV
+        json=$(cat "${{ matrix.value.path }}/ExtensionManifest.json")
+        echo "$json"
+        echo "manifest<<EOF" >> $GITHUB_ENV
+        echo "$json" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
     
     - name: Debug Extension Info
       shell: bash
