@@ -51,9 +51,8 @@ jobs:
       run: |
         delim="EOF-${RANDOM}"
         echo "manifest<<${delim}" >> $GITHUB_ENV
-        cat "${{ matrix.value.path }}/ExtensionManifest.json" >> $GITHUB_ENV
-        echo "" >> $GITHUB_ENV
-        echo "${delim}" >> $GITHUB_ENV
+        cat "${{ matrix.value.path }}/ExtensionManifest.json" | awk '{$1=$1};NF' >> $GITHUB_ENV
+        echo -e "\n${delim}" >> $GITHUB_ENV
     
     - name: Debug Extension Info
       shell: bash
