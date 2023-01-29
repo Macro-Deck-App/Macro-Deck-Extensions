@@ -48,7 +48,7 @@ jobs:
         ext-ref: ${{ matrix.value.ref }}
         
     - name: Extract Extension Info
-      run: cat <(echo -n "manifest=") "${{ matrix.value.path }}/ExtensionManifest.json" >> $GITHUB_ENV
+      run: cat "${{ matrix.value.path }}/ExtensionManifest.json" | echo "manifest=$(cat -)" >> $GITHUB_ENV
     
     - name: Debug Extension Info
       shell: bash
