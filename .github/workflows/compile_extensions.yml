@@ -97,13 +97,13 @@ jobs:
           -H "Authorization: $MACRO_DECK_API_AUTH" \
           -H 'Content-Type: multipart/form-data' \
           -F 'file=@${{ steps.build_extension.outputs.artifact-path }};type=application/x-zip-compressed' || true
-        response=$(cat "./${{ fromJSON(env.manifest).packageId }}-upload-response.json" | tr -d '\n')
+        response=$(cat "./${{ fromJSON(env.manifest).packageId }}-upload-response.json")
         echo -e "Response:\n$response"
-        echo "response=$response" >> $GITHUB_OUTPUT
+        echo "response=$(cat "./${{ fromJSON(env.manifest).packageId }}-upload-response.json")" >> $GITHUB_OUTPUT
         
     - name: Check upload response
       if: |
-        fromJSON(steps.upload-build-files.outputs.response).success == 'false' &&
+        fromJSON(steps.upload-build-files.outputs.response).success == false &&
         fromJSON(steps.upload-build-files.outputs.response).errorCode != 4
       run: |
         echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}" && exit 1
