@@ -50,19 +50,19 @@ jobs:
     - name: Extract Extension Info
       id: extension_info
       run: |
-        type=$(cat ./${{ matrix.value.path }} | node -pe 'JSON.parse(fs.readFileSync(0)).type')
+        type=$(cat ./${{ matrix.value.path }} | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).type')
         if [ $type -eq 0 ]; then
           type="Plugin"
         elif [ $type -eq 1 ];then
           type="IconPack"
         fi
         echo "EXT_TYPE=$type" >> $GITHUB_OUTPUT
-        echo "EXT_NAME=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(fs.readFileSync(0)).name')" >> $GITHUB_OUTPUT
-        echo "EXT_AUTHOR=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(fs.readFileSync(0)).author')" >> $GITHUB_OUTPUT
-        echo "EXT_REPO=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(fs.readFileSync(0)).repository')" >> $GITHUB_OUTPUT
-        echo "EXT_PACKAGE_ID=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(fs.readFileSync(0)).packageId')" >> $GITHUB_OUTPUT
-        echo "EXT_VERSION=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(fs.readFileSync(0)).version')" >> $GITHUB_OUTPUT
-        echo "EXT_D_SUPPORT_USER_ID=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(fs.readFileSync(0)).dSupportUserId')" >> $GITHUB_OUTPUT
+        echo "EXT_NAME=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).name')" >> $GITHUB_OUTPUT
+        echo "EXT_AUTHOR=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).author')" >> $GITHUB_OUTPUT
+        echo "EXT_REPO=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).repository')" >> $GITHUB_OUTPUT
+        echo "EXT_PACKAGE_ID=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).packageId')" >> $GITHUB_OUTPUT
+        echo "EXT_VERSION=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).version')" >> $GITHUB_OUTPUT
+        echo "EXT_D_SUPPORT_USER_ID=$(cat ./${{ matrix.value.path }}/ExtensionManifest.json | node -pe 'JSON.parse(require('fs').readFileSync('/dev/stdin')).dSupportUserId')" >> $GITHUB_OUTPUT
     
     - name: Debug Extension Info
       shell: bash
