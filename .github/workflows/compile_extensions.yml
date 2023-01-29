@@ -51,7 +51,7 @@ jobs:
       run: |
         delim="EOF-${RANDOM}"
         echo "manifest<<${delim}" >> $GITHUB_ENV
-        cat "${{ matrix.value.path }}/ExtensionManifest.json" | xargs printf "%s" >> $GITHUB_ENV
+        cat "${{ matrix.value.path }}/ExtensionManifest.json" | perl -pe 'chome if eof' >> $GITHUB_ENV
         echo -e "\n${delim}" >> $GITHUB_ENV
     
     - name: Debug Extension Info
