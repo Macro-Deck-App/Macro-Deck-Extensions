@@ -50,7 +50,13 @@ jobs:
     - name: Extract Extension Info
       id: extension_info
       run: |
-        echo "EXT_TYPE=$(jq --raw-output '."type"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
+        type=$(jq --raw-output '."type"' ./${{ matrix.value.path }}/ExtensionManifest.json)"
+        if [ $type -eq 0 ]; then
+          type="Plugin"
+        elif [ $type -eq 1 ];then
+          type="IconPack"
+        fi
+        echo "EXT_TYPE=$type" >> $GITHUB_OUTPUT
         echo "EXT_NAME=$(jq --raw-output '."name"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
         echo "EXT_AUTHOR=$(jq --raw-output '."author"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
         echo "EXT_REPO=$(jq --raw-output '."repository"' ./${{ matrix.value.path }}/ExtensionManifest.json)" >> $GITHUB_OUTPUT
