@@ -51,7 +51,7 @@ jobs:
       run: |
         json=$(cat "${{ matrix.value.path }}/ExtensionManifest.json")
         echo "$json"
-        delim=$RANDOM
+        delim="EOF-${RANDOM}"
         echo "manifest<<${delim}" >> $GITHUB_ENV
         echo "$json" >> $GITHUB_ENV
         echo "${delim}" >> $GITHUB_ENV
