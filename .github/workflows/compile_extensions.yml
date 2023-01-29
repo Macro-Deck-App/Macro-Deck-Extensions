@@ -96,7 +96,7 @@ jobs:
           -H 'accept: */*' \
           -H "Authorization: $MACRO_DECK_API_AUTH" \
           -H 'Content-Type: multipart/form-data' \
-          -F 'file=@${{ steps.build_extension.outputs.artifact-path }};type=application/x-zip-compressed' || true)
+          -F 'file=@${{ steps.build_extension.outputs.artifact-path }};type=application/x-zip-compressed' || true
         response=$(cat ${{ fromJSON(env.manifest).packageId }})
         echo -e "Response:\n$response"
         echo "response=$response" >> $GITHUB_OUTPUT
