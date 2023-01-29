@@ -50,7 +50,7 @@ jobs:
     - name: Extract Extension Info
       id: extension_info
       run: |
-        type=$(jq --raw-output '."type"' ./${{ matrix.value.path }}/ExtensionManifest.json)"
+        type=$(jq --raw-output '."type"' ./${{ matrix.value.path }}/ExtensionManifest.json)
         if [ $type -eq 0 ]; then
           type="Plugin"
         elif [ $type -eq 1 ];then
