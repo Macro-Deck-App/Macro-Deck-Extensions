@@ -14,8 +14,6 @@ jobs:
       matrix: ${{ steps.matrix.outputs.value }}
     
     steps:
-    - name: install dependecies
-      run: sudo apt-get install -y dos2unix
     - name: Checkout
       uses: actions/checkout@v3.3.0
     - name: Init Submodules
@@ -35,6 +33,9 @@ jobs:
         value: ${{fromJson(needs.setup.outputs.matrix)}}
         
     steps:
+    - name: install dependecies
+      run: sudo apt-get install -y dos2unix
+
     - name: Checkout
       uses: actions/checkout@v3.3.0
       
