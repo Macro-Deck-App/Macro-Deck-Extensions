@@ -125,7 +125,7 @@ jobs:
               "g":1,
               "b":1
             },
-            "description" : "${{ github.event_name == 'pull_request' && github.event.pull_request.title || 'Plugin(s) Deployed to Extension Store' }}",
+            "title": "${{ github.event_name == 'pull_request' && github.event.pull_request.title || 'Plugin Deployed to Extension Store' }}"
             "fields" : [
               {
                 "name": "Path",
