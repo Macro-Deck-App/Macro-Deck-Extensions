@@ -1,8 +1,6 @@
 name: Compile Extensions
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
     types: [ closed ]
