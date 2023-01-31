@@ -117,40 +117,45 @@ jobs:
       env:
         BOT_API_AUTH: "Bearer ${{ fromJSON(steps.upload-build-files.outputs.response).newPlugin && secrets.BOT_NEW_API_TOKEN || secrets.BOT_UPDATE_API_TOKEN }}"
       run: |
+        payload='{
+          "toEveryone" : false,
+          "embed" : {
+            "color" : {
+              "r":0,
+              "g":1,
+              "b":1
+            },
+            "description" : "${{ github.event_name == 'pull_request' && github.event.pull_request.title || 'Plugin(s) Deployed to Extension Store' }}",
+            "fields" : [
+              {
+                "name": "Path",
+                "value": "${{ matrix.value.path }}",
+                "inline": false
+              },
+              {
+                "name": "Repository URL",
+                "value": "${{ matrix.value.repository }}",
+                "inline": false
+              },
+              {
+                "name" : "SHA",
+                "value" : "${{ matrix.value.ref }}" , 
+                "inline" : false
+              }${{ github.event_name == 'pull_request' && format(', {"name": "PR Body", "value": "{0}", "inline": false }', github.event.pull_request.body) || '' }}
+            ]
+          }
+        }'
         curl --fail-with-body -o "./${{ fromJSON(env.manifest).packageId }}-bot-notify-response.json" -X POST \
           '${{ vars.BOT_API_URL }}/webhook/${{ fromJSON(steps.upload-build-files.outputs.response).newPlugin && 'newextension' || 'updateextension' }}' \
           -H 'accept: */*'
           -H "Authorization: $BOT_API_AUTH" \
           -H 'Content-Type: application/json' \
-          -d '{
-            "toEveryone" : false,
-            "embed" : {
-              "color" : {
-                "r":0,
-                "g":1,
-                "b":1
-              },
-              "description" : "${{ github.event_name == 'pull_request' && github.event.pull_request.title || 'Plugin(s) Deployed to Extension Store' }}",
-              "fields" : [
-                {
-                  "name": "Path",
-                  "value": "${{ matrix.value.path }}",
-                  "inline": false
-                },
-                {
-                  "name": "Repository URL",
-                  "value": "${{ matrix.value.repository }}",
-                  "inline": false
-                },
-                {
-                  "name" : "SHA",
-                  "value" : "${{ matrix.value.ref }}" , 
-                  "inline" : false
-                }${{ github.event_name == 'pull_request' && format(', {"name": "PR Body", "value": "{0}", "inline": false }', github.event.pull_request.body) || '' }}
-              ]
-            }
-          }' || true
+          -d "$payload" || true
+        failed=$?
         response=$(cat "./${{ fromJSON(env.manifest).packageId }}-upload-response.json")
         echo -e "Response:\n$response"
+        if [ $failed -ne 0 ]; then 
+          exit 1; 
+        fi
         echo "response=$response" >> $GITHUB_OUTPUT
             
