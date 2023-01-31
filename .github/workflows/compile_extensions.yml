@@ -5,10 +5,12 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    types: [ closed ]
   workflow_dispatch:
 
 jobs:
   setup:
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.matrix.outputs.value }}
@@ -24,6 +26,7 @@ jobs:
       run: echo "${{ steps.matrix.outputs.value }}"
 
   build:
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
     needs: [ setup ]
     runs-on: ubuntu-latest
     environment: development
@@ -107,3 +110,43 @@ jobs:
         fromJSON(steps.upload-build-files.outputs.response).errorCode != 4
       run: |
         echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}" && exit 1
+
+    - name: Notify Macro Bot
+      if: fromJSON(steps.upload-build-files.outputs.response).success == true
+      env:
+        BOT_API_AUTH: "Bearer ${{ fromJSON(steps.upload-build-files.outputs.response).newPlugin && secrets.BOT_NEW_API_TOKEN || secrets.BOT_UPDATE_API_TOKEN }}"
+      run: |
+        curl --fail-with-body -o "./${{ fromJSON(env.manifest).packageId }}-bot-notify-response.json" -X POST \
+          '${{ vars.BOT_API_URL }}/webhook/${{ fromJSON(steps.upload-build-files.outputs.response).newPlugin && 'newextension' || 'updateextension' }}' \
+          -H 'accept: */*'
+          -H "Authorization: $BOT_API_AUTH" \
+          -H 'Content-Type: application/json' \
+          -d '{
+            "toEveryone" : false,
+            "embed" : {
+              "color" : {
+                "r":0,
+                "g":1,
+                "b":1
+              },
+              "description" : "${{ github.event_name == 'pull_request' && github.event.pull_request.title || 'Plugin(s) Deployed to Extension Store' }}",
+              "fields" : [
+                {
+                  "name": "Path",
+                  "value": "${{ matrix.value.path }}",
+                  "inline": false
+                },
+                {
+                  "name": "Repository URL",
+                  "value": "${{ matrix.value.repository }}",
+                  "inline": false
+                },
+                {
+                  "name" : "SHA",
+                  "value" : "${{ matrix.value.ref }}" , 
+                  "inline" : false
+                }${{ github.event_name == 'pull_request' && format(', {"name": "PR Body", "value": "{0}", "inline": false }', github.event.pull_request.body) || '' }}
+              ]
+            }
+          }'
+            
