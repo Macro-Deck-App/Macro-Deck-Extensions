@@ -152,7 +152,7 @@ jobs:
           -H 'Content-Type: application/json' \
           -d "$payload" || true
         failed=$?
-        response=$(cat "./${{ fromJSON(env.manifest).packageId }}-upload-response.json")
+        response=$(cat "./${{ fromJSON(env.manifest).packageId }}-bot-notify-response.json")
         echo -e "Response:\n$response"
         if [ $failed -ne 0 ]; then 
           exit 1; 
