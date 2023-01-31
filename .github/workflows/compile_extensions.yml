@@ -123,23 +123,18 @@ jobs:
               "g":1,
               "b":1
             },
-            "title": "${{ github.event_name == 'pull_request' && github.event.pull_request.title || 'Plugin Deployed to Extension Store' }}",
+            "title": "${{ matrix.value.path }} Deployed to Extension Store",
             "fields" : [
               {
-                "name": "Path",
-                "value": "${{ matrix.value.path }}",
-                "inline": false
-              },
-              {
                 "name": "Repository URL",
-                "value": "${{ matrix.value.repository }}",
+                "value": "https://github.com/${{ matrix.value.repository }}",
                 "inline": false
               },
               {
                 "name" : "SHA",
                 "value" : "${{ matrix.value.ref }}" , 
                 "inline" : false
-              }${{ github.event_name == 'pull_request' && format(', {{"name": "PR Body", "value": "{0}", "inline": false }}', github.event.pull_request.body) || '' }}
+              }
             ]
           }
         }'
