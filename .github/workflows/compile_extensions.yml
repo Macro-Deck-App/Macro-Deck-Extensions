@@ -112,6 +112,7 @@ jobs:
         echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}" && exit 1
 
     - name: Notify Macro Bot
+      id: notify-macro-bot
       if: fromJSON(steps.upload-build-files.outputs.response).success == true
       env:
         BOT_API_AUTH: "Bearer ${{ fromJSON(steps.upload-build-files.outputs.response).newPlugin && secrets.BOT_NEW_API_TOKEN || secrets.BOT_UPDATE_API_TOKEN }}"
@@ -148,5 +149,8 @@ jobs:
                 }${{ github.event_name == 'pull_request' && format(', {"name": "PR Body", "value": "{0}", "inline": false }', github.event.pull_request.body) || '' }}
               ]
             }
-          }'
+          }' || true
+        response=$(cat "./${{ fromJSON(env.manifest).packageId }}-upload-response.json")
+        echo -e "Response:\n$response"
+        echo "response=$response" >> $GITHUB_OUTPUT
             
