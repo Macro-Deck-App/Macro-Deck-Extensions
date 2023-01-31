@@ -139,7 +139,7 @@ jobs:
                 "name" : "SHA",
                 "value" : "${{ matrix.value.ref }}" , 
                 "inline" : false
-              }${{ github.event_name == 'pull_request' && format(', {"name": "PR Body", "value": "{0}", "inline": false }', github.event.pull_request.body) || '' }}
+              }${{ github.event_name == 'pull_request' && format(', {{"name": "PR Body", "value": "{0}", "inline": false }}', github.event.pull_request.body) || '' }}
             ]
           }
         }'
