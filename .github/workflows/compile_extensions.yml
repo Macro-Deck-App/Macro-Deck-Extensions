@@ -125,7 +125,7 @@ jobs:
               "g":1,
               "b":1
             },
-            "title": "${{ github.event_name == 'pull_request' && github.event.pull_request.title || 'Plugin Deployed to Extension Store' }}"
+            "title": "${{ github.event_name == 'pull_request' && github.event.pull_request.title || 'Plugin Deployed to Extension Store' }}",
             "fields" : [
               {
                 "name": "Path",
@@ -150,12 +150,5 @@ jobs:
           -H 'accept: */*' \
           -H "Authorization: $BOT_API_AUTH" \
           -H 'Content-Type: application/json' \
-          -d "$payload" || true
-        failed=$?
-        response=$(cat "./${{ fromJSON(env.manifest).packageId }}-bot-notify-response.json")
-        echo -e "Response:\n$response"
-        if [ $failed -ne 0 ]; then 
-          exit 1; 
-        fi
-        echo "response=$response" >> $GITHUB_OUTPUT
+          -d "$payload" || cat "./${{ fromJSON(env.manifest).packageId }}-bot-notify-response.json"
             
