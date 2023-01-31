@@ -147,7 +147,7 @@ jobs:
         }'
         curl --fail-with-body -o "./${{ fromJSON(env.manifest).packageId }}-bot-notify-response.json" -X POST \
           '${{ vars.BOT_API_URL }}/webhook/${{ fromJSON(steps.upload-build-files.outputs.response).newPlugin && 'newextension' || 'updateextension' }}' \
-          -H 'accept: */*'
+          -H 'accept: */*' \
           -H "Authorization: $BOT_API_AUTH" \
           -H 'Content-Type: application/json' \
           -d "$payload" || true
