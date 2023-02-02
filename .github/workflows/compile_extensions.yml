@@ -44,6 +44,8 @@ jobs:
       run: git submodule update --init --recursive ${{ matrix.value.path }}
 
     - name: Get Release for Commit
+      env:
+        GH_TOKEN: ${{ github.token }}
       working-directory: ${{ matrix.value.path }}
       run: |
         git fetch --all --tags --prune
