@@ -145,7 +145,7 @@ jobs:
                 "name" : "SHA",
                 "value" : "${{ matrix.value.ref }}" , 
                 "inline" : false
-              },${{ env.response && format('{ "name": "Changelog", "value": "%s", "inlinde": false }', fromJSON(env.response).body) }}
+              }${{ env.response && format(',{ "name": "Changelog", "value": "%s", "inline": false }', fromJSON(env.response).body) }}
             ]
           }
         }'
