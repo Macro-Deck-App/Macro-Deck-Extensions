@@ -42,6 +42,17 @@ jobs:
       
     - name: Init Submodule
       run: git submodule update --init --recursive ${{ matrix.value.path }}
+
+    - name: Get Release for Commit
+      working-directory: ${{ matrix.value.path }}
+      run: |
+        git fetch --all --tags --prune
+        tag=$(git tag --contains "${{ matrix.value.ref }}" | head -n 1)
+        if [ -z "$tag" ]; then
+          echo "Tag $tag found for commit $ref. Now looking for release..."
+          release=$(gh release view $tag --json body)
+        fi
+        echo "release=$release" >> $GITHUB_ENV
       
     - name: Build Extension
       id: build_extension
@@ -134,7 +145,7 @@ jobs:
                 "name" : "SHA",
                 "value" : "${{ matrix.value.ref }}" , 
                 "inline" : false
-              }
+              },${{ env.response && format('{ "name": "Changelog", "value": "%s", "inlinde": false }', fromJSON(env.response).body) }}
             ]
           }
         }'
