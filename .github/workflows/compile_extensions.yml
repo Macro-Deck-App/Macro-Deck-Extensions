@@ -22,6 +22,8 @@ jobs:
       
     - name: Generate Matrix
       id: matrix
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         pr_paths=$(gh pr view ${{ github.event.pull_request.number }} --json files -q '.files[].path' || true)
         git submodule --quiet foreach "
