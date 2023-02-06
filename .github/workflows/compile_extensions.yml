@@ -16,10 +16,28 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3.3.0
+      
     - name: Init Submodules
       run: git submodule update --init --recursive --checkout
-    - id: matrix
-      run: git submodule --quiet foreach 'echo `git remote get-url origin | sed "s/https:\/\/github\.com\///" | sed "s/\.git//"` $sha1 $displaypath' | awk 'NR > 1 {printf(",")} {printf("{\"repository\":\"%s\",\"ref\":\"%s\",\"path\":\"%s\"}", $1, $2, $3)}' | cat <(echo -n "value=[") - <(echo -n "]") >> $GITHUB_OUTPUT
+      
+    - name: Generate Matrix
+      id: matrix
+      run: |
+        pr_paths=$(gh pr view ${{ github.event.pull_request.number }} --json files -q '.files[].path' || true)
+        git submodule --quiet foreach "
+          paths=\"$pr_paths\"
+          if [ -z \$paths ]; then
+            paths=\"\$displaypath\"
+          fi
+          case \$displaypath in 
+            \$paths)
+              echo \$(git remote get-url origin | sed 's/https:\/\/github\.com\///' | sed 's/\.git//') \$sha1 \$displaypath | \\
+                awk 'NR > 1 {printf(\",\")} {printf(\"{\\\"repository\\\":\\\"%s\\\",\\\"ref\\\":\\\"%s\\\",\\\"path\\\":\\\"%s\\\"}\", \$1, \$2, \$3)}'
+              ;;
+          esac
+        " | cat <(echo -n 'value=[') - <(echo -n ']') 
+        git submodule --quiet foreach 'echo `git remote get-url origin | sed "s/https:\/\/github\.com\///" | sed "s/\.git//"` $sha1 $displaypath' | awk 'NR > 1 {printf(",")} {printf("{\"repository\":\"%s\",\"ref\":\"%s\",\"path\":\"%s\"}", $1, $2, $3)}' | cat <(echo -n "value=[") - <(echo -n "]") >> $GITHUB_OUTPUT
+      
     - name: Check matrix value
       run: echo "${{ steps.matrix.outputs.value }}"
 
