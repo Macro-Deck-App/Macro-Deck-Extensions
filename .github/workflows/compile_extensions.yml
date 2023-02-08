@@ -151,6 +151,7 @@ jobs:
         BOT_API_AUTH: "Bearer ${{ fromJSON(steps.upload-build-files.outputs.response).newPlugin && secrets.BOT_NEW_API_TOKEN || secrets.BOT_UPDATE_API_TOKEN }}"
         currVer: ${{ fromJSON(steps.upload-build-files.outputs.response).currentVersion }}
         newVer: ${{ fromJSON(steps.upload-build-files.outputs.response).newVersion }}
+        extType: ${{ fromJSON(steps.upload-build-files.outputs.response).extensionManifest.type }}
       run: |
         payload='{
           "toEveryone" : false,
@@ -160,11 +161,11 @@ jobs:
               "g":1,
               "b":1
             },
-            "title": "${{ fromJSON(env.manifest).name }}",
+            "title": "${{ format('[{0}] {1}', env.extType, fromJSON(env.manifest).name) }}",
             "fields" : [
               {
                 "name": "Version",
-                "value": "${{ env.currVer && format('%s -> ', env.currVer) || ''}}${{ env.newVer }}",
+                "value": "${{ env.currVer && format('{0} -> ', env.currVer) || ''}}${{ env.newVer }}",
                 "inline": false
               },
               {
@@ -176,7 +177,7 @@ jobs:
                 "name" : "${{ env.release && 'Release' || 'Commit' }}",
                 "value" : "${{ env.release && fromJSON(env.release).name || matrix.value.ref }}" , 
                 "inline" : false
-              }${{ env.release && format(',{ "name": "Changelog", "value": "%s", "inline": false }', fromJSON(env.release).body) }}
+              }${{ env.release && format(',{ ''name''': ''Changelog''', ''value''': ''{0}'', ''inline''': false }', fromJSON(env.release).body) }}
             ]
           }
         }'
