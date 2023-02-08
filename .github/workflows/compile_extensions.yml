@@ -162,7 +162,7 @@ jobs:
             "fields" : [
               {
                 "name": "Version",
-                "value": "${{ fromJSON(steps.upload-build-files.outputs.response).currentVersion }} -> ${{ fromJSON(steps.upload-build-files.outputs.response).newVersion}}",
+                "value": "${{ fromJSON(steps.upload-build-files.outputs.response).currentVersion }}${{ fromJSON(steps.upload-build-files.outputs.response).currentVersion != fromJSON(steps.upload-build-files.outputs.response).newVersion}} && format(' -> %s', fromJSON(steps.upload-build-files.outputs.response).newVersion) || '' }}",
                 "inline": false
               },
               {
