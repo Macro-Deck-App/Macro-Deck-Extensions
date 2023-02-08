@@ -164,7 +164,7 @@ jobs:
             "fields" : [
               {
                 "name": "Version",
-                "value": "${{ (env.currVer && format('%s -> ', env.currVer)) env.newVer }}",
+                "value": "${{ env.currVer && format('%s -> ', env.currVer) || ''}}${{ env.newVer }}",
                 "inline": false
               },
               {
