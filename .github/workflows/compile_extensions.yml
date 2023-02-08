@@ -158,7 +158,7 @@ jobs:
               "g":1,
               "b":1
             },
-            "title": "${{ matrix.value.path }}",
+            "title": "${{ fromJSON(env.manifest).name }}",
             "fields" : [
               {
                 "name": "Version",
