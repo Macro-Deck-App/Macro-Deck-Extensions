@@ -71,7 +71,7 @@ jobs:
         tag=$(git tag --contains "${{ matrix.value.ref }}" | head -n 1)
         if [ -n "$tag" ]; then
           echo "Tag $tag found for commit $ref. Now looking for release..."
-          release_body=$(gh release view $tag --json body || true)
+          release_body=$(gh release view $tag --json body,name || true)
         fi
         echo "release=$release" >> $GITHUB_ENV
       
@@ -163,8 +163,8 @@ jobs:
                 "inline": false
               },
               {
-                "name" : "SHA",
-                "value" : "${{ matrix.value.ref }}" , 
+                "name" : "${{ env.release && 'Release' || 'Commit' }}",
+                "value" : "${{ env.release && fromJSON(env.release).name || matrix.value.ref }}" , 
                 "inline" : false
               }${{ env.release && format(',{ "name": "Changelog", "value": "%s", "inline": false }', fromJSON(env.release).body) }}
             ]
