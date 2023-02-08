@@ -50,7 +50,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        value: ${{fromJson(needs.setup.outputs.matrix)}}
+        value: ${{ fromJson(needs.setup.outputs.matrix) }}
         
     steps:
     - name: install dependecies
