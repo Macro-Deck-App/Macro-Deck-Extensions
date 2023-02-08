@@ -71,7 +71,7 @@ jobs:
         tag=$(git tag --contains "${{ matrix.value.ref }}" | head -n 1)
         if [ -n "$tag" ]; then
           echo "Tag $tag found for commit $ref. Now looking for release..."
-          release_body=$(gh release view $tag --json body,name || true)
+          release=$(gh release view $tag --json body,name || true)
         fi
         if [ -n "$release" ]; then
           echo "Release found! $release"
@@ -158,8 +158,13 @@ jobs:
               "g":1,
               "b":1
             },
-            "title": "${{ matrix.value.path }} Deployed to Extension Store",
+            "title": "${{ matrix.value.path }}",
             "fields" : [
+              {
+                "name": "Version",
+                "value": "${{ fromJSON(steps.upload-build-files.outputs.response).currentVersion }} -> ${{ fromJSON(steps.upload-build-files.outputs.response).newVersion}}",
+                "inline": false
+              },
               {
                 "name": "Repository URL",
                 "value": "https://github.com/${{ matrix.value.repository }}",
