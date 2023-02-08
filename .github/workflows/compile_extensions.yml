@@ -33,11 +33,11 @@ jobs:
           fi
           case \$displaypath in 
             \$paths)
-              echo \$(git remote get-url origin | sed 's/https:\/\/github\.com\///' | sed 's/\.git//') \$sha1 \$displaypath | \\
-                awk 'NR > 1 {printf(\",\")} {printf(\"{\\\"repository\\\":\\\"%s\\\",\\\"ref\\\":\\\"%s\\\",\\\"path\\\":\\\"%s\\\"}\", \$1, \$2, \$3)}'
+              echo \$(git remote get-url origin | sed 's/https:\/\/github\.com\///' | sed 's/\.git//') \$sha1 \$displaypath
               ;;
-          esac
-        " | cat <(echo -n 'value=[') - <(echo -n ']') >> $GITHUB_OUTPUT
+          esac" | \
+          awk 'NR > 1 {printf(",")} {printf("{\"repository\":\"%s\",\"ref\":\"%s\",\"path\":\"%s\"}", $1, $2, $3)}' | \
+          cat <(echo -n 'value=[') - <(echo -n ']')  >> $GITHUB_OUTPUT
       
     - name: Check matrix value
       run: echo "${{ steps.matrix.outputs.value }}"
