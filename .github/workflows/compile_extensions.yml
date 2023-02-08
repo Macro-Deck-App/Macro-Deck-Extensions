@@ -73,6 +73,9 @@ jobs:
           echo "Tag $tag found for commit $ref. Now looking for release..."
           release_body=$(gh release view $tag --json body,name || true)
         fi
+        if [ -n "$release" ]; then
+          echo "Release found! $release"
+        fi
         echo "release=$release" >> $GITHUB_ENV
       
     - name: Build Extension
