@@ -25,7 +25,7 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        pr_paths=$(gh pr view ${{ github.event.pull_request.number }} --json files -q '.files[].path' 2> /dev/null)
+        pr_paths=$(gh pr view ${{ github.event.pull_request.number }} --json files -q '.files[].path' 2> /dev/null || true)
         git submodule --quiet foreach "
           paths=\"$pr_paths\"
           if [ -z \$paths ]; then
