@@ -149,35 +149,37 @@ jobs:
       if: fromJSON(steps.upload-build-files.outputs.response).success == true
       env:
         BOT_API_AUTH: "Bearer ${{ fromJSON(steps.upload-build-files.outputs.response).newPlugin && secrets.BOT_NEW_API_TOKEN || secrets.BOT_UPDATE_API_TOKEN }}"
+        CURR_VER: ${{ fromJSON(steps.upload-build-files.outputs.response).currentVersion }}
+        NEW_VER: ${{ fromJSON(steps.upload-build-files.outputs.response).newVersion }}
       run: |
-        payload='{
-          "toEveryone" : false,
-          "embed" : {
-            "color" : {
-              "r":0,
-              "g":1,
-              "b":1
+        payload="{
+          'toEveryone' : false,
+          'embed' : {
+            'color' : {
+              'r':0,
+              'g':1,
+              'b':1
             },
-            "title": "${{ fromJSON(env.manifest).name }}",
-            "fields" : [
+            'title': '${{ fromJSON(env.manifest).name }}'',
+            'fields' : [
               {
-                "name": "Version",
-                "value": "${{ fromJSON(steps.upload-build-files.outputs.response).currentVersion }}${{ fromJSON(steps.upload-build-files.outputs.response).currentVersion != fromJSON(steps.upload-build-files.outputs.response).newVersion}} && format(' -> %s', fromJSON(steps.upload-build-files.outputs.response).newVersion) || '' }}",
-                "inline": false
+                'name': 'Version',
+                'value': '$CURR_VER ${{ env.CURR_VER != env.NEW_VER && format(' -> %s', env.NEW_VER) }}',
+                'inline': false
               },
               {
-                "name": "Repository URL",
-                "value": "https://github.com/${{ matrix.value.repository }}",
-                "inline": false
+                'name': 'Repository URL',
+                'value': 'https://github.com/${{ matrix.value.repository }}',
+                'inline': false
               },
               {
-                "name" : "${{ env.release && 'Release' || 'Commit' }}",
-                "value" : "${{ env.release && fromJSON(env.release).name || matrix.value.ref }}" , 
-                "inline" : false
+                'name' : '${{ env.release && 'Release' || 'Commit' }}',
+                'value' : '${{ env.release && fromJSON(env.release).name || matrix.value.ref }}' , 
+                'inline' : false
               }${{ env.release && format(',{ "name": "Changelog", "value": "%s", "inline": false }', fromJSON(env.release).body) }}
             ]
           }
-        }'
+        }"
         curl --fail-with-body -o "./${{ fromJSON(env.manifest).packageId }}-bot-notify-response.json" -X POST \
           '${{ vars.BOT_API_URL }}/webhook/${{ fromJSON(steps.upload-build-files.outputs.response).newPlugin && 'newextension' || 'updateextension' }}' \
           -H 'accept: */*' \
