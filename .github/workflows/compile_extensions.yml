@@ -177,7 +177,7 @@ jobs:
                 "name" : "${{ env.release && 'Release' || 'Commit' }}",
                 "value" : "${{ env.release && fromJSON(env.release).name || matrix.value.ref }}" , 
                 "inline" : false
-              }${{ env.release && format(',{ ''name''': ''Changelog''', ''value''': ''{0}'', ''inline''': false }', fromJSON(env.release).body) }}
+              }${{ env.release && format(',{ ''name'': ''Changelog'', ''value'': ''{0}'', ''inline'': false }', fromJSON(env.release).body) }}
             ]
           }
         }'
