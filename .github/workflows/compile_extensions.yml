@@ -71,7 +71,7 @@ jobs:
         tag=$(git tag --contains "${{ matrix.value.ref }}" | head -n 1)
         if [ -n "$tag" ]; then
           echo "Tag $tag found for commit $ref. Now looking for release..."
-          release=$(gh release view $tag --json body,name || true)
+          release=$(gh release view $tag --json body,name | sed "s/'/''/" || true)
         fi
         if [ -n "$release" ]; then
           echo "Release found! $release"
