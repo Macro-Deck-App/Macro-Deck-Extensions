@@ -151,10 +151,10 @@ jobs:
         steps.upload-build-files.outputs.response && 
         fromJSON(steps.upload-build-files.outputs.response).success == true
       env:
-        BOT_API_AUTH: "Bearer ${{ fromJSON(steps.upload-build-files.outputs.response).newPlugin && secrets.BOT_NEW_API_TOKEN || secrets.BOT_UPDATE_API_TOKEN }}"
-        currVer: ${{ fromJSON(steps.upload-build-files.outputs.response).currentVersion }}
-        newVer: ${{ fromJSON(steps.upload-build-files.outputs.response).newVersion }}
-        extType: ${{ fromJSON(steps.upload-build-files.outputs.response).extensionManifest.type }}
+        BOT_API_AUTH: "Bearer ${{ steps.upload-build-files.outputs.response && fromJSON(steps.upload-build-files.outputs.response).newPlugin && secrets.BOT_NEW_API_TOKEN || secrets.BOT_UPDATE_API_TOKEN }}"
+        currVer: ${{ steps.upload-build-files.outputs.response && fromJSON(steps.upload-build-files.outputs.response).currentVersion }}
+        newVer: ${{ steps.upload-build-files.outputs.response && fromJSON(steps.upload-build-files.outputs.response).newVersion }}
+        extType: ${{ steps.upload-build-files.outputs.response && fromJSON(steps.upload-build-files.outputs.response).extensionManifest.type }}
       run: |
         payload='{
           "toEveryone" : false,
