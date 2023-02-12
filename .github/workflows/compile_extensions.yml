@@ -111,10 +111,11 @@ jobs:
         fromJSON(env.manifest).author == '' || 
         fromJSON(env.manifest).repository == '' || 
         fromJSON(env.manifest).packageId == '' || 
-        fromJSON(env.manifest).version == ''
+        fromJSON(env.manifest).version == '' ||
+        fromJSON(env.manifest).target-plugin-api-version == ''
       shell: bash
       run: | 
-        echo "::error file=ExtensionManifest.json::Invalid manifest! Required attributes [version, type, packageId, target-plugin-api-version]" && exit 1
+        echo "::error file=ExtensionManifest.json::Invalid manifest! Required attributes [name, version, type, author, packageId, repository, target-plugin-api-version]" && exit 1
         
     - name: Download a Build Artifact
       uses: actions/download-artifact@v3.0.2
