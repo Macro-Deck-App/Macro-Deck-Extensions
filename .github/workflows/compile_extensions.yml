@@ -80,7 +80,7 @@ jobs:
       
     - name: Build Extension
       id: build_extension
-      uses: RecklessBoon/Macro-Deck-Extension-Build-Action@main
+      uses: RecklessBoon/Macro-Deck-Extension-Build-Action@4f32742817c2537e4472ab35fd9a93e54f600822
       with:
         upsert-release: false
         ext-repo: ${{ matrix.value.repository }}
