@@ -169,6 +169,3 @@
 [submodule "Plugins/Ize.Speedtest"]
 	path = Plugins/Ize.Speedtest
 	url = https://github.com/Ize83/Ize.Speedtest
-[submodule "Plugins/Ize.HWiNFO64"]
-	path = Plugins/Ize.HWiNFO64
-	url = https://github.com/Ize83/Ize.HWiNFO64
