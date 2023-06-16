@@ -169,3 +169,6 @@
 [submodule "Plugins/Ize.Speedtest"]
 	path = Plugins/Ize.Speedtest
 	url = https://github.com/Ize83/Ize.Speedtest
+[submodule "IconPacks/Piripe.Fluent"]
+	path = IconPacks/Piripe.Fluent
+	url = https://github.com/Piripe/MacroDeck-FluentIcons
