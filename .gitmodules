@@ -172,3 +172,6 @@
 [submodule "IconPacks/Piripe.Fluent"]
 	path = IconPacks/Piripe.Fluent
 	url = https://github.com/Piripe/MacroDeck-FluentIcons
+[submodule "IconPacks/Twitchiger.CleanIcons"]
+	path = IconPacks/Twitchiger.CleanIcons
+	url = https://github.com/devTwitchiger/MacroDeckCleanIcons
