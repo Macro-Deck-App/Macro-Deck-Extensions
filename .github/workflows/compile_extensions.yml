@@ -126,12 +126,12 @@ jobs:
     - name: Upload built files
       id: upload-build-files
       env:
-        MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
+        MACRO_DECK_API_AUTH: "${{ secrets.MACRO_DECK_API_TOKEN }}"
       run: |
         curl --fail-with-body -o "./${{ fromJSON(env.manifest).packageId }}-upload-response.json" -X POST \
           '${{ vars.EXTENSION_STORE_API_URL }}/rest/files/upload' \
           -H 'accept: */*' \
-          -H "Authorization: $MACRO_DECK_API_AUTH" \
+          -H "x-admin-token: $MACRO_DECK_API_AUTH" \
           -H 'Content-Type: multipart/form-data' \
           -F 'file=@${{ steps.build_extension.outputs.artifact-path }};type=application/x-zip-compressed' || true
         response=$(cat "./${{ fromJSON(env.manifest).packageId }}-upload-response.json")
