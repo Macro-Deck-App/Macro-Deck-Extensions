@@ -80,7 +80,7 @@ jobs:
       
     - name: Build Extension
       id: build_extension
-      uses: RecklessBoon/Macro-Deck-Extension-Build-Action@4f32742817c2537e4472ab35fd9a93e54f600822
+      uses: Macro-Deck-App/Actions/build-extension@main
       with:
         upsert-release: false
         ext-repo: ${{ matrix.value.repository }}
@@ -129,7 +129,7 @@ jobs:
         MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
       run: |
         curl --fail-with-body -o "./${{ fromJSON(env.manifest).packageId }}-upload-response.json" -X POST \
-          '${{ vars.EXTENSION_STORE_API_URL }}/files/Upload' \
+          '${{ vars.EXTENSION_STORE_API_URL }}/rest/files/upload' \
           -H 'accept: */*' \
           -H "Authorization: $MACRO_DECK_API_AUTH" \
           -H 'Content-Type: multipart/form-data' \
@@ -144,51 +144,3 @@ jobs:
         fromJSON(steps.upload-build-files.outputs.response).errorCode != 4
       run: |
         echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}" && exit 1
-
-    - name: Notify Macro Bot
-      id: notify-macro-bot
-      if: |
-        success() &&
-        steps.upload-build-files.outputs.response && 
-        fromJSON(steps.upload-build-files.outputs.response).success == true
-      env:
-        BOT_API_AUTH: "Bearer ${{ steps.upload-build-files.outputs.response && fromJSON(steps.upload-build-files.outputs.response).newPlugin && secrets.BOT_NEW_API_TOKEN || secrets.BOT_UPDATE_API_TOKEN }}"
-        currVer: ${{ steps.upload-build-files.outputs.response && fromJSON(steps.upload-build-files.outputs.response).currentVersion }}
-        newVer: ${{ steps.upload-build-files.outputs.response && fromJSON(steps.upload-build-files.outputs.response).newVersion }}
-        extType: ${{ steps.upload-build-files.outputs.response && fromJSON(steps.upload-build-files.outputs.response).extensionManifest.type }}
-      run: |
-        payload='{
-          "toEveryone" : false,
-          "embed" : {
-            "color" : {
-              "r":0,
-              "g":1,
-              "b":1
-            },
-            "title": "${{ format('[{0}] {1}', env.extType, fromJSON(env.manifest).name) }}",
-            "fields" : [
-              {
-                "name": "Version",
-                "value": "${{ env.currVer && format('{0} -> ', env.currVer) || ''}}${{ env.newVer }}",
-                "inline": false
-              },
-              {
-                "name": "Repository URL",
-                "value": "https://github.com/${{ matrix.value.repository }}",
-                "inline": false
-              },
-              {
-                "name" : "${{ env.release && 'Release' || 'Commit' }}",
-                "value" : "${{ env.release && fromJSON(env.release).name || matrix.value.ref }}" , 
-                "inline" : false
-              }${{ env.release && fromJSON(env.release).body && format(',{{ "name": "Changelog", "value": "{0}", "inline": false }}', fromJSON(env.release).body) }}
-            ]
-          }
-        }'
-        curl --fail-with-body -o "./${{ fromJSON(env.manifest).packageId }}-bot-notify-response.json" -X POST \
-          '${{ vars.BOT_API_URL }}/webhook/${{ fromJSON(steps.upload-build-files.outputs.response).newPlugin && 'newextension' || 'updateextension' }}' \
-          -H 'accept: */*' \
-          -H "Authorization: $BOT_API_AUTH" \
-          -H 'Content-Type: application/json' \
-          -d "$payload" || cat "./${{ fromJSON(env.manifest).packageId }}-bot-notify-response.json"
-            
