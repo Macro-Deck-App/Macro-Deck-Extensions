@@ -1,0 +1,194 @@
+name: Compile Extensions
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [ closed ]
+  workflow_dispatch:
+
+jobs:
+  setup:
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.value }}
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.3.0
+      
+    - name: Init Submodules
+      run: git submodule update --init --recursive --checkout
+      
+    - name: Generate Matrix
+      id: matrix
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        pr_paths=$(gh pr view ${{ github.event.pull_request.number }} --json files -q '.files[].path' 2> /dev/null || true)
+        git submodule --quiet foreach "
+          paths=\"$pr_paths\"
+          if [ -z \$paths ]; then
+            paths=\"\$displaypath\"
+          fi
+          case \$displaypath in 
+            \$paths)
+              echo \$(git remote get-url origin | sed 's/https:\/\/github\.com\///' | sed 's/\.git//') \$sha1 \$displaypath
+              ;;
+          esac" | \
+          awk 'NR > 1 {printf(",")} {printf("{\"repository\":\"%s\",\"ref\":\"%s\",\"path\":\"%s\"}", $1, $2, $3)}' | \
+          cat <(echo -n 'value=[') - <(echo -n ']')  >> $GITHUB_OUTPUT
+      
+    - name: Check matrix value
+      run: echo "${{ steps.matrix.outputs.value }}"
+
+  build:
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
+    needs: [ setup ]
+    runs-on: ubuntu-latest
+    environment: development
+    strategy:
+      fail-fast: false
+      matrix:
+        value: ${{ fromJson(needs.setup.outputs.matrix) }}
+        
+    steps:
+    - name: install dependecies
+      run: sudo apt-get install -y dos2unix
+
+    - name: Checkout
+      uses: actions/checkout@v3.3.0
+      
+    - name: Init Submodule
+      run: git submodule update --init --recursive ${{ matrix.value.path }}
+
+    - name: Get Release for Commit
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: ${{ matrix.value.path }}
+      run: |
+        git fetch --all --tags
+        tag=$(git tag --contains "${{ matrix.value.ref }}" | head -n 1)
+        if [ -n "$tag" ]; then
+          echo "Tag $tag found for commit $ref. Now looking for release..."
+          release=$(gh release view $tag --json body,name | sed "s/'/''/" || true)
+        fi
+        if [ -n "$release" ]; then
+          echo "Release found! $release"
+        fi
+        echo "release=$release" >> $GITHUB_ENV
+      
+    - name: Build Extension
+      id: build_extension
+      uses: RecklessBoon/Macro-Deck-Extension-Build-Action@4f32742817c2537e4472ab35fd9a93e54f600822
+      with:
+        upsert-release: false
+        ext-repo: ${{ matrix.value.repository }}
+        ext-ref: ${{ matrix.value.ref }}
+        
+    - name: Extract Extension Info
+      run: |
+        delim="EOF-${RANDOM}"
+        echo "manifest<<${delim}" >> $GITHUB_ENV
+        cat "${{ matrix.value.path }}/ExtensionManifest.json" | dos2unix | perl -pe 'chome if eof' >> $GITHUB_ENV
+        echo -e "\n${delim}" >> $GITHUB_ENV
+    
+    - name: Debug Extension Info
+      shell: bash
+      run: |
+        echo "[Extension Info Values]"
+        echo "Type                     : ${{ fromJSON(env.manifest).type }}"
+        echo "Name                     : ${{ fromJSON(env.manifest).name }}"
+        echo "Author                   : ${{ fromJSON(env.manifest).author }}"
+        echo "GitHub Repository        : ${{ fromJSON(env.manifest).repository }}"
+        echo "Package ID               : ${{ fromJSON(env.manifest).packageId }}"
+        echo "Version                  : ${{ fromJSON(env.manifest).version }}"
+
+    - name: Validate Extension Info
+      if: |
+        fromJSON(env.manifest).type == '' || 
+        fromJSON(env.manifest).name == '' || 
+        fromJSON(env.manifest).author == '' || 
+        fromJSON(env.manifest).repository == '' || 
+        fromJSON(env.manifest).packageId == '' || 
+        fromJSON(env.manifest).version == '' ||
+        fromJSON(env.manifest).target-plugin-api-version == ''
+      shell: bash
+      run: | 
+        echo "::error file=ExtensionManifest.json::Invalid manifest! Required attributes [name, version, type, author, packageId, repository, target-plugin-api-version]" && exit 1
+        
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v3.0.2
+      with:
+        # Artifact name
+        name: ${{ steps.build_extension.outputs.artifact-name }}
+    
+    - name: Upload built files
+      id: upload-build-files
+      env:
+        MACRO_DECK_API_AUTH: "Bearer ${{ secrets.MACRO_DECK_API_TOKEN }}"
+      run: |
+        curl --fail-with-body -o "./${{ fromJSON(env.manifest).packageId }}-upload-response.json" -X POST \
+          '${{ vars.EXTENSION_STORE_API_URL }}/files/Upload' \
+          -H 'accept: */*' \
+          -H "Authorization: $MACRO_DECK_API_AUTH" \
+          -H 'Content-Type: multipart/form-data' \
+          -F 'file=@${{ steps.build_extension.outputs.artifact-path }};type=application/x-zip-compressed' || true
+        response=$(cat "./${{ fromJSON(env.manifest).packageId }}-upload-response.json")
+        echo -e "Response:\n$response"
+        echo "response=$(cat "./${{ fromJSON(env.manifest).packageId }}-upload-response.json")" >> $GITHUB_OUTPUT
+        
+    - name: Check upload response
+      if: |
+        fromJSON(steps.upload-build-files.outputs.response).success == false &&
+        fromJSON(steps.upload-build-files.outputs.response).errorCode != 4
+      run: |
+        echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}" && exit 1
+
+    - name: Notify Macro Bot
+      id: notify-macro-bot
+      if: |
+        success() &&
+        steps.upload-build-files.outputs.response && 
+        fromJSON(steps.upload-build-files.outputs.response).success == true
+      env:
+        BOT_API_AUTH: "Bearer ${{ steps.upload-build-files.outputs.response && fromJSON(steps.upload-build-files.outputs.response).newPlugin && secrets.BOT_NEW_API_TOKEN || secrets.BOT_UPDATE_API_TOKEN }}"
+        currVer: ${{ steps.upload-build-files.outputs.response && fromJSON(steps.upload-build-files.outputs.response).currentVersion }}
+        newVer: ${{ steps.upload-build-files.outputs.response && fromJSON(steps.upload-build-files.outputs.response).newVersion }}
+        extType: ${{ steps.upload-build-files.outputs.response && fromJSON(steps.upload-build-files.outputs.response).extensionManifest.type }}
+      run: |
+        payload='{
+          "toEveryone" : false,
+          "embed" : {
+            "color" : {
+              "r":0,
+              "g":1,
+              "b":1
+            },
+            "title": "${{ format('[{0}] {1}', env.extType, fromJSON(env.manifest).name) }}",
+            "fields" : [
+              {
+                "name": "Version",
+                "value": "${{ env.currVer && format('{0} -> ', env.currVer) || ''}}${{ env.newVer }}",
+                "inline": false
+              },
+              {
+                "name": "Repository URL",
+                "value": "https://github.com/${{ matrix.value.repository }}",
+                "inline": false
+              },
+              {
+                "name" : "${{ env.release && 'Release' || 'Commit' }}",
+                "value" : "${{ env.release && fromJSON(env.release).name || matrix.value.ref }}" , 
+                "inline" : false
+              }${{ env.release && fromJSON(env.release).body && format(',{{ "name": "Changelog", "value": "{0}", "inline": false }}', fromJSON(env.release).body) }}
+            ]
+          }
+        }'
+        curl --fail-with-body -o "./${{ fromJSON(env.manifest).packageId }}-bot-notify-response.json" -X POST \
+          '${{ vars.BOT_API_URL }}/webhook/${{ fromJSON(steps.upload-build-files.outputs.response).newPlugin && 'newextension' || 'updateextension' }}' \
+          -H 'accept: */*' \
+          -H "Authorization: $BOT_API_AUTH" \
+          -H 'Content-Type: application/json' \
+          -d "$payload" || cat "./${{ fromJSON(env.manifest).packageId }}-bot-notify-response.json"
+            
