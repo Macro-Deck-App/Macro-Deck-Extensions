@@ -16,9 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v3.0.2
+        uses: dawidd6/action-download-artifact@v2
         with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
           name: ${{ github.event.pull_request.number }}
+          workflow: compile_extension.yml
+          pr: ${{github.event.pull_request.number}}
       
       - name: Upload built files
         id: upload-build-files
