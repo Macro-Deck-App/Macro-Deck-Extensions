@@ -32,8 +32,23 @@ jobs:
           echo "response=$(cat "./upload-response.json")" >> $GITHUB_OUTPUT
       
       - name: Check upload response
+        id: upload_response
         if: |
           fromJSON(steps.upload-build-files.outputs.response).success == false &&
           fromJSON(steps.upload-build-files.outputs.response).errorCode != 4
         run: |
           echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}" && exit 1
+    
+      - uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: |
+            author-actions-required
+            build-failed
+            invalid-manifest
+            moderator-review-required
+            tests-failed
+            in-process
+    
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: approved
