@@ -8,6 +8,7 @@ jobs:
   setup:
     name: "Setup"
     runs-on: ubuntu-latest
+    permissions: write-all
     outputs:
       extension-path: ${{ steps.extract-extension-path.outputs.path }}
     
@@ -52,6 +53,7 @@ jobs:
   build:
     name: "Build"
     needs: [ setup ]
+    permissions: write-all
     runs-on: ubuntu-latest
     outputs:
       artifact-name: ${{ steps.build_extension.outputs.artifact-name }}
