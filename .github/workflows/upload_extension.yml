@@ -1,0 +1,39 @@
+name: Upload Extension
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [ closed ]
+
+jobs:
+  deploy:
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
+    name: "Deploy"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.2
+        with:
+          name: ${{ github.event.pull_request.number }}
+      
+      - name: Upload built files
+        id: upload-build-files
+        env:
+          MACRO_DECK_API_AUTH: "${{ secrets.MACRO_DECK_API_TOKEN }}"
+        run: |
+          curl --fail-with-body -o "./upload-response.json" -X POST \
+            '${{ vars.EXTENSION_STORE_API_URL }}/rest/files/upload' \
+            -H 'accept: */*' \
+            -H "x-admin-token: $MACRO_DECK_API_AUTH" \
+            -H 'Content-Type: multipart/form-data' \
+            -F 'file=@$ ${{ github.event.pull_request.number }}.zip;type=application/x-zip-compressed' || true
+          response=$(cat "./upload-response.json")
+          echo -e "Response:\n$response"
+          echo "response=$(cat "./upload-response.json")" >> $GITHUB_OUTPUT
+      
+      - name: Check upload response
+        if: |
+          fromJSON(steps.upload-build-files.outputs.response).success == false &&
+          fromJSON(steps.upload-build-files.outputs.response).errorCode != 4
+        run: |
+          echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}" && exit 1
