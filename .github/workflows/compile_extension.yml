@@ -8,14 +8,17 @@ jobs:
   setup:
     name: "Setup"
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
     outputs:
       extension-path: ${{ steps.extract-extension-path.outputs.path }}
     
     steps:
     - uses: actions-ecosystem/action-remove-labels@v1.3.0
       with:
-        github_token: $PAT
+        github_token: $GITHUB_TOKEN
         labels: |
           author-actions-required
           build-failed
@@ -25,7 +28,7 @@ jobs:
 
     - uses: actions-ecosystem/action-add-labels@v1.1.0
       with:
-        github_token: $PAT
+        github_token: $GITHUB_TOKEN
         labels: in-process
 
     - name: Checkout
@@ -55,7 +58,10 @@ jobs:
   build:
     name: "Build"
     needs: [ setup ]
-    permissions: write-all
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
     runs-on: ubuntu-latest
     outputs:
       artifact-name: ${{ steps.build_extension.outputs.artifact-name }}
@@ -83,11 +89,11 @@ jobs:
     - uses: actions-ecosystem/action-add-labels@v1.1.0
       if: failure() && steps.build_extension.outcome == 'failure'
       with:
-        github_token: $PAT
+        github_token: $GITHUB_TOKEN
         labels: author-actions-required
     
     - uses: actions-ecosystem/action-add-labels@v1.1.0
       if: success()
       with:
-        github_token: $PAT
+        github_token: $GITHUB_TOKEN
         labels: moderator-review-required

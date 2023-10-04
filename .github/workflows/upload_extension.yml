@@ -9,7 +9,10 @@ jobs:
   deploy:
     if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
     name: "Deploy"
-    permissions: write-all
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
     runs-on: ubuntu-latest
     steps:
       - name: Download a Build Artifact
@@ -42,7 +45,7 @@ jobs:
     
       - uses: actions-ecosystem/action-remove-labels@v1.3.0
         with:
-          github_token: $PAT
+          github_token: $GITHUB_TOKEN
           labels: |
             author-actions-required
             build-failed
@@ -53,5 +56,5 @@ jobs:
     
       - uses: actions-ecosystem/action-add-labels@v1.1.0
         with:
-          github_token: $PAT
+          github_token: $GITHUB_TOKEN
           labels: approved
