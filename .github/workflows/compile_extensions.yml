@@ -51,7 +51,7 @@ jobs:
       uses: actions/checkout@v3.3.0
       
     - name: Init Submodule
-      run: git submodule update --init --recursive ${{ needs.setup.outputs.extension_path }}
+      run: git submodule update --init --recursive ./${{ needs.setup.outputs.extension-path }}
       
     - name: Build Extension
       id: build_extension
