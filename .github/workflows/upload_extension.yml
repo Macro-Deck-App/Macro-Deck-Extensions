@@ -42,7 +42,7 @@ jobs:
     
       - uses: actions-ecosystem/action-remove-labels@v1.3.0
         with:
-          github_token: $GITHUB_TOKEN
+          github_token: $PAT
           labels: |
             author-actions-required
             build-failed
@@ -53,5 +53,5 @@ jobs:
     
       - uses: actions-ecosystem/action-add-labels@v1.1.0
         with:
-          github_token: $GITHUB_TOKEN
+          github_token: $PAT
           labels: approved
