@@ -16,21 +16,6 @@ jobs:
       extension-path: ${{ steps.extract-extension-path.outputs.path }}
     
     steps:
-    - uses: actions-ecosystem/action-remove-labels@v1.3.0
-      with:
-        github_token: ${{ secrets.PAT }}
-        labels: |
-          author-actions-required
-          build-failed
-          invalid-manifest
-          moderator-review-required
-          tests-failed
-
-    - uses: actions-ecosystem/action-add-labels@v1.1.0
-      with:
-        github_token: ${{ secrets.PAT }}
-        labels: in-process
-
     - name: Checkout
       uses: actions/checkout@v3.3.0
       
@@ -81,19 +66,3 @@ jobs:
       with:
         extension-path: ${{ needs.setup.outputs.extension-path }}
         artifact-name: ${{ github.event.pull_request.number }}
-    
-    - uses: actions-ecosystem/action-remove-labels@v1.3.0
-      with:
-        labels: in-process
-
-    - uses: actions-ecosystem/action-add-labels@v1.1.0
-      if: failure() && steps.build_extension.outcome == 'failure'
-      with:
-        github_token: ${{ secrets.PAT }}
-        labels: author-actions-required
-    
-    - uses: actions-ecosystem/action-add-labels@v1.1.0
-      if: success()
-      with:
-        github_token: ${{ secrets.PAT }}
-        labels: moderator-review-required

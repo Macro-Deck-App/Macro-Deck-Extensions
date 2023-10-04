@@ -42,19 +42,3 @@ jobs:
           fromJSON(steps.upload-build-files.outputs.response).errorCode != 4
         run: |
           echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}" && exit 1
-    
-      - uses: actions-ecosystem/action-remove-labels@v1.3.0
-        with:
-          github_token: ${{ secrets.PAT }}
-          labels: |
-            author-actions-required
-            build-failed
-            invalid-manifest
-            moderator-review-required
-            tests-failed
-            in-process
-    
-      - uses: actions-ecosystem/action-add-labels@v1.1.0
-        with:
-          github_token: ${{ secrets.PAT }}
-          labels: approved
