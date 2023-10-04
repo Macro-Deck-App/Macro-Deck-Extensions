@@ -33,7 +33,7 @@ jobs:
             -H 'accept: */*' \
             -H "x-admin-token: $MACRO_DECK_API_AUTH" \
             -H 'Content-Type: multipart/form-data' \
-            -F 'file=@$ ${{ github.event.pull_request.number }}.zip;type=application/x-zip-compressed' || true
+            -F 'file=@${{ github.event.pull_request.number }}.zip;type=application/x-zip-compressed' || true
           response=$(cat "./upload-response.json")
           echo -e "Response:\n$response"
           echo "response=$(cat "./upload-response.json")" >> $GITHUB_OUTPUT
