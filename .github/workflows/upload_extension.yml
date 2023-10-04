@@ -45,7 +45,7 @@ jobs:
     
       - uses: actions-ecosystem/action-remove-labels@v1.3.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT }}
           labels: |
             author-actions-required
             build-failed
@@ -56,5 +56,5 @@ jobs:
     
       - uses: actions-ecosystem/action-add-labels@v1.1.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT }}
           labels: approved
