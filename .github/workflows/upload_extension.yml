@@ -39,7 +39,7 @@ jobs:
         run: |
           echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}" && exit 1
     
-      - uses: actions-ecosystem/action-remove-labels@v1
+      - uses: actions-ecosystem/action-remove-labels@v1.3.0
         with:
           labels: |
             author-actions-required
@@ -49,6 +49,6 @@ jobs:
             tests-failed
             in-process
     
-      - uses: actions-ecosystem/action-add-labels@v1
+      - uses: actions-ecosystem/action-add-labels@v1.1.0
         with:
           labels: approved
