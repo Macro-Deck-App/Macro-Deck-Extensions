@@ -10,7 +10,7 @@ jobs:
     name: "Setup"
     runs-on: ubuntu-latest
     outputs:
-      extension_path: ${{ steps.extract-extension-path.outputs.value }}
+      extension-path: ${{ steps.extract-extension-path.outputs.path }}
     
     steps:
     - name: Checkout
@@ -32,10 +32,10 @@ jobs:
             echo "No extension was found"
             exit 1
         fi
-        echo "manifest=$(jq '.files[0].path' <<< ${pr_paths})" >> $GITHUB_OUTPUT
+        echo "path=$(jq '.files[0].path' <<< ${pr_paths})" >> $GITHUB_OUTPUT
       
     - name: Check extension path
-      run: echo "${{ steps.extract-extension-path.outputs.value }}"
+      run: echo "${{ steps.extract-extension-path.outputs.path }}"
 
   build:
     name: "Build"
@@ -57,7 +57,7 @@ jobs:
       id: build_extension
       uses: Macro-Deck-App/Actions/build-extension@main
       with:
-        extension-path: ${{ needs.setup.outputs.extension_path }}
+        extension-path: ${{ needs.setup.outputs.extension-path }}
             
   deploy:
     name: "Deploy"
