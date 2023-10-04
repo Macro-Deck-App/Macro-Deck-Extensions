@@ -19,11 +19,12 @@ jobs:
     - name: Init Submodules
       run: git submodule update --init --recursive --checkout
       
-    - name: Get Changed Submodules
-      id: changed-submodules
+    - name: Generate Matrix
+      id: matrix
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         pr_paths=$(gh pr view ${{ github.event.pull_request.number }} --json files -q '.files[].path' 2> /dev/null || true)
-        changed_submodules=()
         git submodule --quiet foreach "
           paths=\"$pr_paths\"
           if [ -z \"$paths\" ]; then
@@ -31,26 +32,11 @@ jobs:
           fi
           case \$displaypath in 
             \$paths)
-              changed_submodules+=(\"\$sha1 \$displaypath\")
+              echo \$(git remote get-url origin | sed 's/https:\/\/github\.com\///' | sed 's/\.git//') \$sha1 \$displaypath
               ;;
-          esac"
-        echo "::set-output name=changed_submodules::${changed_submodules[@]}"
-      
-    - name: Generate Matrix
-      id: matrix
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: |
-        changed_submodules=(${{ steps.changed-submodules.outputs.changed_submodules }})
-        matrix=""
-        for submodule in "${changed_submodules[@]}"; do
-          repository=$(echo "$submodule" | cut -d ' ' -f 1)
-          ref=$(echo "$submodule" | cut -d ' ' -f 2)
-          path=$(echo "$submodule" | cut -d ' ' -f 3)
-          matrix+="{\"repository\":\"$repository\",\"ref\":\"$ref\",\"path\":\"$path\"},"
-        done
-        matrix="[${matrix%,}]"
-        echo "::set-output name=matrix::$matrix"
+          esac" | \
+          awk 'NR > 1 {printf(",")} {printf("{\"repository\":\"%s\",\"ref\":\"%s\",\"path\":\"%s\"}", $1, $2, $3)}' | \
+          cat <(echo -n 'value=[') - <(echo -n ']')  >> $GITHUB_OUTPUT
       
     - name: Check matrix value
       run: echo "${{ steps.matrix.outputs.value }}"
