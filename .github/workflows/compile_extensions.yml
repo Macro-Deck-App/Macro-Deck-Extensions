@@ -32,7 +32,7 @@ jobs:
             echo "No extension was found"
             exit 1
         fi
-        echo $(jq '.files[0].path' <<< "${pr_paths}")
+        echo "manifest=$(jq '.files[0].path' <<< ${pr_paths})" >> $GITHUB_OUTPUT
       
     - name: Check extension path
       run: echo "${{ steps.extract-extension-path.outputs.value }}"
