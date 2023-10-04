@@ -10,36 +10,32 @@ jobs:
     name: "Setup"
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.matrix.outputs.value }}
+      extension_path: ${{ steps.extract-extension-path.outputs.value }}
     
     steps:
     - name: Checkout
       uses: actions/checkout@v3.3.0
       
-    - name: Init Submodules
-      run: git submodule update --init --recursive --checkout
-      
-    - name: Generate Matrix
-      id: matrix
+    - name: Extract extension path
+      id: extract-extension-path
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        pr_paths=$(gh pr view ${{ github.event.pull_request.number }} --json files -q '.files[].path' 2> /dev/null || true)
-        git submodule --quiet foreach "
-          paths=\"$pr_paths\"
-          if [ -z \"$paths\" ]; then
-            paths=\"\$displaypath\"
-          fi
-          case \$displaypath in 
-            \$paths)
-              echo \$(git remote get-url origin | sed 's/https:\/\/github\.com\///' | sed 's/\.git//') \$sha1 \$displaypath
-              ;;
-          esac" | \
-          awk 'NR > 1 {printf(",")} {printf("{\"repository\":\"%s\",\"ref\":\"%s\",\"path\":\"%s\"}", $1, $2, $3)}' | \
-          cat <(echo -n 'value=[') - <(echo -n ']')  >> $GITHUB_OUTPUT
+        pr_paths=$(gh pr view ${{ github.event.pull_request.number }} --json files)
+        files_count=$(jq '.files | length' <<< "${pr_paths}")
+        if [[ $files_count -gt 1 ]]
+        then
+            echo "Only one extension per pull-request is allowed!"
+            exit 1
+        elif [[ $files_count -eq 0 ]]
+        then
+            echo "No extension was found"
+            exit 1
+        fi
+        echo $(jq '.files[0].path' <<< "${pr_paths}")
       
-    - name: Check matrix value
-      run: echo "${{ steps.matrix.outputs.value }}"
+    - name: Check extension path
+      run: echo "${{ steps.extract-extension-path.outputs.value }}"
 
   build:
     name: "Build"
@@ -49,24 +45,19 @@ jobs:
       artifact-name: ${{ steps.build_extension.outputs.artifact-name }}
       artifact-path: ${{ steps.build_extension.outputs.artifact-path }}
       manifest: ${{ steps.build_extension.outputs.manifest }}
-    strategy:
-      fail-fast: false
-      matrix:
-        value: ${{ fromJson(needs.setup.outputs.matrix) }}
         
     steps:
     - name: Checkout
       uses: actions/checkout@v3.3.0
       
     - name: Init Submodule
-      run: git submodule update --init --recursive ${{ matrix.value.path }}
+      run: git submodule update --init --recursive ${{ needs.setup.outputs.extension_path }}
       
     - name: Build Extension
       id: build_extension
       uses: Macro-Deck-App/Actions/build-extension@main
       with:
-        ext-repo: ${{ matrix.value.repository }}
-        ext-ref: ${{ matrix.value.ref }}
+        extension-path: ${{ needs.setup.outputs.extension_path }}
             
   deploy:
     name: "Deploy"
