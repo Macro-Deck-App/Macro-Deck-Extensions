@@ -12,32 +12,55 @@ jobs:
     outputs:
       extension-path: ${{ steps.extract-extension-path.outputs.path }}
     
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3.3.0
-      with:
-        ref: "${{ github.event.pull_request.merge_commit_sha }}"
-      
-    - name: Extract extension path
-      id: extract-extension-path
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: |
-        pr_paths=$(gh pr view ${{ github.event.pull_request.number }} --json files)
-        files_count=$(jq '.files | length' <<< ${pr_paths})
-        if [[ $files_count -gt 1 ]]
-        then
-            echo "Only one extension per pull-request is allowed!"
-            exit 1
-        elif [[ $files_count -eq 0 ]]
-        then
-            echo "No extension was found"
-            exit 1
-        fi
-        echo "path=$(jq -r '.files[0].path' <<< ${pr_paths})" >> $GITHUB_OUTPUT
-      
-    - name: Check extension path
-      run: echo "${{ steps.extract-extension-path.outputs.path }}"
+    steps:  
+      - uses: actions-ecosystem/action-add-labels@1a9c3715c0037e96b97bb38cb4c4b56a1f1d4871
+        with:
+          labels: in-process
+
+      - uses: actions-ecosystem/action-remove-labels@v1.3.0
+        with:
+          labels: |
+            author-actions-required
+            build-failed
+            invalid-manifest
+            moderator-review-required
+            tests-failed
+
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+        with:
+          ref: "${{ github.event.pull_request.merge_commit_sha }}"
+        
+      - name: Extract extension path
+        id: extract-extension-path
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pr_paths=$(gh pr view ${{ github.event.pull_request.number }} --json files)
+          files_count=$(jq '.files | length' <<< ${pr_paths})
+          if [[ $files_count -gt 1 ]]
+          then
+              echo "Only one extension per pull-request is allowed!"
+              exit 1
+          elif [[ $files_count -eq 0 ]]
+          then
+              echo "No extension was found"
+              exit 1
+          fi
+          echo "path=$(jq -r '.files[0].path' <<< ${pr_paths})" >> $GITHUB_OUTPUT
+        
+      - name: Check extension path
+        run: echo "${{ steps.extract-extension-path.outputs.path }}"
+
+      - uses: actions-ecosystem/action-remove-labels@v1.3.0
+        if: failure() && (steps.extract-extension-path.outcome == 'failure')
+        with:
+          labels: in-process
+
+      - uses: actions-ecosystem/action-add-labels@1a9c3715c0037e96b97bb38cb4c4b56a1f1d4871
+        if: failure() && (steps.extract-extension-path.outcome == 'failure')
+        with:
+          labels: author-actions-required
 
   build:
     name: "Build"
@@ -49,20 +72,44 @@ jobs:
       manifest: ${{ steps.build_extension.outputs.manifest }}
         
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3.3.0
-      with:
-        ref: "${{ github.event.pull_request.merge_commit_sha }}"
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+        with:
+          ref: "${{ github.event.pull_request.merge_commit_sha }}"
+        
+      - name: Init Submodule
+        run: git submodule update --init --recursive ./${{ needs.setup.outputs.extension-path }}
+        
+      - name: Build Extension
+        id: build_extension
+        uses: Macro-Deck-App/Actions/build-extension@main
+        with:
+          extension-path: ${{ needs.setup.outputs.extension-path }}
+          artifact-name: ${{ github.event.pull_request.number }}
+
       
-    - name: Init Submodule
-      run: git submodule update --init --recursive ./${{ needs.setup.outputs.extension-path }}
-      
-    - name: Build Extension
-      id: build_extension
-      uses: Macro-Deck-App/Actions/build-extension@main
-      with:
-        extension-path: ${{ needs.setup.outputs.extension-path }}
-        artifact-name: ${{ github.event.pull_request.number }}
+      - uses: actions-ecosystem/action-remove-labels@v1.3.0
+        if: failure() && (steps.build_extension.outcome == 'failure')
+        with:
+          labels: in-process
+
+      - uses: actions-ecosystem/action-add-labels@1a9c3715c0037e96b97bb38cb4c4b56a1f1d4871
+        if: failure() && (steps.build_extension.outcome == 'failure')
+        with:
+          labels: |
+            author-actions-required
+            build-failed
+
+      - uses: actions-ecosystem/action-add-labels@1a9c3715c0037e96b97bb38cb4c4b56a1f1d4871
+        if: success()
+        with:
+          labels: moderator-review-required
+
+      - uses: actions-ecosystem/action-remove-labels@v1.3.0
+        if: success()
+        with:
+          labels: |
+            in-process
 
   deploy:
     name: "Deploy"
@@ -70,6 +117,14 @@ jobs:
     needs: [ build ]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions-ecosystem/action-add-labels@1a9c3715c0037e96b97bb38cb4c4b56a1f1d4871
+        with:
+          labels: approved
+
+      - uses: actions-ecosystem/action-remove-labels@v1.3.0
+        with:
+          labels: moderator-review-required
+
       - name: Download a Build Artifact
         uses: actions/download-artifact@v3.0.2
         with:
@@ -83,3 +138,4 @@ jobs:
         with:
           extension-path: "${{ github.event.pull_request.number }}.zip"
           api-token: ${{ env.AUTH_TOKEN }}
+        
