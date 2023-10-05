@@ -9,10 +9,6 @@ jobs:
   setup:
     name: "Setup"
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
     outputs:
       extension-path: ${{ steps.extract-extension-path.outputs.path }}
     
@@ -44,10 +40,6 @@ jobs:
   build:
     name: "Build"
     needs: [ setup ]
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
     runs-on: ubuntu-latest
     outputs:
       artifact-name: ${{ steps.build_extension.outputs.artifact-name }}
@@ -82,8 +74,8 @@ jobs:
       - name: Upload built files
         id: upload-build-files
         env:
-          auth-token: ${{ secrets.MACRO_DECK_API_TOKEN }}
+          AUTH_TOKEN: ${{ secrets.MACRO_DECK_API_TOKEN }}
         uses: Macro-Deck-App/Actions/upload-extension@main
         with:
           extension-path: "${{ github.event.pull_request.number }}.zip"
-          api-token: ${{ env.auth-token }}
+          api-token: ${{ env.AUTH_TOKEN }}
