@@ -12,6 +12,9 @@ jobs:
     environment: production
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+        
       - name: Download a Build Artifact
         uses: dawidd6/action-download-artifact@v2
         with:
