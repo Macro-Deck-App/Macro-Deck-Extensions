@@ -76,11 +76,11 @@ jobs:
       - name: Download a Build Artifact
         uses: actions/download-artifact@v3.0.2
         with:
-          name: ${{ needs.build.outputs.artifact-name }}
+          name: ${{ github.event.pull_request.number }}
       
       - name: Upload built files
         id: upload-build-files
-        uses: Macro-Deck-App/Actions/build-extension@main
+        uses: Macro-Deck-App/Actions/upload-extension@main
         with:
-          extension-path: "${{github.event.pull_request.number}}.zip"
+          extension-path: "${{ github.event.pull_request.number }}.zip"
           api-token: ${{ secrets.MACRO_DECK_API_TOKEN }}
