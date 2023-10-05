@@ -1,0 +1,21 @@
+name: Deploy Extension
+on:
+  repository_dispatch:
+    types: [deploy-extension]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.2
+        with:
+          name: ${{ github.event.client_payload.ref }}
+      
+      - name: Upload built files
+        id: upload-build-files
+        env:
+          AUTH_TOKEN: ${{ secrets.MACRO_DECK_API_TOKEN }}
+        uses: Macro-Deck-App/Actions/upload-extension@main
+        with:
+          extension-path: "${{ github.event.client_payload.ref }}.zip"
+          api-token: ${{ env.AUTH_TOKEN }}
