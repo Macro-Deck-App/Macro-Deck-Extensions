@@ -181,7 +181,7 @@ jobs:
             }
           }'
           curl --fail-with-body -o "./bot-notify-response.json" -X POST \
-            'https://bot.api.macro-deck.app/webhook/new-extension' \
+            'https://bot.api.macro-deck.app/webhook/extension-store' \
             -H 'accept: */*' \
             -H "Authorization: ${{ secrets.BOT_TOKEN }}" \
             -H 'Content-Type: application/json' \
@@ -218,7 +218,7 @@ jobs:
             }
           }'
           curl --fail-with-body -o "./bot-notify-response.json" -X POST \
-            'https://bot.api.macro-deck.app/webhook/update-extension' \
+            'https://bot.api.macro-deck.app/webhook/extension-store' \
             -H 'accept: */*' \
             -H "Authorization: ${{ secrets.BOT_TOKEN }}" \
             -H 'Content-Type: application/json' \
