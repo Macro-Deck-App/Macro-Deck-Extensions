@@ -66,3 +66,21 @@ jobs:
       with:
         extension-path: ${{ needs.setup.outputs.extension-path }}
         artifact-name: ${{ github.event.pull_request.number }}
+
+  deploy:
+    name: "Deploy"
+    environment: production
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.2
+        with:
+          name: ${{ needs.build.outputs.artifact-name }}
+      
+      - name: Upload built files
+        id: upload-build-files
+        uses: Macro-Deck-App/Actions/build-extension@main
+        with:
+          extension-path: "${{github.event.pull_request.number}}.zip"
+          api-token: ${{ secrets.MACRO_DECK_API_TOKEN }}
