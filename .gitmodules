@@ -81,7 +81,7 @@
 	url = https://github.com/Varelx/varelx-icon-pack
 [submodule "Plugins/Develeon64.SpotifyPlugin"]
 	path = Plugins/Develeon64.SpotifyPlugin
-	url = https://github.com/Develeon64/Macro-Deck-Spotify-Plugin
+	url = https://github.com/manuelmayer-dev/Macro-Deck-Spotify-Plugin
 [submodule "Plugins/Xenox003.MagicHome"]
 	branch = master
   url = https://github.com/Xenox003/MacroDeckMagicHome.git
