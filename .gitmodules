@@ -9,28 +9,28 @@
 	url = https://github.com/PhoenixWyllow/Soundboard4MacroDeck2.git
 [submodule "Plugins/SuchByte.WindowsUtils"]
 	path = Plugins/SuchByte.WindowsUtils
-	url = https://github.com/SuchByte/Macro-Deck-Windows-Utils-Plugin
+	url = https://github.com/manuelmayer-dev/Macro-Deck-Windows-Utils-Plugin
 [submodule "IconPacks/MacroDeck.MacroDeckcolorfulgenericicons"]
 	path = IconPacks/MacroDeck.MacroDeckcolorfulgenericicons
-	url = https://github.com/SuchByte/Macro-Deck-Colorful-Generic-Icons
+	url = https://github.com/manuelmayer-dev/Macro-Deck-Colorful-Generic-Icons
 [submodule "Plugins/SuchByte.MediaControls"]
 	path = Plugins/SuchByte.MediaControls
-	url = https://github.com/SuchByte/Macro-Deck-Media-Controls-Plugin
+	url = https://github.com/manuelmayer-dev/Macro-Deck-Media-Controls-Plugin
 [submodule "Plugins/SuchByte.TwitchPlugin"]
 	path = Plugins/SuchByte.TwitchPlugin
-	url = https://github.com/SuchByte/Macro-Deck-Twitch-Plugin
+	url = https://github.com/manuelmayer-dev/Macro-Deck-Twitch-Plugin
 [submodule "Plugins/SuchByte.GHUBBatteries"]
 	path = Plugins/SuchByte.GHUBBatteries
-	url = https://github.com/SuchByte/Macro-Deck-GHUB-Batteries
+	url = https://github.com/manuelmayer-dev/Macro-Deck-GHUB-Batteries
 [submodule "Plugins/SuchByte.OBS-WebSocketPlugin"]
 	path = Plugins/SuchByte.OBS-WebSocketPlugin
-	url = https://github.com/SuchByte/Macro-Deck-OBS-WebSocket-Plugin
+	url = https://github.com/manuelmayer-dev/Macro-Deck-OBS-WebSocket-Plugin
 [submodule "Plugins/SuchByte.SinusBotPlugin"]
 	path = Plugins/SuchByte.SinusBotPlugin
-	url = https://github.com/SuchByte/Macro-Deck-SinusBot-Plugin
+	url = https://github.com/manuelmayer-dev/Macro-Deck-SinusBot-Plugin
 [submodule "Plugins/SuchByte.HomeAssistantPlugin"]
 	path = Plugins/SuchByte.HomeAssistantPlugin
-	url = https://github.com/SuchByte/Macro-Deck-Home-Assistant-Plugin
+	url = https://github.com/manuelmayer-dev/Macro-Deck-Home-Assistant-Plugin
 [submodule "Plugins/PhoenixWyllow.SoundPadPlugin"]
 	path = Plugins/PhoenixWyllow.SoundPadPlugin
 	url = https://github.com/PhoenixWyllow/MacroDeck.SoundPad
@@ -60,7 +60,7 @@
 	url = https://github.com/desatur8/MacroDeck-Icons-Voicemeeter.git
 [submodule "Plugins/SuchByte.PiHolePlugin"]
 	path = Plugins/SuchByte.PiHolePlugin
-	url = https://github.com/SuchByte/Macro-Deck-Pi-hole-Plugin
+	url = https://github.com/manuelmayer-dev/Macro-Deck-Pi-hole-Plugin
 [submodule "Plugins/jbcarreon123.ShareXPlugin"]
 	path = Plugins/jbcarreon123.ShareXPlugin
 	url = https://github.com/jbcarreon123/MacroDeck2-ShareXPlugin
