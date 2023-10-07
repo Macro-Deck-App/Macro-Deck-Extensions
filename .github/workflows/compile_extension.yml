@@ -147,79 +147,10 @@ jobs:
           echo "::error ::Failed to upload files to build server. Response: ${{ steps.upload-build-files.outputs.response }}" && exit 1
 
       - name: Notify new plugin
-        if: fromJSON(steps.upload-build-files.outputs.response).newPlugin == true
-        env:
-          extensionManifest: ${{ fromJSON(steps.upload-build-files.outputs.response).extensionManifest }}
-          response: ${{ fromJSON(steps.upload-build-files.outputs.response) }}
-        run: |
-          payload='{
-            "toEveryone" : false,
-            "embed" : {
-              "color" : {
-                "r":0,
-                "g":1,
-                "b":0
-              },
-              "title": "🎉 ${{ format('[{0}] {1}', fromJSON(env.extensionManifest).type, fromJSON(env.extensionManifest).name) }} is now available in the Extension Store",
-              "fields" : [
-                {
-                  "name": "Description",
-                  "value": "${{ env.response.description }}",
-                  "inline": false
-                },
-                {
-                  "name": "Author",
-                  "value": "${{ fromJSON(env.extensionManifest).author }}",
-                  "inline": false
-                },
-                {
-                  "name": "Repository URL",
-                  "value": "${{ fromJSON(env.extensionManifest).repository }}",
-                  "inline": false
-                }
-              ]
-            }
-          }'
-          curl --fail-with-body -o "./bot-notify-response.json" -X POST \
-            'https://bot.api.macro-deck.app/webhook/extension-store' \
-            -H 'accept: */*' \
-            -H "Authorization: ${{ secrets.BOT_TOKEN }}" \
-            -H 'Content-Type: application/json' \
-            -d "$payload" || cat "./bot-notify-response.json"
+        uses: Macro-Deck-App/Actions/upload-extension@main
+        with:
+          upload-response: ${{ steps.upload-build-files.outputs.response }}
+          bot-token: ${{ secrets.BOT_TOKEN }}
+          
 
-      - name: Notify update plugin
-        if: fromJSON(steps.upload-build-files.outputs.response).newPlugin == false
-        env:
-          extensionManifest: ${{ fromJSON(steps.upload-build-files.outputs.response).extensionManifest }}
-          response: ${{ fromJSON(steps.upload-build-files.outputs.response) }}
-          newVersion: ${{ fromJSON(steps.upload-build-files.outputs.response).newVersion }}
-        run: |
-          payload='{
-            "toEveryone" : false,
-            "embed" : {
-              "color" : {
-                "r":0,
-                "g":1,
-                "b":1
-              },
-              "title": "🚀 ${{ format('[{0}] {1}', fromJSON(env.extensionManifest).type, fromJSON(env.extensionManifest).name) }} was updated",
-              "fields" : [
-                {
-                  "name": "Version",
-                  "value": "${{ fromJSON(env.extensionManifest).type }} -> ${{ env.newVersion }}",
-                  "inline": false
-                },
-                {
-                  "name": "Repository URL",
-                  "value": "${{ fromJSON(env.extensionManifest).repository }}",
-                  "inline": false
-                }
-              ]
-            }
-          }'
-          curl --fail-with-body -o "./bot-notify-response.json" -X POST \
-            'https://bot.api.macro-deck.app/webhook/extension-store' \
-            -H 'accept: */*' \
-            -H "Authorization: ${{ secrets.BOT_TOKEN }}" \
-            -H 'Content-Type: application/json' \
-            -d "$payload" || cat "./bot-notify-response.json"
+    
