@@ -17,13 +17,15 @@ All artifacts to include in Macro Deck must be pulled into this repository for b
 ```json
 {
    "type" : "Plugin|IconPack",
-   "name" : "NameOfYourExtension",
+   "name" : "NameOfYourExtension", (You can't change this in the future)
    "author" : "You",
    "repository" : "https://github.com/you/Your-Repository",
-   "packageId" : "YourName.ExtensionName",
-   "version" : "1.0.0",
-   "target-plugin-api-version" : 36,
-   "dll" : "My Plugin.dll"
+   "packageId" : "YourName.ExtensionName", (No whitespace and no special characters allowed, you can't change this in the future)
+   "version" : "1.0.0", (Recommended format: Major.Minor.Patch)
+   "target-plugin-api-version" : 40, (Find this in the Macro Deck settings)
+   "target-plugin-macro-deck-version" : "1.13.0", (The current version you're using for development)
+   "dll" : "My Plugin.dll" (Only required for plugins)
+   "author-discord-userid": "9876545678765" (Optional: Your Discord user Id for support)
 }
 ```
 
@@ -68,6 +70,6 @@ SomeotherIcon.png
    
 4. Click on `Run workflow` button
 5. Fill in the details and click the green `Run workflow` button under the fields
-6. Open the PR that is created, accept and merge it
-7. On your main branch, create a PR to the parent repository
+6. On your main branch, create a PR to the parent repository
   - This is required due to permissions via actions being more strict than the web UI
+7. Your extension will be automatically checked and built. After that a moderator will approve your submission.
