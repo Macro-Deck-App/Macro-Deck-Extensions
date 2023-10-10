@@ -115,5 +115,6 @@ jobs:
       - name: Merge Pull Request
         uses: "pascalgn/automerge-action@v0.15.6"
         env:
+          MERGE_LABELS: ""
           PULL_REQUEST: ${{ steps.create-pr.outputs.pull-request-number}}
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
