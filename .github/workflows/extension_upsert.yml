@@ -49,8 +49,11 @@ jobs:
       - name: Clean branch
         shell: bash
         run: | 
-          chmod +x ./bin/clean_working_tree.sh
-          ./bin/clean_working_tree.sh
+          git clean -xfd
+          git submodule foreach --recursive git clean -xfd
+          git reset --hard
+          git submodule foreach --recursive git reset --hard
+          git submodule update --init --recursive ./${{ env.output_path }}/${{ env.package_id }}
           
       - name: Add Submodule (If Needed)
         id: add_submodule
@@ -80,6 +83,7 @@ jobs:
           
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
+        id: create-pr
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Update ${{ env.ext_type }} - ${{ env.package_id }}
@@ -107,3 +111,9 @@ jobs:
             </table>
           branch: feature/update-${{ env.package_id }}
           delete-branch: true
+      
+      - name: Merge Pull Request
+        uses: "pascalgn/automerge-action@v0.15.6"
+        env:
+          PULL_REQUEST: ${{ steps.create-pr.outputs.pull-request-number}}
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
