@@ -157,18 +157,26 @@
 	path = IconPacks/morbeckp.Lime.Pack
 	url = https://github.com/morbeckp/macro-deck-iconpack
 [submodule "Plugins/SuchByte.GHUBBatteries"]
+	path = Plugins/SuchByte.GHUBBatteries
 	url = https://github.com/manuelmayer-dev/Macro-Deck-GHUB-Batteries
 [submodule "Plugins/SuchByte.PiHolePlugin"]
+	path = Plugins/SuchByte.PiHolePlugin
 	url = https://github.com/manuelmayer-dev/Macro-Deck-Pi-hole-Plugin
 [submodule "Plugins/SuchByte.MediaControls"]
+	path = Plugins/SuchByte.MediaControls
 	url = https://github.com/manuelmayer-dev/Macro-Deck-Media-Controls-Plugin
 [submodule "Plugins/SuchByte.SinusBotPlugin"]
+	path = Plugins/SuchByte.SinusBotPlugin
 	url = https://github.com/manuelmayer-dev/Macro-Deck-SinusBot-Plugin
 [submodule "Plugins/SuchByte.OBS-WebSocketPlugin"]
+	path = Plugins/SuchByte.OBS-WebSocketPlugin
 	url = https://github.com/manuelmayer-dev/Macro-Deck-OBS-WebSocket-Plugin
 [submodule "Plugins/SuchByte.TwitchPlugin"]
+	path = Plugins/SuchByte.TwitchPlugin
 	url = https://github.com/manuelmayer-dev/Macro-Deck-Twitch-Plugin
 [submodule "Plugins/Develeon64.SpotifyPlugin"]
+	path = Plugins/Develeon64.SpotifyPlugin
 	url = https://github.com/manuelmayer-dev/Macro-Deck-Spotify-Plugin
 [submodule "Plugins/SuchByte.HomeAssistantPlugin"]
+	path = Plugins/SuchByte.HomeAssistantPlugin
 	url = https://github.com/manuelmayer-dev/Macro-Deck-Home-Assistant-Plugin
