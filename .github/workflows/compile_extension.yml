@@ -27,9 +27,9 @@ jobs:
             tests-failed
 
       - name: Checkout
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v4.1.0
         with:
-          ref: "${{ github.event.pull_request.merge_commit_sha }}"
+          ref: "refs/pull/${{ github.event.pull_request.number }}/merge"
         
       - name: Extract extension path
         id: extract-extension-path
@@ -73,9 +73,9 @@ jobs:
         
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v4.1.0
         with:
-          ref: "${{ github.event.pull_request.merge_commit_sha }}"
+          ref: "refs/pull/${{ github.event.pull_request.number }}/merge"
         
       - name: Init Submodule
         run: git submodule update --init --recursive ./${{ needs.setup.outputs.extension-path }}
