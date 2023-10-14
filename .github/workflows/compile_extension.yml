@@ -138,12 +138,6 @@ jobs:
         with:
           extension-path: "${{ github.event.pull_request.number }}.zip"
           api-token: ${{ env.AUTH_TOKEN }}
-
-      - name: Merge
-        uses: "pascalgn/automerge-action@v0.15.6"
-        env:
-          MERGE_LABELS: "approved"
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         
       - name: Notify 
         uses: Macro-Deck-App/Actions/notify-extension@main
