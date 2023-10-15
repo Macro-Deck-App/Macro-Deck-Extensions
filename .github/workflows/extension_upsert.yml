@@ -78,8 +78,8 @@ jobs:
       - name: Sanity Check
         shell: bash
         run: | 
-          chmod +x ./github/workflows/sanity_check.sh
-          ./github/workflows/sanity_check.sh
+          chmod +x ./Utils/sanity_check.sh
+          ./Utils/sanity_check.sh
           
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
