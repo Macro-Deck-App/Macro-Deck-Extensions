@@ -23,7 +23,7 @@ All artifacts to include in Macro Deck must be pulled into this repository for b
    "packageId" : "YourName.ExtensionName", (No whitespace and no special characters allowed, you can't change this in the future)
    "version" : "1.0.0", (Recommended format: Major.Minor.Patch)
    "target-plugin-api-version" : 40, (Find this in the Macro Deck settings)
-   "target-plugin-macro-deck-version" : "1.13.0", (The current version you're using for development)
+   "target-macro-deck-version" : "1.13.0", (The current version you're using for development)
    "dll" : "My Plugin.dll" (Only required for plugins)
    "author-discord-userid": "9876545678765" (Optional: Your Discord user Id for support)
 }
