@@ -177,3 +177,7 @@
 [submodule "Plugins/SuchByte.HomeAssistantPlugin"]
 	path = Plugins/SuchByte.HomeAssistantPlugin
 	url = https://github.com/manuelmayer-dev/Macro-Deck-Home-Assistant-Plugin
+[submodule "Plugins\\SuchByte.OBS-WebSocketPlugin"]
+	url = https://github.com/RecklessBoon/Macro-Deck-OBS-WebSocket-Plugin
+[submodule "Plugins\\SuchByte.TwitchPlugin"]
+	url = https://github.com/RecklessBoon/Macro-Deck-Twitch-Plugin
