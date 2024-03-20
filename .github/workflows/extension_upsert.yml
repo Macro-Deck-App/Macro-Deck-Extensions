@@ -42,7 +42,7 @@ jobs:
         run: |
           if [ ${{ env.ext_type }} = 'Plugin' ]; then 
             echo 'output_path=Plugins' >> $GITHUB_ENV
-          else
+          elif [ ${{ env.ext_type }} = 'IconPack' ]; then 
             echo 'output_path=IconPacks' >> $GITHUB_ENV
           fi
       
@@ -53,7 +53,9 @@ jobs:
           git submodule foreach --recursive git clean -xfd
           git reset --hard
           git submodule foreach --recursive git reset --hard
-          git submodule update --init --recursive ./${{ env.output_path }}/${{ env.package_id }}
+          if [ -d "./${{ env.output_path }}/${{ env.package_id }}" ]; then
+            git submodule update --init --recursive ./${{ env.output_path }}/${{ env.package_id }}
+          fi
           
       - name: Add Submodule (If Needed)
         id: add_submodule
