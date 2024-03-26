@@ -181,3 +181,6 @@
 	url = https://github.com/RecklessBoon/Macro-Deck-OBS-WebSocket-Plugin
 [submodule "Plugins\\SuchByte.TwitchPlugin"]
 	url = https://github.com/RecklessBoon/Macro-Deck-Twitch-Plugin
+[submodule "Plugins/MrVibesRSA.OpenHardwareMonitorPlugin"]
+	path = Plugins/MrVibesRSA.OpenHardwareMonitorPlugin
+	url = https://github.com/MrVibesRSA/Open-Hardware-Monitor-Plugin
