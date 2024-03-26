@@ -184,3 +184,6 @@
 [submodule "Plugins/MrVibesRSA.StreamerbotPlugin"]
 	path = Plugins/MrVibesRSA.StreamerbotPlugin
 	url = https://github.com/MrVibesRSA/Streamer.bot-Plugin
+[submodule "Plugins/MrVibesRSA.OpenHardwareMonitorPlugin"]
+	path = Plugins/MrVibesRSA.OpenHardwareMonitorPlugin
+	url = https://github.com/MrVibesRSA/Open-Hardware-Monitor-Plugin
