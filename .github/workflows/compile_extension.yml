@@ -36,8 +36,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          pr_paths=$(gh pr view ${{ github.event.pull_request.number }} --json files)
-          files_count=$(jq '.files | length' <<< ${pr_paths})
+          pr_paths=$(gh pr view ${{ github.event.pull_request.number }} --json files | jq '.files | map(select(.path != ".gitmodules"))')
+          files_count=$(jq '. | length' <<< ${pr_paths})
           if [[ $files_count -gt 1 ]]
           then
               echo "Only one extension per pull-request is allowed!"
@@ -47,7 +47,7 @@ jobs:
               echo "No extension was found"
               exit 1
           fi
-          echo "path=$(jq -r '.files[0].path' <<< ${pr_paths})" >> $GITHUB_OUTPUT
+          echo "path=$(jq -r '.[0].path' <<< ${pr_paths})" >> $GITHUB_OUTPUT
         
       - name: Check extension path
         run: echo "${{ steps.extract-extension-path.outputs.path }}"
