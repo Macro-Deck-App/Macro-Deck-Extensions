@@ -5,6 +5,10 @@ on:
     branches: [ "main" ]
     types: [opened, synchronize, reopened]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   setup:
     name: "Setup"
@@ -145,4 +149,9 @@ jobs:
           upload-response: ${{ steps.upload-build-files.outputs.response }}
           bot-token: ${{ secrets.BOT_TOKEN }}
 
-    
+      - name: Merge Pull Request
+        uses: "pascalgn/automerge-action@v0.16.3"
+        env:
+          MERGE_LABELS: ""
+          PULL_REQUEST: ${{ steps.create-pr.outputs.pull-request-number}}
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
