@@ -181,3 +181,9 @@
 	url = https://github.com/RecklessBoon/Macro-Deck-OBS-WebSocket-Plugin
 [submodule "Plugins\\SuchByte.TwitchPlugin"]
 	url = https://github.com/RecklessBoon/Macro-Deck-Twitch-Plugin
+[submodule "Plugins/MrVibesRSA.StreamerbotPlugin"]
+	path = Plugins/MrVibesRSA.StreamerbotPlugin
+	url = https://github.com/MrVibesRSA/Streamer.bot-Plugin
+[submodule "IconPacks/Glacir.Helldivers2.Stratagems"]
+	path = IconPacks/Glacir.Helldivers2.Stratagems
+	url = https://github.com/Glacir/Glacir.Helldivers2.Stratagems
