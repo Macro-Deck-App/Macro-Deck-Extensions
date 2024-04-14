@@ -187,3 +187,6 @@
 [submodule "IconPacks/Glacir.Helldivers2.Stratagems"]
 	path = IconPacks/Glacir.Helldivers2.Stratagems
 	url = https://github.com/Glacir/Glacir.Helldivers2.Stratagems
+[submodule "Plugins/CozurOfficial.AutoClicker"]
+	path = Plugins/CozurOfficial.AutoClicker
+	url = https://github.com/CozurOfficial/Macro-Deck-Auto-Clicker-Plugin
