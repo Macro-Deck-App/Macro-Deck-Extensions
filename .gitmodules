@@ -190,3 +190,6 @@
 [submodule "Plugins/CozurOfficial.AutoClicker"]
 	path = Plugins/CozurOfficial.AutoClicker
 	url = https://github.com/CozurOfficial/Macro-Deck-Auto-Clicker-Plugin
+[submodule "Plugins/hashashin.FxCommands"]
+	path = Plugins/hashashin.FxCommands
+	url = https://github.com/hashashin/hashashin.FxCommands
