@@ -193,3 +193,6 @@
 [submodule "Plugins/hashashin.FxCommands"]
 	path = Plugins/hashashin.FxCommands
 	url = https://github.com/hashashin/hashashin.FxCommands
+[submodule "Plugins/dichternebel.YaSB"]
+	path = Plugins/dichternebel.YaSB
+	url = https://github.com/dichternebel/macrodeck-yasb-plugin.git
