@@ -193,3 +193,6 @@
 [submodule "Plugins/hashashin.FxCommands"]
 	path = Plugins/hashashin.FxCommands
 	url = https://github.com/hashashin/hashashin.FxCommands
+[submodule "Plugins/FarLemon.JsonUtilityPlugin"]
+	path = Plugins/FarLemon.JsonUtilityPlugin
+	url = https://github.com/FarLemon/Macro-Deck-JSON-Utility-Plugin.git
