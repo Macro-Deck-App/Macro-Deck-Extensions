@@ -196,3 +196,6 @@
 [submodule "Plugins/FarLemon.JsonUtilityPlugin"]
 	path = Plugins/FarLemon.JsonUtilityPlugin
 	url = https://github.com/FarLemon/Macro-Deck-JSON-Utility-Plugin.git
+[submodule "Plugins/ItaiMarom.LibreHardwareMonitorPlugin"]
+	path = Plugins/ItaiMarom.LibreHardwareMonitorPlugin
+	url = https://github.com/dominic25/ItaiMarom.LibreHardwareMonitorPlugin
