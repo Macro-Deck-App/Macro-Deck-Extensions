@@ -196,3 +196,9 @@
 [submodule "Plugins/dichternebel.YaSB"]
 	path = Plugins/dichternebel.YaSB
 	url = https://github.com/dichternebel/macrodeck-yasb-plugin.git
+[submodule "Plugins/FarLemon.JsonUtilityPlugin"]
+	path = Plugins/FarLemon.JsonUtilityPlugin
+	url = https://github.com/FarLemon/Macro-Deck-JSON-Utility-Plugin.git
+[submodule "Plugins/ItaiMarom.LibreHardwareMonitorPlugin"]
+	path = Plugins/ItaiMarom.LibreHardwareMonitorPlugin
+	url = https://github.com/dominic25/ItaiMarom.LibreHardwareMonitorPlugin
