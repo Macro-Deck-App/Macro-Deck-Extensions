@@ -205,3 +205,6 @@
 [submodule "IconPacks/TwigYT.MacroDeck.MaterialDesignIconsPack"]
 	path = IconPacks/TwigYT.MacroDeck.MaterialDesignIconsPack
 	url = https://github.com/TwigYT/MacroDeck.MaterialDesignIconsPack
+[submodule "Plugins/Stubbs.HellDivers2Strats"]
+	path = Plugins/Stubbs.HellDivers2Strats
+	url = https://github.com/rstubbs94/Stubbs.HellDivers2Strats
