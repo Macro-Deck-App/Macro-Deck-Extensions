@@ -22,7 +22,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      
+      - name: Use token for submodules
+        run: |
+          git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
       - name: Get manifest details
         run: |
           rm -rf ../temp
