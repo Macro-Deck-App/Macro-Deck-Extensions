@@ -208,3 +208,6 @@
 [submodule "Plugins/Stubbs.HellDivers2Strats"]
 	path = Plugins/Stubbs.HellDivers2Strats
 	url = https://github.com/rstubbs94/Stubbs.HellDivers2Strats
+[submodule "Plugins/felba.SpotifyAlbumCoverPlugin"]
+	path = Plugins/felba.SpotifyAlbumCoverPlugin
+	url = https://github.com/felpower/Macro-Deck-Spotify-Album-Cover-Plugin
