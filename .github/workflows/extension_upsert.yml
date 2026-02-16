@@ -22,6 +22,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: false
+          fetch-depth: 0
       - name: Use token for submodules
         run: |
           git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
@@ -52,9 +55,7 @@ jobs:
         shell: bash
         run: | 
           git clean -xfd
-          git submodule foreach --recursive git clean -xfd
           git reset --hard
-          git submodule foreach --recursive git reset --hard
           if [ -d "./${{ env.output_path }}/${{ env.package_id }}" ]; then
             git submodule update --init --recursive ./${{ env.output_path }}/${{ env.package_id }}
           fi
