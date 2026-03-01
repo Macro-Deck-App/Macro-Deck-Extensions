@@ -211,3 +211,6 @@
 [submodule "Plugins/DoggoDogPack.MultiDisplayVCPClient"]
 	path = Plugins/DoggoDogPack.MultiDisplayVCPClient
 	url = https://github.com/dog199200/MultiDisplayVCPClient
+[submodule "Plugins/CountTogether.MacroDeckPlugin"]
+	path = Plugins/CountTogether.MacroDeckPlugin
+	url = https://github.com/CountTogether/Macro-Deck-2-Plugin
