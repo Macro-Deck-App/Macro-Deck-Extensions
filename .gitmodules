@@ -208,3 +208,6 @@
 [submodule "Plugins/Stubbs.HellDivers2Strats"]
 	path = Plugins/Stubbs.HellDivers2Strats
 	url = https://github.com/rstubbs94/Stubbs.HellDivers2Strats
+[submodule "Plugins/DoggoDogPack.MultiDisplayVCPClient"]
+	path = Plugins/DoggoDogPack.MultiDisplayVCPClient
+	url = https://github.com/dog199200/MultiDisplayVCPClient
