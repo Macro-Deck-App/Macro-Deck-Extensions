@@ -214,3 +214,6 @@
 [submodule "Plugins/CountTogether.MacroDeckPlugin"]
 	path = Plugins/CountTogether.MacroDeckPlugin
 	url = https://github.com/CountTogether/Macro-Deck-2-Plugin
+[submodule "Plugins/sugoides.HWiNFO64"]
+	path = Plugins/sugoides.HWiNFO64
+	url = https://github.com/sugoides/macro-deck-HWiNFO64-plugin
