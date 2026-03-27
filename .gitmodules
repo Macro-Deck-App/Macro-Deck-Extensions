@@ -217,3 +217,6 @@
 [submodule "Plugins/sugoides.HWiNFO64"]
 	path = Plugins/sugoides.HWiNFO64
 	url = https://github.com/sugoides/macro-deck-HWiNFO64-plugin
+[submodule "Plugins/Niyah.SpicetifyBridge"]
+	path = Plugins/Niyah.SpicetifyBridge
+	url = https://github.com/NiyahVE/MDBridgeSpicetify
