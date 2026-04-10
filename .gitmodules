@@ -220,3 +220,6 @@
 [submodule "Plugins/DiegoFdezAb.VolumeMixerPlugin"]
 	path = Plugins/DiegoFdezAb.VolumeMixerPlugin
 	url = https://github.com/DiegoFdezAb/MacroDeckVolumeMixerPlugin
+[submodule "Plugins/Niyah.SpicetifyBridge"]
+	path = Plugins/Niyah.SpicetifyBridge
+	url = https://github.com/NiyahVE/MDBridgeSpicetify
