@@ -77,12 +77,19 @@ jobs:
           git checkout FETCH_HEAD
           cd ../..
           
-      - name: Sanity Check
+      - name: Validate extension
         shell: bash
         run: | 
-          chmod +x ./Utils/sanity_check.sh
-          ./Utils/sanity_check.sh
-          
+          chmod +x ./Utils/validate_extension.sh
+          args=(
+            --extension-path "./${{ env.output_path }}/${{ env.package_id }}"
+            --ext-type "${{ env.ext_type }}"
+          )
+          if [[ -n "${{ env.current_hash }}" ]]; then
+            args+=(--previous-ref "${{ env.current_hash }}")
+          fi
+          ./Utils/validate_extension.sh "${args[@]}"
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         id: create-pr

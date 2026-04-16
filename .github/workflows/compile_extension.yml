@@ -5,6 +5,10 @@ on:
     branches: [ "main" ]
     types: [opened, synchronize, reopened]
 
+permissions:
+  contents: read
+  pull-requests: write
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -17,18 +21,33 @@ jobs:
       extension-path: ${{ steps.extract-extension-path.outputs.path }}
     
     steps:  
-      - uses: actions-ecosystem/action-add-labels@1a9c3715c0037e96b97bb38cb4c4b56a1f1d4871
+      - name: Prepare labels
+        uses: actions/github-script@v7
         with:
-          labels: in-process
+          script: |
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            const add = ['in-process'];
+            const remove = [
+              'author-actions-required',
+              'build-failed',
+              'invalid-manifest',
+              'moderator-review-required',
+              'tests-failed'
+            ];
 
-      - uses: actions-ecosystem/action-remove-labels@v1.3.0
-        with:
-          labels: |
-            author-actions-required
-            build-failed
-            invalid-manifest
-            moderator-review-required
-            tests-failed
+            await github.rest.issues.addLabels({ owner, repo, issue_number, labels: add });
+            const current = await github.paginate(github.rest.issues.listLabelsOnIssue, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100
+            });
+            const currentNames = new Set(current.map((label) => label.name));
+            for (const name of remove) {
+              if (!currentNames.has(name)) continue;
+              await github.rest.issues.removeLabel({ owner, repo, issue_number, name });
+            }
 
       - name: Checkout
         uses: actions/checkout@v4.2.2
@@ -56,15 +75,71 @@ jobs:
       - name: Check extension path
         run: echo "${{ steps.extract-extension-path.outputs.path }}"
 
-      - uses: actions-ecosystem/action-remove-labels@v1.3.0
-        if: failure() && (steps.extract-extension-path.outcome == 'failure')
+      - name: Finalize setup labels
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          EXTRACT_OUTCOME: ${{ steps.extract-extension-path.outcome }}
         with:
-          labels: in-process
+          script: |
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            const failed = process.env.EXTRACT_OUTCOME === 'failure';
 
-      - uses: actions-ecosystem/action-add-labels@1a9c3715c0037e96b97bb38cb4c4b56a1f1d4871
-        if: failure() && (steps.extract-extension-path.outcome == 'failure')
+            const add = failed ? ['author-actions-required'] : [];
+            const remove = failed ? ['in-process'] : [];
+
+            if (add.length > 0) {
+              await github.rest.issues.addLabels({ owner, repo, issue_number, labels: add });
+            }
+
+            if (remove.length > 0) {
+              const current = await github.paginate(github.rest.issues.listLabelsOnIssue, {
+                owner,
+                repo,
+                issue_number,
+                per_page: 100
+              });
+              const currentNames = new Set(current.map((label) => label.name));
+              for (const name of remove) {
+                if (!currentNames.has(name)) continue;
+                await github.rest.issues.removeLabel({ owner, repo, issue_number, name });
+              }
+            }
+
+      - name: Comment setup errors
+        if: always() && steps.extract-extension-path.outcome == 'failure'
+        uses: actions/github-script@v7
         with:
-          labels: author-actions-required
+          script: |
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            const author = context.payload.pull_request.user.login;
+            const marker = '<!-- compile-extension-report -->';
+            const body = [
+              marker,
+              `@${author}`,
+              '',
+              'The compile workflow could not determine the extension path.',
+              '',
+              '**Errors:**',
+              '- The PR must change exactly one extension (none or multiple were detected).',
+              '',
+              `Please check the workflow logs: ${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`
+            ].join('\n');
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100
+            });
+            const previous = comments.find((c) => c.user?.type === 'Bot' && c.body?.includes(marker));
+            if (previous) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: previous.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
 
   build:
     name: "Build"
@@ -74,6 +149,7 @@ jobs:
       artifact-name: ${{ steps.build_extension.outputs.artifact-name }}
       artifact-path: ${{ steps.build_extension.outputs.artifact-path }}
       manifest: ${{ steps.build_extension.outputs.manifest }}
+      validate-status: ${{ steps.validate_extension.outputs.status }}
         
     steps:
       - name: Checkout
@@ -83,37 +159,156 @@ jobs:
         
       - name: Init Submodule
         run: git submodule update --init --recursive ./${{ needs.setup.outputs.extension-path }}
+
+      - name: Validate extension metadata and content
+        id: validate_extension
+        shell: bash
+        continue-on-error: true
+        run: |
+          chmod +x ./Utils/validate_extension.sh
+          set +e
+          ./Utils/validate_extension.sh --extension-path "./${{ needs.setup.outputs.extension-path }}" 2>&1 | tee "$RUNNER_TEMP/validate_extension.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          echo "log_path=$RUNNER_TEMP/validate_extension.log" >> "$GITHUB_OUTPUT"
+          exit 0
         
       - name: Build Extension
         id: build_extension
+        if: steps.validate_extension.outputs.status == '0'
+        continue-on-error: true
         uses: Macro-Deck-App/Actions/build-extension@main
         with:
           extension-path: ${{ needs.setup.outputs.extension-path }}
           artifact-name: ${{ github.event.pull_request.number }}
 
-      
-      - uses: actions-ecosystem/action-remove-labels@v1.3.0
-        if: failure() && (steps.build_extension.outcome == 'failure')
+      - name: Comment build errors
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          VALIDATE_STATUS: ${{ steps.validate_extension.outputs.status }}
+          VALIDATE_LOG_PATH: ${{ steps.validate_extension.outputs.log_path }}
+          BUILD_OUTCOME: ${{ steps.build_extension.outcome }}
         with:
-          labels: in-process
+          script: |
+            const fs = require('fs');
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            const author = context.payload.pull_request.user.login;
+            const marker = '<!-- compile-extension-report -->';
+            const validateFailed = process.env.VALIDATE_STATUS !== '0';
+            const buildFailed = process.env.BUILD_OUTCOME === 'failure';
+            const hasFailure = validateFailed || buildFailed;
 
-      - uses: actions-ecosystem/action-add-labels@1a9c3715c0037e96b97bb38cb4c4b56a1f1d4871
-        if: failure() && (steps.build_extension.outcome == 'failure')
-        with:
-          labels: |
-            author-actions-required
-            build-failed
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100
+            });
+            const previous = comments.find((c) => c.user?.type === 'Bot' && c.body?.includes(marker));
 
-      - uses: actions-ecosystem/action-add-labels@1a9c3715c0037e96b97bb38cb4c4b56a1f1d4871
-        if: success()
-        with:
-          labels: moderator-review-required
+            if (!hasFailure) {
+              if (previous) {
+                await github.rest.issues.deleteComment({ owner, repo, comment_id: previous.id });
+              }
+              return;
+            }
 
-      - uses: actions-ecosystem/action-remove-labels@v1.3.0
-        if: success()
+            let validationLog = '';
+            const logPath = process.env.VALIDATE_LOG_PATH;
+            if (validateFailed && logPath && fs.existsSync(logPath)) {
+              validationLog = fs.readFileSync(logPath, 'utf8').trim();
+            }
+            if (validationLog.length > 6000) {
+              validationLog = validationLog.slice(0, 6000) + '\n... (truncated)';
+            }
+
+            const lines = [
+              marker,
+              `@${author}`,
+              '',
+              'The compile workflow failed.',
+              '',
+              '**Error details:**'
+            ];
+
+            if (validateFailed) {
+              lines.push('- Validation failed (`invalid-manifest`).');
+            }
+            if (buildFailed) {
+              lines.push('- Build failed (`build-failed`).');
+            }
+
+            if (validateFailed && validationLog) {
+              lines.push('', '**Validation errors (excerpt):**', '```text', validationLog, '```');
+            }
+
+            lines.push('', `Workflow-Run: ${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`);
+            const body = lines.join('\n');
+
+            if (previous) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: previous.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
+
+      - name: Finalize build labels
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          VALIDATE_STATUS: ${{ steps.validate_extension.outputs.status }}
+          BUILD_OUTCOME: ${{ steps.build_extension.outcome }}
         with:
-          labels: |
-            in-process
+          script: |
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+
+            const validationFailed = process.env.VALIDATE_STATUS !== '0';
+            const buildFailed = process.env.BUILD_OUTCOME === 'failure';
+
+            let add = [];
+            let remove = ['in-process'];
+
+            if (validationFailed) {
+              add = ['author-actions-required', 'invalid-manifest'];
+              remove.push('build-failed', 'moderator-review-required', 'tests-failed');
+            } else if (buildFailed) {
+              add = ['author-actions-required', 'build-failed'];
+              remove.push('invalid-manifest', 'moderator-review-required', 'tests-failed');
+            } else {
+              add = ['moderator-review-required'];
+              remove.push('author-actions-required', 'build-failed', 'invalid-manifest', 'tests-failed');
+            }
+
+            if (add.length > 0) {
+              await github.rest.issues.addLabels({ owner, repo, issue_number, labels: add });
+            }
+
+            const current = await github.paginate(github.rest.issues.listLabelsOnIssue, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100
+            });
+            const currentNames = new Set(current.map((label) => label.name));
+            for (const name of remove) {
+              if (!currentNames.has(name)) continue;
+              await github.rest.issues.removeLabel({ owner, repo, issue_number, name });
+            }
+
+      - name: Fail workflow on validation or build errors
+        if: always()
+        shell: bash
+        env:
+          VALIDATE_STATUS: ${{ steps.validate_extension.outputs.status }}
+          BUILD_OUTCOME: ${{ steps.build_extension.outcome }}
+        run: |
+          if [[ "${VALIDATE_STATUS}" != "0" || "${BUILD_OUTCOME}" == "failure" ]]; then
+            echo "Validation or build failed"
+            exit 1
+          fi
 
   deploy:
     name: "Deploy"
