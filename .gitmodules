@@ -223,3 +223,6 @@
 [submodule "Plugins/Niyah.SpicetifyBridge"]
 	path = Plugins/Niyah.SpicetifyBridge
 	url = https://github.com/NiyahVE/MDBridgeSpicetify
+[submodule "Plugins/DaNeo.Teamspeak3Plugin"]
+	path = Plugins/DaNeo.Teamspeak3Plugin
+	url = https://github.com/DaNeo61/Teamspeak3Plugin.git
