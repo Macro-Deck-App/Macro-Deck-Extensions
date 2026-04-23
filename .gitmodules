@@ -226,3 +226,6 @@
 [submodule "Plugins/DaNeo.Teamspeak3Plugin"]
 	path = Plugins/DaNeo.Teamspeak3Plugin
 	url = https://github.com/DaNeo61/Teamspeak3Plugin.git
+[submodule "Plugins/LeoM.Cs2Gsi"]
+	path = Plugins/LeoM.Cs2Gsi
+	url = https://github.com/leo-divini/CS2_Macro_Deck_Plugin
