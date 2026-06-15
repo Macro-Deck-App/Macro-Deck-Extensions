@@ -1,0 +1,12 @@
+{
+  "type": "Plugin",
+  "name": "ETS2 Telemetry",
+  "author": "tabsik12",
+  "packageId": "Ets2TelemetryPlugin",
+  "version": "1.0.0",
+  "target-plugin-api-version": 40,
+  "target-macro-deck-version" : "2.13.0-b9",
+  "repository" : "https://github.com/tabsik30/ET2Telemetryplugin",
+  "dll": "Ets2TelemetryPlugin.dll",
+  "author-discord-userid": 900012635695747112
+}
