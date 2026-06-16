@@ -229,3 +229,6 @@
 [submodule "Plugins/LeoM.Cs2Gsi"]
 	path = Plugins/LeoM.Cs2Gsi
 	url = https://github.com/leo-divini/CS2_Macro_Deck_Plugin
+[submodule "Plugins/Ets2TelemetryPlugin"]
+	path = Plugins/Ets2TelemetryPlugin
+	url = https://github.com/tabsik30/ETS2Telemetryplugin
