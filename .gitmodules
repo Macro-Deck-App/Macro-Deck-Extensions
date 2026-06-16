@@ -235,3 +235,6 @@
 [submodule "Plugins/Ets2TelemetryPlugin"]
 	path = Plugins/Ets2TelemetryPlugin
 	url = https://github.com/tabsik30/ETS2Telemetryplugin
+[submodule "Plugins/lenno.NowPlayingArtButton"]
+	path = Plugins/lenno.NowPlayingArtButton
+	url = https://github.com/LennonAmos/NowPlayingArtButton.git
