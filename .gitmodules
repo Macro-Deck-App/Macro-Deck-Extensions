@@ -232,3 +232,15 @@
 [submodule "IconPacks/lenno.MacroDeckSleepEmber"]
 	path = IconPacks/lenno.MacroDeckSleepEmber
 	url = https://github.com/LennonAmos/MacroDeckSleepEmber.git
+[submodule "Plugins/lenno.MacroDeckSleepMode"]
+	path = Plugins/lenno.MacroDeckSleepMode
+	url = https://github.com/LennonAmos/MacroDeckSleepMode.git
+[submodule "IconPacks/lenno.MacroDeckSleepGlacier"]
+	path = IconPacks/lenno.MacroDeckSleepGlacier
+	url = https://github.com/LennonAmos/MacroDeckSleepGlacier.git
+[submodule "Plugins/Ets2TelemetryPlugin"]
+	path = Plugins/Ets2TelemetryPlugin
+	url = https://github.com/tabsik30/ETS2Telemetryplugin
+[submodule "Plugins/lenno.NowPlayingArtButton"]
+	path = Plugins/lenno.NowPlayingArtButton
+	url = https://github.com/LennonAmos/NowPlayingArtButton.git
