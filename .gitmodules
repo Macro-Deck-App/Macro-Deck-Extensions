@@ -232,6 +232,9 @@
 [submodule "IconPacks/lenno.MacroDeckSleepRainfall"]
 	path = IconPacks/lenno.MacroDeckSleepRainfall
 	url = https://github.com/LennonAmos/MacroDeckSleepRainfall.git
+[submodule "IconPacks/lenno.MacroDeckSleepPrism"]
+	path = IconPacks/lenno.MacroDeckSleepPrism
+	url = https://github.com/LennonAmos/MacroDeckSleepPrism.git
 [submodule "IconPacks/lenno.MacroDeckSleepAurora"]
 	path = IconPacks/lenno.MacroDeckSleepAurora
 	url = https://github.com/LennonAmos/MacroDeckSleepAurora.git
