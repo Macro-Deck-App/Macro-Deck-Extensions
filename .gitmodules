@@ -229,6 +229,9 @@
 [submodule "Plugins/LeoM.Cs2Gsi"]
 	path = Plugins/LeoM.Cs2Gsi
 	url = https://github.com/leo-divini/CS2_Macro_Deck_Plugin
+[submodule "IconPacks/lenno.MacroDeckSleepFirefly"]
+	path = IconPacks/lenno.MacroDeckSleepFirefly
+	url = https://github.com/LennonAmos/MacroDeckSleepFirefly.git
 [submodule "IconPacks/lenno.MacroDeckSleepPrism"]
 	path = IconPacks/lenno.MacroDeckSleepPrism
 	url = https://github.com/LennonAmos/MacroDeckSleepPrism.git
