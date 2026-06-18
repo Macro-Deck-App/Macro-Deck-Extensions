@@ -133,6 +133,11 @@ if [[ "$EXT_TYPE" == "Plugin" ]]; then
   fi
 
   for csproj in "${CSPROJ_FILES[@]}"; do
+    # Check for direct Macro Deck DLL reference
+    if grep -qE '<Reference Include="Macro Deck 2"|Macro Deck 2\.dll' "$csproj"; then
+      error "${csproj#./} contains a direct reference to Macro Deck 2.dll. Please use the NuGet package https://www.nuget.org/packages/SuchByte.MacroDeck/ instead and remove the direct DLL reference."
+    fi
+
     NEW_CSPROJ_VERSION="$(extract_version_from_file "$csproj" || true)"
 
     if [[ -z "$NEW_CSPROJ_VERSION" ]]; then
