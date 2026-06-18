@@ -347,6 +347,9 @@ jobs:
     environment: production
     needs: [ build ]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions-ecosystem/action-add-labels@1a9c3715c0037e96b97bb38cb4c4b56a1f1d4871
         with:
