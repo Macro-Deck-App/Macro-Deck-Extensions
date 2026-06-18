@@ -229,9 +229,39 @@
 [submodule "Plugins/LeoM.Cs2Gsi"]
 	path = Plugins/LeoM.Cs2Gsi
 	url = https://github.com/leo-divini/CS2_Macro_Deck_Plugin
+[submodule "IconPacks/lenno.MacroDeckSleepAurora"]
+	path = IconPacks/lenno.MacroDeckSleepAurora
+	url = https://github.com/LennonAmos/MacroDeckSleepAurora.git
+[submodule "IconPacks/lenno.MacroDeckSleepOcean"]
+	path = IconPacks/lenno.MacroDeckSleepOcean
+	url = https://github.com/LennonAmos/MacroDeckSleepOcean.git
+[submodule "IconPacks/lenno.MacroDeckSleepSunset"]
+	path = IconPacks/lenno.MacroDeckSleepSunset
+	url = https://github.com/LennonAmos/MacroDeckSleepSunset.git
+[submodule "IconPacks/lenno.MacroDeckSleepMidnight"]
+	path = IconPacks/lenno.MacroDeckSleepMidnight
+	url = https://github.com/LennonAmos/MacroDeckSleepMidnight.git
+[submodule "IconPacks/lenno.MacroDeckSleepNebula"]
+	path = IconPacks/lenno.MacroDeckSleepNebula
+	url = https://github.com/LennonAmos/MacroDeckSleepNebula.git
+[submodule "IconPacks/lenno.MacroDeckSleepForest"]
+	path = IconPacks/lenno.MacroDeckSleepForest
+	url = https://github.com/LennonAmos/MacroDeckSleepForest.git
+[submodule "IconPacks/lenno.MacroDeckSleepEmber"]
+	path = IconPacks/lenno.MacroDeckSleepEmber
+	url = https://github.com/LennonAmos/MacroDeckSleepEmber.git
+[submodule "Plugins/lenno.MacroDeckSleepMode"]
+	path = Plugins/lenno.MacroDeckSleepMode
+	url = https://github.com/LennonAmos/MacroDeckSleepMode.git
+[submodule "IconPacks/lenno.MacroDeckSleepGlacier"]
+	path = IconPacks/lenno.MacroDeckSleepGlacier
+	url = https://github.com/LennonAmos/MacroDeckSleepGlacier.git
 [submodule "Plugins/Ets2TelemetryPlugin"]
 	path = Plugins/Ets2TelemetryPlugin
 	url = https://github.com/tabsik30/ETS2Telemetryplugin
 [submodule "Plugins/tabsik12.Ets2TelemetryPlugin"]
 	path = Plugins/tabsik12.Ets2TelemetryPlugin
 	url = https://github.com/tabsik30/ETS2Telemetryplugin
+[submodule "Plugins/lenno.NowPlayingArtButton"]
+	path = Plugins/lenno.NowPlayingArtButton
+	url = https://github.com/LennonAmos/NowPlayingArtButton.git
