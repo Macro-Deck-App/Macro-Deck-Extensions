@@ -1,0 +1,10 @@
+﻿{
+    "author":  "lenno",
+    "name":  "MacroDeck Sleep Prism",
+    "repository":  "https://github.com/LennonAmos/MacroDeckSleepPrism",
+    "packageId":  "lenno.MacroDeckSleepPrism",
+    "type":  "IconPack",
+    "version":  "1.0.0",
+    "target-plugin-api-version":  40,
+    "target-macro-deck-version":  "2.14.1"
+}

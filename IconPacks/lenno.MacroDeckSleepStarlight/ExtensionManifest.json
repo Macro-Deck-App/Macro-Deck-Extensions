@@ -1,0 +1,10 @@
+﻿{
+    "author":  "lenno",
+    "name":  "MacroDeck Sleep Starlight",
+    "repository":  "https://github.com/LennonAmos/MacroDeckSleepStarlight",
+    "packageId":  "lenno.MacroDeckSleepStarlight",
+    "type":  "IconPack",
+    "version":  "1.0.0",
+    "target-plugin-api-version":  40,
+    "target-macro-deck-version":  "2.14.1"
+}
