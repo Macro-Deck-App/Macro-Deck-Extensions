@@ -277,3 +277,6 @@
 [submodule "Plugins/tabsik12.TimeDateSplit"]
 	path = Plugins/tabsik12.TimeDateSplit
 	url = https://github.com/tabsik30/TimeDateSplit
+[submodule "Plugins/rxlee.PearMacroDeck"]
+	path = Plugins/rxlee.PearMacroDeck
+	url = https://github.com/rxlee123/macrodeck-pear-desktop-plugin
