@@ -274,3 +274,6 @@
 [submodule "Plugins/tabsik12.TimeDateSplit"]
 	path = Plugins/tabsik12.TimeDateSplit
 	url = https://github.com/tabsik30/TimeDateSplit
+[submodule "Plugins/tabsik12.MinecraftMacroLink"]
+	path = Plugins/tabsik12.MinecraftMacroLink
+	url = https://github.com/tabsik30/MinecraftMacroLink
