@@ -277,3 +277,6 @@
 [submodule "Plugins/tabsik12.MinecraftMacroLink"]
 	path = Plugins/tabsik12.MinecraftMacroLink
 	url = https://github.com/tabsik30/MinecraftMacroLink
+[submodule "Plugins/VoidCore.Tether"]
+	path = Plugins/VoidCore.Tether
+	url = https://github.com/PixelCoreStudio/Tether-Macro-Deck
