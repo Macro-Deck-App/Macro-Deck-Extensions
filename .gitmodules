@@ -280,3 +280,6 @@
 [submodule "Plugins/VoidCore.Tether"]
 	path = Plugins/VoidCore.Tether
 	url = https://github.com/PixelCoreStudio/Tether-Macro-Deck
+[submodule "Plugins/cheath94.SteelSeriesSonar"]
+	path = Plugins/cheath94.SteelSeriesSonar
+	url = https://github.com/cheath94/Macro-Deck-SteelSeriesSonar.Plugin.git
