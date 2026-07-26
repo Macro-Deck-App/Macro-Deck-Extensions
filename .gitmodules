@@ -274,3 +274,6 @@
 [submodule "Plugins/MuteDeck.MacroDeckPlugin"]
 	path = Plugins/MuteDeck.MacroDeckPlugin
 	url = https://github.com/mutedeck/macrodeck-mutedeck-extension.git
+[submodule "Plugins/SuchByte.TwitchPlugin"]
+	path = Plugins/SuchByte.TwitchPlugin
+	url = https://github.com/manuelmayer-dev/Macro-Deck-Twitch-Plugin.git
