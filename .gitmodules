@@ -52,9 +52,6 @@
 [submodule "Plugins/MacroDeck.StreamDeckConnectorPlugin"]
 	path = Plugins/MacroDeck.StreamDeckConnectorPlugin
 	url = https://github.com/Macro-Deck-org/Stream-Deck-Connector-Plugin
-[submodule "IconPacks/Varelx.VarelxIconPack"]
-	path = IconPacks/Varelx.VarelxIconPack
-	url = https://github.com/Varelx/varelx-icon-pack
 [submodule "Plugins/Develeon64.SpotifyPlugin"]
 	path = Plugins/Develeon64.SpotifyPlugin
 	url = https://github.com/manuelmayer-dev/Macro-Deck-Spotify-Plugin
@@ -141,15 +138,9 @@
 [submodule "Plugins/jbcarreon123.WebNowPlayingPlugin"]
 	path = Plugins/jbcarreon123.WebNowPlayingPlugin
 	url = https://github.com/jbcarreon123/MacroDeck2-WebNowPlayingPlugin
-[submodule "Plugins/Ize.Speedtest"]
-	path = Plugins/Ize.Speedtest
-	url = https://github.com/Ize83/Ize.Speedtest
 [submodule "IconPacks/Piripe.Fluent"]
 	path = IconPacks/Piripe.Fluent
 	url = https://github.com/Piripe/MacroDeck-FluentIcons
-[submodule "IconPacks/Twitchiger.CleanIcons"]
-	path = IconPacks/Twitchiger.CleanIcons
-	url = https://github.com/devTwitchiger/MacroDeckCleanIcons
 [submodule "IconPacks/morbeckp.Lime.Pack"]
 	path = IconPacks/morbeckp.Lime.Pack
 	url = https://github.com/morbeckp/macro-deck-iconpack
@@ -168,9 +159,6 @@
 [submodule "Plugins/SuchByte.OBS-WebSocketPlugin"]
 	path = Plugins/SuchByte.OBS-WebSocketPlugin
 	url = https://github.com/manuelmayer-dev/Macro-Deck-OBS-WebSocket-Plugin
-[submodule "Plugins/SuchByte.TwitchPlugin"]
-	path = Plugins/SuchByte.TwitchPlugin
-	url = https://github.com/manuelmayer-dev/Macro-Deck-Twitch-Plugin
 [submodule "Plugins/Develeon64.SpotifyPlugin"]
 	path = Plugins/Develeon64.SpotifyPlugin
 	url = https://github.com/manuelmayer-dev/Macro-Deck-Spotify-Plugin
@@ -202,9 +190,6 @@
 [submodule "Plugins/ItaiMarom.LibreHardwareMonitorPlugin"]
 	path = Plugins/ItaiMarom.LibreHardwareMonitorPlugin
 	url = https://github.com/dominic25/ItaiMarom.LibreHardwareMonitorPlugin
-[submodule "IconPacks/TwigYT.MacroDeck.MaterialDesignIconsPack"]
-	path = IconPacks/TwigYT.MacroDeck.MaterialDesignIconsPack
-	url = https://github.com/TwigYT/MacroDeck.MaterialDesignIconsPack
 [submodule "Plugins/Stubbs.HellDivers2Strats"]
 	path = Plugins/Stubbs.HellDivers2Strats
 	url = https://github.com/rstubbs94/Stubbs.HellDivers2Strats
