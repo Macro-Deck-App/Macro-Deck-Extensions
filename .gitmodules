@@ -277,3 +277,6 @@
 [submodule "Plugins/SuchByte.TwitchPlugin"]
 	path = Plugins/SuchByte.TwitchPlugin
 	url = https://github.com/manuelmayer-dev/Macro-Deck-Twitch-Plugin.git
+[submodule "Plugins/ziopuzzle.WebRequest"]
+	path = Plugins/ziopuzzle.WebRequest
+	url = https://github.com/ziopuzzle/MacroDeck-WebRequest
