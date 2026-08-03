@@ -280,3 +280,6 @@
 [submodule "Plugins/ziopuzzle.WebRequest"]
 	path = Plugins/ziopuzzle.WebRequest
 	url = https://github.com/ziopuzzle/MacroDeck-WebRequest
+[submodule "Plugins/ShoxruxEdit.GifPad"]
+	path = Plugins/ShoxruxEdit.GifPad
+	url = https://github.com/ShoxruxKhon/GifPad.git
