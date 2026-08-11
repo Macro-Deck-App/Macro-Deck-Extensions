@@ -280,3 +280,6 @@
 [submodule "Plugins/ziopuzzle.WebRequest"]
 	path = Plugins/ziopuzzle.WebRequest
 	url = https://github.com/ziopuzzle/MacroDeck-WebRequest
+[submodule "Plugins/Sarti2004.DoriDeck"]
+	path = Plugins/Sarti2004.DoriDeck
+	url = https://github.com/Sarti2004/DoriDeck
