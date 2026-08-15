@@ -280,6 +280,9 @@
 [submodule "Plugins/ziopuzzle.WebRequest"]
 	path = Plugins/ziopuzzle.WebRequest
 	url = https://github.com/ziopuzzle/MacroDeck-WebRequest
+[submodule "Plugins/Sarti2004.DoriDeck"]
+	path = Plugins/Sarti2004.DoriDeck
+	url = https://github.com/Sarti2004/DoriDeck
 [submodule "Plugins/FuSan21.TeamsPlugin"]
 	path = Plugins/FuSan21.TeamsPlugin
 	url = https://github.com/FuSan21/Macro-Deck-Teams-Plugin
