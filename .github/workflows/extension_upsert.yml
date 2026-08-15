@@ -56,6 +56,15 @@ jobs:
           if [ -d "./${{ env.output_path }}/${{ env.package_id }}" ]; then
             git submodule update --init --recursive ./${{ env.output_path }}/${{ env.package_id }}
           fi
+
+      - name: Reject new Macro Deck 2 plugins
+        if: env.ext_type == 'Plugin'
+        shell: bash
+        run: |
+          if [ ! -d "./Plugins/${{ env.package_id }}" ]; then
+            echo "::error::New Macro Deck 2 plugin submissions are no longer accepted. Existing plugins may still be updated during the transition period. Please target Macro Deck 3 for new plugins."
+            exit 1
+          fi
           
       - name: Add Submodule (If Needed)
         id: add_submodule
