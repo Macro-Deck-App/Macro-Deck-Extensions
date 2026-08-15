@@ -1,4 +1,10 @@
 ## Macro Deck Extension Store
+
+> [!IMPORTANT]
+> **Macro Deck 2 plugin submissions are deprecated as of August 15, 2026.**
+>
+> New Macro Deck 2 plugins are no longer accepted. Existing Macro Deck 2 plugins may still receive updates during the transition period. If you are developing a new plugin, please target Macro Deck 3 instead.
+
 This repository is the build manifest for the Macro Deck 2 Extension Store.
 
 All artifacts to include in Macro Deck must be pulled into this repository for building/packaging.
@@ -56,12 +62,17 @@ SomeotherIcon.png
 - Do not add files directly to this repository
   > Use the workflow to automatically add the extension as submodule
 #### Plugins
+- **New Macro Deck 2 plugins are no longer accepted. Only updates to plugins already present in the store are allowed.**
 - No .dll files as dependencies are allowed
 - Make sure you have the rights to use your used libraries
 #### Icon Packs
 - Make sure you have the rights to use and publish the added icons
 
-### Add your Extension to the Extension Store
+### Add or update your Extension in the Extension Store
+
+> [!NOTE]
+> For plugins, the workflow only accepts updates to plugins that are already present in the store. New Macro Deck 2 plugins are rejected automatically.
+
 1. Fork this repository
 2. On your fork, click on the `Actions` tab
 3. Click on the `Add/Update Extension` workflow
