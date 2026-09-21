@@ -286,3 +286,6 @@
 [submodule "Plugins/FuSan21.TeamsPlugin"]
 	path = Plugins/FuSan21.TeamsPlugin
 	url = https://github.com/FuSan21/Macro-Deck-Teams-Plugin
+[submodule "IconPacks/Goonsly.YoutubeIcons"]
+	path = IconPacks/Goonsly.YoutubeIcons
+	url = https://github.com/Goonsly/MacroDeck-YoutubeIcons
